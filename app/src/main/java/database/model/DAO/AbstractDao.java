@@ -4,8 +4,9 @@ import android.content.ContextWrapper;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.io.File;
+import java.util.List;
 
-public class AbstractDao {
+public abstract class AbstractDao {
 
     protected SQLiteDatabase db;
     protected DBOpenHelper __db;
@@ -22,4 +23,9 @@ public class AbstractDao {
         File dbFile = context.getDatabasePath(dbName);
         return dbFile.exists();
     }
+
+    public abstract long insert();
+    public abstract long delete();
+    public abstract long update();
+    public abstract List<?> select();
 }
