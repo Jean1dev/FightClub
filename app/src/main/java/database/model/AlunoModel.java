@@ -1,6 +1,6 @@
 package database.model;
 
-public class AlunoModel {
+public class AlunoModel extends BaseModel {
 
     private int codigo;
     private String aluno;
@@ -16,6 +16,30 @@ public class AlunoModel {
 
     //definir as fks aqui
     //
+    //TABELA
+    public static final String TABELA_NOME = "aluno",
+            COLUNA_ID = "_id",
+            COLUNA_SEXO = "sexo",
+            COLUNA_TELEFONE = "telefone",
+            COLUNA_CELULAR = "celular",
+            COLUNA_EMAIL = "email",
+            COLUNA_OBSERVACAO = "observacao",
+            COLUNA_NUMERO = "numero",
+            COLUNA_COMPLEMENTO = "complemento",
+            COLUNA_CEP = "cep";
+
+    public static final String CREATE_TABLE = " create table " + TABELA_NOME
+             +"("
+            +COLUNA_ID +" integer primary key autoincrement,"
+            +COLUNA_SEXO +" text not null,"
+            +COLUNA_TELEFONE +" text not null,"
+            +COLUNA_CELULAR +" text not null,"
+            +COLUNA_EMAIL + " text not null,    "
+            +COLUNA_OBSERVACAO +" text not null,"
+            +COLUNA_NUMERO +" text not null,"
+            +COLUNA_COMPLEMENTO +" text not null,"
+            +COLUNA_CEP +" text not null)";
+
 
     public AlunoModel() {
     }
