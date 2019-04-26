@@ -15,6 +15,17 @@ public class CidadeModel {
     public CidadeModel() {
     }
 
+    //TABELA
+    public static final String TABELA_NOME = "cidades",
+            COLUNA_CIDADE = "cidade",
+            COLUNA_ESTADO = "estado",
+            COLUNA_PAIS = "pais";
+
+    public static final String CREATE_TABLE = " create table " + "cidades"
+            +"("
+            +COLUNA_CIDADE +" text primary key,"
+            +COLUNA_ESTADO +" char(2) not null,"
+            +COLUNA_PAIS +" text not null)";
     @Override
     public String toString() {
         return "CidadeModel{" +

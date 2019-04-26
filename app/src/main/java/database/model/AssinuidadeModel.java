@@ -15,6 +15,15 @@ public class AssinuidadeModel {
     public AssinuidadeModel() {
     }
 
+    public static final String TABELA_NOME = "assinuidade",
+            COLUNA_ID = "codigo_matricula",
+            COLUNA_TIMESTAMP = "timestamp";
+
+    public static final String CREATE_TABLE = " create table " + "assinuidade"
+            +"("
+            +COLUNA_ID +" int primary key autoincrement,"
+            +COLUNA_TIMESTAMP +" timestamp not null)";
+
     @Override
     public String toString() {
         return "AssinuidadeModel{" +
