@@ -1,6 +1,6 @@
 package database.model;
 
-public class ModalidadeModel {
+public class ModalidadeModel extends BaseModel {
 
     private String modalidade;
 

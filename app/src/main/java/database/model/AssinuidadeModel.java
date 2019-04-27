@@ -2,7 +2,7 @@ package database.model;
 
 import java.sql.Timestamp;
 
-public class AssinuidadeModel {
+public class AssinuidadeModel extends BaseModel {
 
     private int codigo_matricula;
     private Timestamp timestamp;

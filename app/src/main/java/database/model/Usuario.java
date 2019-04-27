@@ -1,8 +1,19 @@
 package database.model;
 
-public class UsuarioModel {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
+@Entity(name="usuario")
+public class Usuario extends BaseModel {
+
+    @Id
+    @GeneratedValue
+    protected int id;
+    @Column(name="usuario", nullable=false)
     private String usuario;
+    @Column(name="perfil", nullable=false)
     private String perfil;
 
     //TABELA
@@ -18,12 +29,12 @@ public class UsuarioModel {
             +COLUNA_PERFIL +" text "
             + ")";
 
-    public UsuarioModel(String usuario, String perfil) {
+    public Usuario(String usuario, String perfil) {
         this.usuario = usuario;
         this.perfil = perfil;
     }
 
-    public UsuarioModel() {
+    public Usuario() {
     }
 
     @Override

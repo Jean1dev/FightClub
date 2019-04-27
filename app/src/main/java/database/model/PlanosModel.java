@@ -1,6 +1,6 @@
 package database.model;
 
-public class PlanosModel {
+public class PlanosModel extends BaseModel {
 
     private ModalidadeModel modalidadeModel;
     private String plano;

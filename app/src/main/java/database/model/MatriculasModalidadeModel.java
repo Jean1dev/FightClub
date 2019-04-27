@@ -2,7 +2,7 @@ package database.model;
 
 import java.util.Date;
 
-public class MatriculasModalidadeModel {
+public class MatriculasModalidadeModel extends BaseModel  {
 
     private int codigo;
     private String plano;

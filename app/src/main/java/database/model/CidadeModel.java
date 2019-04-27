@@ -1,6 +1,6 @@
 package database.model;
 
-public class CidadeModel {
+public class CidadeModel extends BaseModel {
 
     private String cidade;
     private String estado;
