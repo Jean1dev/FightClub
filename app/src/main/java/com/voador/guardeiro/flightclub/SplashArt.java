@@ -1,5 +1,6 @@
 package com.voador.guardeiro.flightclub;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,9 +18,9 @@ public class SplashArt extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                UnitTests test = new UnitTests(getApplicationContext());
-                test.test_insert_usuario();
-                test.test_getall_usuario();
+                Intent i = new Intent(getBaseContext(), MainActivity.class);
+                startActivity(i);
+                finish();
             }
         }, SPLAH_TIME_OUT);
     }
