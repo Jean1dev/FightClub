@@ -2,9 +2,19 @@ package database.model;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity(name = "Assinuidade")
 public class AssinuidadeModel extends BaseModel {
 
+    @Id
+    @GeneratedValue
     private int codigo_matricula;
+
+    @Column(name="timestamp", nullable=false)
     private Timestamp timestamp;
 
     public AssinuidadeModel(int codigo_matricula, Timestamp timestamp) {
