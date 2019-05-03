@@ -34,12 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean login(){
-        UsuarioPersistence user = new UsuarioPersistence(getApplicationContext());
-        List<Usuario> content = user.whereEmail(email);
-        if(content.isEmpty()){
-            return  false;
-        }
-        return true;
+        return !new UsuarioPersistence(getApplicationContext()).whereEmail(email).isEmpty();
     }
 
 }
