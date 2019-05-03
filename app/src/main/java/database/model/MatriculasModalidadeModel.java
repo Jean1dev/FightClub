@@ -2,13 +2,31 @@ package database.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity(name = "MatriculasModalidade")
 public class MatriculasModalidadeModel extends BaseModel  {
 
+    @Id
+    @GeneratedValue
     private int codigo;
+
+    @Column(name = "plano")
     private String plano;
+
+    @Column(name = "data_inicio")
     private Date data_inicio;
+
+    @Column(name = "data_fim")
     private Date data_fim;
+
+    @Column(name = "graduacaoModel")
     private GraduacaoModel graduacaoModel;
+
+    @Column(name = "modalidadeModel")
     private ModalidadeModel modalidadeModel;
 
     public MatriculasModalidadeModel() {

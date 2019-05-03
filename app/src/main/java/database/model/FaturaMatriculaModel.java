@@ -2,12 +2,28 @@ package database.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity(name = "FaturaMatricula")
 public class FaturaMatriculaModel extends BaseModel {
 
+    @Id
+    @GeneratedValue
     private int codigo_matricula;
+
+    @Column(name="data_vencimento", nullable=false)
     private Date data_vencimento;
+
+    @Column(name="valor", nullable=false)
     private Double valor;
+
+    @Column(name="data_pagamento", nullable=false)
     private Date data_pagamento;
+
+    @Column(name="data_cancelamento", nullable=false)
     private Date data_cancelamento;
 
     //TABELA

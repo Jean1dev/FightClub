@@ -1,17 +1,47 @@
 package database.model;
 
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity(name = "aluno")
 public class AlunoModel extends BaseModel {
 
+    @Id
+    @GeneratedValue
     private int codigo;
+
+
+    @Column(name="aluno", nullable=false)
     private String aluno;
+
+    @Column(name="sexo", nullable=false)
     private String sexo;
+
+    @Column(name="telefone", nullable=false)
     private String telefone;
+
+    @Column(name="celular", nullable=false)
     private String celular;
+
+    @Column(name="email", nullable=false)
     private String email;
+
+    @Column(name="observacao")
     private String observacao;
+
+    @Column(name="numero", nullable=false)
     private String numero;
+
+    @Column(name="complemento")
     private String complemento;
+
+    @Column(name="bairro", nullable=false)
     private String bairro;
+
+    @Column(name="cep", nullable=false)
     private String cep;
 
     //definir as fks aqui

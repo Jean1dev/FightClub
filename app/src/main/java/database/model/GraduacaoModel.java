@@ -1,8 +1,15 @@
 package database.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+@Entity(name = "Graduacao")
 public class GraduacaoModel extends BaseModel {
 
+    @Column(name="graduacao", nullable=false)
     private String graduacao;
+
+    @Column(name="modalidade", nullable=false)
     private ModalidadeModel modalidadeModel;
 
     public GraduacaoModel() {
