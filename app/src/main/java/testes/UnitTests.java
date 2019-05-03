@@ -19,8 +19,8 @@ public class UnitTests {
     public boolean test_insert_usuario(){
         UsuarioPersistence dao = new UsuarioPersistence(_context);
         Usuario model =  new Usuario();
-        model.setPerfil("teste");
-        model.setUsuario("oe");
+        model.setSobrenome("teste");
+        model.setNome("oe");
         if(dao.insert(model) >= 1){
             return true;
         }

@@ -60,21 +60,21 @@ public class AlunoModel extends BaseModel {
 
     public static final String CREATE_TABLE = " create table " + TABELA_NOME
              +"("
-            +COLUNA_ID +" integer primary key autoincrement,"
-            +COLUNA_SEXO +" text not null,"
-            +COLUNA_TELEFONE +" text not null,"
-            +COLUNA_CELULAR +" text not null,"
-            +COLUNA_EMAIL + " text not null,    "
-            +COLUNA_OBSERVACAO +" text not null,"
-            +COLUNA_NUMERO +" text not null,"
-            +COLUNA_COMPLEMENTO +" text not null,"
-            +COLUNA_CEP +" text not null)";
-
+            + COLUNA_ID +" integer primary key autoincrement,"
+            + COLUNA_SEXO +" text not null,"
+            + COLUNA_TELEFONE +" text not null,"
+            + COLUNA_CELULAR +" text not null,"
+            + COLUNA_EMAIL + " text not null,    "
+            + COLUNA_OBSERVACAO +" text not null,"
+            + COLUNA_NUMERO +" text not null,"
+            + COLUNA_COMPLEMENTO +" text not null,"
+            + COLUNA_CEP +" text not null)";
 
     public AlunoModel() {
     }
 
-    public AlunoModel(int codigo, String aluno, String sexo, String telefone, String celular, String email, String observacao, String numero, String complemento, String bairro, String cep) {
+    public AlunoModel(int codigo,
+                      String aluno, String sexo, String telefone, String celular, String email, String observacao, String numero, String complemento, String bairro, String cep) {
         this.codigo = codigo;
         this.aluno = aluno;
         this.sexo = sexo;
@@ -86,23 +86,6 @@ public class AlunoModel extends BaseModel {
         this.complemento = complemento;
         this.bairro = bairro;
         this.cep = cep;
-    }
-
-    @Override
-    public String toString() {
-        return "AlunoModel{" +
-                "codigo=" + codigo +
-                ", aluno='" + aluno + '\'' +
-                ", sexo='" + sexo + '\'' +
-                ", telefone='" + telefone + '\'' +
-                ", celular='" + celular + '\'' +
-                ", email='" + email + '\'' +
-                ", observacao='" + observacao + '\'' +
-                ", numero='" + numero + '\'' +
-                ", complemento='" + complemento + '\'' +
-                ", bairro='" + bairro + '\'' +
-                ", cep='" + cep + '\'' +
-                '}';
     }
 
     public int getCodigo() {
@@ -192,4 +175,22 @@ public class AlunoModel extends BaseModel {
     public void setCep(String cep) {
         this.cep = cep;
     }
+
+    @Override
+    public String toString() {
+        return "AlunoModel{" +
+                "codigo=" + codigo +
+                ", aluno='" + aluno + '\'' +
+                ", sexo='" + sexo + '\'' +
+                ", telefone='" + telefone + '\'' +
+                ", celular='" + celular + '\'' +
+                ", email='" + email + '\'' +
+                ", observacao='" + observacao + '\'' +
+                ", numero='" + numero + '\'' +
+                ", complemento='" + complemento + '\'' +
+                ", bairro='" + bairro + '\'' +
+                ", cep='" + cep + '\'' +
+                '}';
+    }
+
 }
