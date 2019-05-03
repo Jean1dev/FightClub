@@ -1,8 +1,15 @@
 package database.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+@Entity(name = "Planos")
 public class PlanosModel extends BaseModel {
 
+    @Column(name = "modalidade")
     private ModalidadeModel modalidadeModel;
+
+    @Column(name = "plano")
     private String plano;
 
     //TABELA

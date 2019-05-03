@@ -5,10 +5,18 @@ import android.content.Context;
 import java.util.List;
 
 import database.model.AlunoModel;
+
 import database.model.DAO.AbstractDao;
 import database.model.DAO.DBOpenHelper;
+import database.model.DAO.GenericDAO;
 
-public class AlunoPersistence extends AbstractDao {
+public class AlunoPersistence extends GenericDAO<AlunoModel> {
+
+    public AlunoPersistence(Context context) {
+        super(context, AlunoModel.class);
+
+}
+/*public class AlunoPersistence extends AbstractDao {
 
     private Context _context;
     private String[] colunas = new String[]{
@@ -27,24 +35,24 @@ public class AlunoPersistence extends AbstractDao {
     public AlunoPersistence(Context _context) {
         this._context = _context;
         this.__db = new DBOpenHelper(this._context);
-    }
+    }*/
 
-    @Override
+    //@Override
     public long insert() {
         return 0;
     }
 
-    @Override
+   // @Override
     public long delete() {
         return 0;
     }
 
-    @Override
+    //@Override
     public long update() {
         return 0;
     }
 
-    @Override
+    //@Override
     public List<AlunoModel> select() {
         return null;
     }

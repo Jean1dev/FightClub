@@ -1,7 +1,12 @@
 package database.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+@Entity(name = "Modalidade")
 public class ModalidadeModel extends BaseModel {
 
+    @Column(name = "modalidade")
     private String modalidade;
 
     //TABELA

@@ -1,9 +1,18 @@
 package database.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+@Entity(name = "Cidade")
 public class CidadeModel extends BaseModel {
 
+    @Column(name="cidade", nullable=false)
     private String cidade;
+
+    @Column(name="estado", nullable=false)
     private String estado;
+
+    @Column(name="pais", nullable=false)
     private String pais;
 
     public CidadeModel(String cidade, String estado, String pais) {
