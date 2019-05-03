@@ -1,6 +1,7 @@
 package com.voador.guardeiro.flightclub;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,10 +21,10 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        editTextEmail = findViewById(R.id.edit_text_nome);
-        editTextEmail = findViewById(R.id.edit_text_sobrenome);
+        editTextNome = findViewById(R.id.edit_text_nome);
+        editTextSobrenome = findViewById(R.id.edit_text_sobrenome);
         editTextEmail = findViewById(R.id.edit_text_email);
-        editTextEmail = findViewById(R.id.edit_text_senha);
+        editTextSenha = findViewById(R.id.edit_text_senha);
         btnCadastrar = findViewById(R.id.btn_cadastrar);
 
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
@@ -35,18 +36,20 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void cadastrarUsuario() {
-        new UsuarioPersistence();
-        getUsuario();
+        final UsuarioPersistence usuarioPersistence = new UsuarioPersistence(getBaseContext());
+        usuarioPersistence.insert(getUsuario());
     }
 
     private Usuario getUsuario() {
-        final String nome = editTextNome.getText();
-        final String sobrenome = editTextSobrenome.getText();
-        final String email = editTextEmail.getText();
-        final String senha = editTextSenha.getText();
+        final String nome = editTextNome.getText().toString();
+        final String sobrenome = editTextSobrenome.getText().toString();
+        final String email = editTextEmail.getText().toString();
+        final String senha = editTextSenha.getText().toString();
 
-        return new Usuario(nome, sobrenome, sobrenome, email, senha);
+        return new Usuario(nome, sobrenome, email, senha);
     }
 
+    private void validarFormulario() {
 
+    }
 }
