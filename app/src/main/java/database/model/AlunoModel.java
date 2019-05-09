@@ -1,6 +1,5 @@
 package database.model;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,68 +12,50 @@ public class AlunoModel extends BaseModel {
     @GeneratedValue
     private int codigo;
 
-
-    @Column(name="aluno", nullable=false)
+    @Column(name = "aluno", nullable = false)
     private String aluno;
 
-    @Column(name="sexo", nullable=false)
+    @Column(name = "sexo", nullable = false)
     private String sexo;
 
-    @Column(name="telefone", nullable=false)
+    @Column(name = "telefone", nullable = false)
     private String telefone;
 
-    @Column(name="celular", nullable=false)
+    @Column(name = "celular", nullable = false)
     private String celular;
 
-    @Column(name="email", nullable=false)
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name="observacao")
+    @Column(name = "observacao")
     private String observacao;
 
-    @Column(name="numero", nullable=false)
+    @Column(name = "numero", nullable = false)
     private String numero;
 
-    @Column(name="complemento")
+    @Column(name = "complemento")
     private String complemento;
 
-    @Column(name="bairro", nullable=false)
+    @Column(name = "bairro", nullable = false)
     private String bairro;
 
-    @Column(name="cep", nullable=false)
+    @Column(name = "cep", nullable = false)
     private String cep;
-
-    //definir as fks aqui
-    //
-    //TABELA
-    public static final String TABELA_NOME = "aluno",
-            COLUNA_ID = "_id",
-            COLUNA_SEXO = "sexo",
-            COLUNA_TELEFONE = "telefone",
-            COLUNA_CELULAR = "celular",
-            COLUNA_EMAIL = "email",
-            COLUNA_OBSERVACAO = "observacao",
-            COLUNA_NUMERO = "numero",
-            COLUNA_COMPLEMENTO = "complemento",
-            COLUNA_CEP = "cep";
-
-    public static final String CREATE_TABLE = " create table " + TABELA_NOME
-             +"("
-            + COLUNA_ID +" integer primary key autoincrement,"
-            + COLUNA_SEXO +" text not null,"
-            + COLUNA_TELEFONE +" text not null,"
-            + COLUNA_CELULAR +" text not null,"
-            + COLUNA_EMAIL + " text not null,    "
-            + COLUNA_OBSERVACAO +" text not null,"
-            + COLUNA_NUMERO +" text not null,"
-            + COLUNA_COMPLEMENTO +" text not null,"
-            + COLUNA_CEP +" text not null)";
 
     public AlunoModel() {
     }
 
     public AlunoModel(int codigo,
-                      String aluno, String sexo, String telefone, String celular, String email, String observacao, String numero, String complemento, String bairro, String cep) {
+                      String aluno,
+                      String sexo,
+                      String telefone,
+                      String celular,
+                      String email,
+                      String observacao,
+                      String numero,
+                      String complemento,
+                      String bairro,
+                      String cep) {
         this.codigo = codigo;
         this.aluno = aluno;
         this.sexo = sexo;
