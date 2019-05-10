@@ -3,7 +3,10 @@ package database.model.Persistence;
 import android.content.Context;
 
 import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import database.model.DAO.GenericDAO;
@@ -16,13 +19,18 @@ public class UsuarioPersistence extends GenericDAO<Usuario> {
     }
 
     public List<Usuario> whereEmail(String usuario) {
-        List<Usuario> u;
+        List<Usuario> results = null;
         try {
-            u = dao.query((PreparedQuery<Usuario>) dao.queryBuilder().where().eq("usuario", usuario));
+            //dao.query((PreparedQuery<Usuario>) dao.queryBuilder().where().eq("email", usuario).query());
+            //dao.query((ArrayList<Usuario>) dao.queryBuilder().where().eq("email", usuario).query());
+            results = dao.queryBuilder().where().eq("email", usuario).query();
+            /*QueryBuilder<Usuario, String> query = dao.queryBuilder();
+            Where where = query.where();
+            where.eq("email", "iurypiva@gmail.com");*/
         } catch (Exception e) {
             System.out.println("Exception ");
             return null;
         }
-        return u;
+        return results;
     }
 }
