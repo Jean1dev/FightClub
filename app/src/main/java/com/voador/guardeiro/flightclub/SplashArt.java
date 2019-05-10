@@ -41,6 +41,7 @@ public class SplashArt extends AppCompatActivity {
         });
 
         splash.startAnimation(animation);
+        finish();
 
     }
 }
