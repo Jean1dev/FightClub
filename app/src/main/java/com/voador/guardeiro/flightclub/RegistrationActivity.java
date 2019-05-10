@@ -20,6 +20,7 @@ public class RegistrationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_registration);
 
         editTextNome = findViewById(R.id.edit_text_nome);
         editTextSobrenome = findViewById(R.id.edit_text_sobrenome);
@@ -47,9 +48,5 @@ public class RegistrationActivity extends AppCompatActivity {
         final String senha = editTextSenha.getText().toString();
 
         return new Usuario(nome, sobrenome, email, senha);
-    }
-
-    private void validarFormulario() {
-
     }
 }

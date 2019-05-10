@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".RegistrationActivity" />
+        <activity android:name=".AlunoActivity" />
         <activity android:name=".TabletMainActivity" />
         <activity android:name=".SplashArt"
             android:theme="@style/AppTheme.NoActionBar">
