@@ -9,41 +9,55 @@ import android.support.v7.widget.Toolbar;
 import android.util.AndroidException;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+
+import java.util.List;
+
+import database.model.ModalidadeModel;
+import database.model.Persistence.ModalidadePersistence;
+import database.model.Persistence.UsuarioPersistence;
+import database.model.Usuario;
 
 public class ModalidadeActivity extends AppCompatActivity {
 
     private ListView listaModalidades;
     private Button btnCadastrarModalidade;
     private Button btnAdicionar;
+    private EditText editTextModalidade;
     AlertDialog dialog;
+    private ModalidadePersistence modalidadePersistence;
+    private String[] modalidades;
+    private List<ModalidadeModel> m;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modalidade);
 
-        //receber do banco todas modalidades
-        String[] modalidades = new String[]{
-                "Guardeiro",
-                "Voador",
-                "Chute no saco"
-        };
-
+        modalidadePersistence = new ModalidadePersistence(getBaseContext());
         listaModalidades = findViewById(R.id.listModalidade);
         btnCadastrarModalidade = findViewById(R.id.btnCadastrarModalidade);
 
-        ArrayAdapter<String> array = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, modalidades);
-        listaModalidades.setAdapter(array);
+        atualizarModalidade();
+
+        listaModalidades.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                modalidadePersistence.delete(m.get(position));
+                atualizarModalidade();
+                return true;
+            }
+        });
 
     }
 
     public void novaModalidade(View v){
 
         // Cria o AlertDialog.
-
         final AlertDialog.Builder builder = new AlertDialog.Builder(ModalidadeActivity.this);
 
         // Guarda a opção de inflate.
@@ -53,17 +67,41 @@ public class ModalidadeActivity extends AppCompatActivity {
         final View viewInf = inflater.inflate(R.layout.dialog_modalidade, null);
         builder.setView(viewInf);
 
+        editTextModalidade = (EditText)viewInf.findViewById(R.id.editTextModalidade);
         btnAdicionar = (Button)viewInf.findViewById(R.id.btnAdicionar);
+
         btnAdicionar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                cadastrarModalidade();
                 dialog.cancel();
+                atualizarModalidade();
             }
         });
         (dialog = builder.create()).show();
-
     }
 
+    private void cadastrarModalidade() {
+        modalidadePersistence.insert(getModalidade());
+    }
 
+    private ModalidadeModel getModalidade() {
+        final String modalidade = editTextModalidade.getText().toString();
+        return new ModalidadeModel(modalidade);
+    }
+
+    private void atualizarModalidade(){
+        m = modalidadePersistence.getAll();
+        if(m != null) {
+            modalidades = new String[m.size()];
+
+            for (int i = 0; i < m.size(); i++) {
+                modalidades[i] = m.get(i).getModalidade();
+            }
+
+            ArrayAdapter<String> array = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, modalidades);
+            listaModalidades.setAdapter(array);
+        }
+    }
 
 }
