@@ -20,7 +20,7 @@ public class RegistrationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.registration);
         editTextNome = findViewById(R.id.edit_text_nome);
         editTextSobrenome = findViewById(R.id.edit_text_sobrenome);
         editTextEmail = findViewById(R.id.edit_text_email);
