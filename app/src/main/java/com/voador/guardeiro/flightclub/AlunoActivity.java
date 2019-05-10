@@ -35,7 +35,6 @@ public class AlunoActivity extends AppCompatActivity {
         initSpinner();
 
         editTextNome = findViewById(R.id.input_nome);
-        spinnerSexo = findViewById(R.id.input_sexo);
         editTextEmail = findViewById(R.id.input_email);
         editTextTelefone = findViewById(R.id.input_telefone);
         editTextCelular = findViewById(R.id.input_celular);
@@ -57,6 +56,8 @@ public class AlunoActivity extends AppCompatActivity {
     private void initSpinner() {
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.activity_list_item, SEXO_OPTIONS);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinnerSexo = findViewById(R.id.input_sexo);
         spinnerSexo.setAdapter(adapter);
     }
 
