@@ -2,9 +2,15 @@ package database.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity(name = "Modalidade")
 public class ModalidadeModel extends BaseModel {
+
+    @Id
+    @GeneratedValue
+    protected int id;
 
     @Column(name = "modalidade")
     private String modalidade;
