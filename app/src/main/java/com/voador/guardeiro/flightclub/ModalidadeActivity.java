@@ -1,12 +1,9 @@
 package com.voador.guardeiro.flightclub;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.AndroidException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,19 +11,17 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.List;
 
 import database.model.ModalidadeModel;
 import database.model.Persistence.ModalidadePersistence;
-import database.model.Persistence.UsuarioPersistence;
-import database.model.Usuario;
 
 public class ModalidadeActivity extends AppCompatActivity {
 
     private ListView listaModalidades;
-    private Button btnCadastrarModalidade;
-    private Button btnAdicionar;
     private EditText editTextModalidade;
     AlertDialog dialog;
     private ModalidadePersistence modalidadePersistence;
@@ -40,15 +35,33 @@ public class ModalidadeActivity extends AppCompatActivity {
 
         modalidadePersistence = new ModalidadePersistence(getBaseContext());
         listaModalidades = findViewById(R.id.listModalidade);
-        btnCadastrarModalidade = findViewById(R.id.btnCadastrarModalidade);
 
         atualizarModalidade();
 
         listaModalidades.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                modalidadePersistence.delete(m.get(position));
-                atualizarModalidade();
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                final AlertDialog.Builder builderRemover = new AlertDialog.Builder(ModalidadeActivity.this);
+                builderRemover.setTitle("Remover Modalidade");
+                builderRemover.setMessage("Deseja remover a modalidade?");
+
+                builderRemover.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        modalidadePersistence.delete(m.get(position));
+                        Toast.makeText(ModalidadeActivity.this, "Modalidade removida com sucesso", Toast.LENGTH_SHORT).show();
+                        atualizarModalidade();
+                    }
+                });
+
+                builderRemover.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        atualizarModalidade();
+                    }
+                });
+
+                (dialog = builderRemover.create()).show();
+
                 return true;
             }
         });
@@ -64,22 +77,32 @@ public class ModalidadeActivity extends AppCompatActivity {
         LayoutInflater inflater = ModalidadeActivity.this.getLayoutInflater();
 
         // Faz a inflação do layout de configuração.
-        final View viewInf = inflater.inflate(R.layout.dialog_modalidade, null);
+        final View viewInf = inflater.inflate(R.layout.custom_dialog, null);
         builder.setView(viewInf);
 
-        editTextModalidade = (EditText)viewInf.findViewById(R.id.editTextModalidade);
-        btnAdicionar = (Button)viewInf.findViewById(R.id.btnAdicionar);
 
-        btnAdicionar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cadastrarModalidade();
-                dialog.cancel();
-                atualizarModalidade();
-            }
-        });
+        editTextModalidade = (EditText)viewInf.findViewById(R.id.editTextCustom);
+
+        builder
+                .setCancelable(false)
+                .setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogBox, int id) {
+                        cadastrarModalidade();
+                        dialog.cancel();
+                        atualizarModalidade();
+                    }
+                })
+
+                .setNegativeButton("Cancelar",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogBox, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
         (dialog = builder.create()).show();
     }
+
 
     private void cadastrarModalidade() {
         modalidadePersistence.insert(getModalidade());
@@ -99,7 +122,7 @@ public class ModalidadeActivity extends AppCompatActivity {
                 modalidades[i] = m.get(i).getModalidade();
             }
 
-            ArrayAdapter<String> array = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, modalidades);
+            ArrayAdapter<String> array = new ArrayAdapter<String>(ModalidadeActivity.this, android.R.layout.simple_list_item_1, modalidades);
             listaModalidades.setAdapter(array);
         }
     }

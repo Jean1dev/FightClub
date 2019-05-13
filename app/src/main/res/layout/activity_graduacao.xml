@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ModalidadeActivity"
+    tools:context=".GraduacaoActivity"
     android:orientation="vertical">
 
     <Button
@@ -14,12 +14,12 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:background="@color/colorPrimary"
-        android:text="CADASTRAR MODALIDADES"
+        android:text="CADASTRAR GRADUAÇÕES"
         android:textColor="@color/colorWhite"
-        android:onClick="novaModalidade"/>
+        android:onClick="novaGraduacao"/>
 
     <ListView
-        android:id="@+id/listModalidade"
+        android:id="@+id/listGraduacoes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
