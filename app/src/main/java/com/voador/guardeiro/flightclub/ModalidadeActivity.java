@@ -9,10 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.List;
@@ -78,7 +76,7 @@ public class ModalidadeActivity extends AppCompatActivity {
         LayoutInflater inflater = ModalidadeActivity.this.getLayoutInflater();
 
         // Faz a inflação do layout de configuração.
-        final View viewInf = inflater.inflate(R.layout.custom_dialog, null);
+        final View viewInf = inflater.inflate(R.layout.custom_dialog_modalidades, null);
         builder.setView(viewInf);
 
 

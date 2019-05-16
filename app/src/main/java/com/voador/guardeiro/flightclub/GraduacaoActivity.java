@@ -16,9 +16,9 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import database.model.GraduacaoModel_fkKEY;
+import database.model.GraduacaoModel;
 import database.model.ModalidadeModel;
-import database.model.Persistence.GraduacaoPersistence_fkkey;
+import database.model.Persistence.GraduacaoPersistence;
 import database.model.Persistence.ModalidadePersistence;
 
 
@@ -27,9 +27,9 @@ public class GraduacaoActivity extends AppCompatActivity {
     private ListView listViewGraduacoes;
     private EditText editTextGraduacoes;
     AlertDialog dialog;
-    private GraduacaoPersistence_fkkey graduacaoPersistence;
+    private GraduacaoPersistence graduacaoPersistence;
     private String[] graduacoes;
-    private List<GraduacaoModel_fkKEY> listaGraduacao;
+    private List<GraduacaoModel> listaGraduacao;
     private List<ModalidadeModel> listaModalidades;
     private ModalidadePersistence modalidadePersistence;
     private String[] modalidades;
@@ -42,7 +42,7 @@ public class GraduacaoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graduacao);
 
-        graduacaoPersistence = new GraduacaoPersistence_fkkey(getBaseContext());
+        graduacaoPersistence = new GraduacaoPersistence(getBaseContext());
         modalidadePersistence = new ModalidadePersistence(getBaseContext());
         listViewGraduacoes = findViewById(R.id.listGraduacoes);
 
@@ -86,15 +86,13 @@ public class GraduacaoActivity extends AppCompatActivity {
         LayoutInflater inflater = GraduacaoActivity.this.getLayoutInflater();
 
         // Faz a inflação do layout de configuração.
-        final View viewInf = inflater.inflate(R.layout.custom_dialog, null);
+        final View viewInf = inflater.inflate(R.layout.custom_dialog_graduacoes, null);
         builder.setView(viewInf);
 
 
         todasModalidades = (Spinner)viewInf.findViewById(R.id.todasModalidades);
         editTextGraduacoes = (EditText)viewInf.findViewById(R.id.editTextCustom);
         textViewModalidades = (TextView) viewInf.findViewById(R.id.textViewGraduacao);
-        todasModalidades.setVisibility(View.VISIBLE);
-        textViewModalidades.setVisibility(View.VISIBLE);
         getModalidades();
 
         builder
@@ -132,11 +130,16 @@ public class GraduacaoActivity extends AppCompatActivity {
         }
     }
 
-    private GraduacaoModel_fkKEY getGraduacao() {
-        final String graduacao = editTextGraduacoes.getText().toString();
+    private GraduacaoModel getGraduacao() {
+        try {
+            final String graduacao = editTextGraduacoes.getText().toString();
+            final String modalidade = todasModalidades.getSelectedItem().toString();
+            return new GraduacaoModel(graduacao, modalidade);
+        } catch (Exception e){
+            Toast.makeText(GraduacaoActivity.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+        }
 
-        //final ModalidadeModel modalidade = modalidadePersistence.getById();
-        return new GraduacaoModel_fkKEY(graduacao, 1);
+    return null;
     }
 
     private void cadastrarGraduacao() {

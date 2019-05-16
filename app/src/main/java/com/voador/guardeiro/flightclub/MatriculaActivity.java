@@ -6,7 +6,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-public class MatriculaActivit extends AppCompatActivity {
+public class MatriculaActivity extends AppCompatActivity {
 
     private ListView listaMatriculas;
     private Button btnSalvar;

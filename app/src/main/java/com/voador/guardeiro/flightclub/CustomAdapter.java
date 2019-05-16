@@ -8,14 +8,14 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import database.model.GraduacaoModel_fkKEY;
+import database.model.GraduacaoModel;
 
 public class CustomAdapter extends BaseAdapter {
 
-    private final List<GraduacaoModel_fkKEY> graduacoes;
+    private final List<GraduacaoModel> graduacoes;
     private final Activity act;
 
-    public CustomAdapter(List<GraduacaoModel_fkKEY> graduacoes, Activity act) {
+    public CustomAdapter(List<GraduacaoModel> graduacoes, Activity act) {
         this.graduacoes = graduacoes;
         this.act = act;
     }
@@ -38,7 +38,7 @@ public class CustomAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = act.getLayoutInflater().inflate(R.layout.custom_listview, parent, false);
-        GraduacaoModel_fkKEY graduacao = graduacoes.get(position);
+        GraduacaoModel graduacao = graduacoes.get(position);
 
         TextView nomeGraduacao = (TextView) view.findViewById(R.id.tituloGraduacao);
         TextView nomeModalidade = (TextView) view.findViewById(R.id.tituloModalidade);

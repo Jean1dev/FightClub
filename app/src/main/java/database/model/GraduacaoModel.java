@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity(name = "Graduacao")
-public class GraduacaoModel_fkKEY extends BaseModel {
+public class GraduacaoModel extends BaseModel {
 
     @Id
     @GeneratedValue
@@ -15,16 +15,16 @@ public class GraduacaoModel_fkKEY extends BaseModel {
     @Column(name="graduacao", nullable=false)
     private String graduacao;
 
-    @Column(name="modalidadeID", nullable=false)
-    private Integer modalidadeID;
+    @Column(name="modalidade", nullable=false)
+    private String modalidade;
 
-    public GraduacaoModel_fkKEY() {
+    public GraduacaoModel() {
     }
 
     public static final String TABELA_NOME = "graduacoes",
             COLUNA_ID = "_id",
             COLUNA_GRADUACAO = "graduacao",
-            COLUNA_MODALIDADE = "modalidadeID";
+            COLUNA_MODALIDADE = "modalidade";
 
     public static final String CREATE_TABLE = " create table " + "graduacoes"
             +"("
@@ -33,16 +33,16 @@ public class GraduacaoModel_fkKEY extends BaseModel {
             +COLUNA_MODALIDADE +" integer not null"
             + " FOREIGN KEY ("+COLUNA_MODALIDADE+") REFERENCES "+ ModalidadeModel.TABELA_NOME +"("+ModalidadeModel.COLUNA_ID+"));";
 
-    public GraduacaoModel_fkKEY(String graduacao, Integer modalidadeID) {
+    public GraduacaoModel(String graduacao, String modalidade) {
         this.graduacao = graduacao;
-        this.modalidadeID = modalidadeID;
+        this.modalidade = modalidade;
     }
 
     @Override
     public String toString() {
         return "GraduacaoModel{" +
                 "graduacao='" + graduacao + '\'' +
-                ", modalidadeModel=" + modalidadeID +
+                ", modalidadeModel=" + modalidade +
                 '}';
     }
 
@@ -54,11 +54,11 @@ public class GraduacaoModel_fkKEY extends BaseModel {
         this.graduacao = graduacao;
     }
 
-    public Integer getModalidadeModel() {
-        return modalidadeID;
+    public String getModalidadeModel() {
+        return modalidade;
     }
 
     public void setModalidadeModel(Integer modalidadeModel) {
-        this.modalidadeID = modalidadeID;
+        this.modalidade = modalidade;
     }
 }

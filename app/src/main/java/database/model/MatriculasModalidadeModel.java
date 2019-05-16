@@ -24,7 +24,7 @@ public class MatriculasModalidadeModel extends BaseModel  {
     private Date data_fim;
 
     @Column(name = "graduacaoModel")
-    private GraduacaoModel_fkKEY graduacaoModel;
+    private GraduacaoModel graduacaoModel;
 
     @Column(name = "modalidadeModel")
     private ModalidadeModel modalidadeModel;
@@ -32,7 +32,7 @@ public class MatriculasModalidadeModel extends BaseModel  {
     public MatriculasModalidadeModel() {
     }
 
-    public MatriculasModalidadeModel(int codigo, String plano, Date data_inicio, Date data_fim, GraduacaoModel_fkKEY graduacaoModel, ModalidadeModel modalidadeModel) {
+    public MatriculasModalidadeModel(int codigo, String plano, Date data_inicio, Date data_fim, GraduacaoModel graduacaoModel, ModalidadeModel modalidadeModel) {
         this.codigo = codigo;
         this.plano = plano;
         this.data_inicio = data_inicio;
@@ -85,11 +85,11 @@ public class MatriculasModalidadeModel extends BaseModel  {
         this.data_fim = data_fim;
     }
 
-    public GraduacaoModel_fkKEY getGraduacaoModel() {
+    public GraduacaoModel getGraduacaoModel() {
         return graduacaoModel;
     }
 
-    public void setGraduacaoModel(GraduacaoModel_fkKEY graduacaoModel) {
+    public void setGraduacaoModel(GraduacaoModel graduacaoModel) {
         this.graduacaoModel = graduacaoModel;
     }
 
