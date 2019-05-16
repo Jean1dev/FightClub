@@ -11,28 +11,30 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
-import database.model.GraduacaoModel;
+import database.model.GraduacaoModel_fkKEY;
 import database.model.ModalidadeModel;
-import database.model.Persistence.GraduacaoPersistence;
+import database.model.Persistence.GraduacaoPersistence_fkkey;
 import database.model.Persistence.ModalidadePersistence;
 
 
 public class GraduacaoActivity extends AppCompatActivity {
 
-    private ListView listaGraduacoes;
+    private ListView listViewGraduacoes;
     private EditText editTextGraduacoes;
     AlertDialog dialog;
-    private GraduacaoPersistence graduacaoPersistence;
+    private GraduacaoPersistence_fkkey graduacaoPersistence;
     private String[] graduacoes;
-    private List<GraduacaoModel> listaGraduacao;
+    private List<GraduacaoModel_fkKEY> listaGraduacao;
     private List<ModalidadeModel> listaModalidades;
     private ModalidadePersistence modalidadePersistence;
     private String[] modalidades;
     private Spinner todasModalidades;
+    private TextView textViewModalidades;
 
 
     @Override
@@ -40,13 +42,13 @@ public class GraduacaoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graduacao);
 
-        graduacaoPersistence = new GraduacaoPersistence(getBaseContext());
+        graduacaoPersistence = new GraduacaoPersistence_fkkey(getBaseContext());
         modalidadePersistence = new ModalidadePersistence(getBaseContext());
-        listaGraduacoes = findViewById(R.id.listGraduacoes);
+        listViewGraduacoes = findViewById(R.id.listGraduacoes);
 
         atualizarGraduacoes();
 
-        listaGraduacoes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        listViewGraduacoes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
@@ -90,7 +92,9 @@ public class GraduacaoActivity extends AppCompatActivity {
 
         todasModalidades = (Spinner)viewInf.findViewById(R.id.todasModalidades);
         editTextGraduacoes = (EditText)viewInf.findViewById(R.id.editTextCustom);
+        textViewModalidades = (TextView) viewInf.findViewById(R.id.textViewGraduacao);
         todasModalidades.setVisibility(View.VISIBLE);
+        textViewModalidades.setVisibility(View.VISIBLE);
         getModalidades();
 
         builder
@@ -122,17 +126,17 @@ public class GraduacaoActivity extends AppCompatActivity {
                 graduacoes[i] = listaGraduacao.get(i).getGraduacao();
             }
 
-            ArrayAdapter<String> array = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, graduacoes);
-            listaGraduacoes.setAdapter(array);
+
+            CustomAdapter adapter = new CustomAdapter(listaGraduacao, this);
+            listViewGraduacoes.setAdapter(adapter);
         }
     }
 
-    private GraduacaoModel getGraduacao() {
+    private GraduacaoModel_fkKEY getGraduacao() {
         final String graduacao = editTextGraduacoes.getText().toString();
 
         //final ModalidadeModel modalidade = modalidadePersistence.getById();
-        final ModalidadeModel rola = new ModalidadeModel("rika");
-        return new GraduacaoModel(graduacao, rola);
+        return new GraduacaoModel_fkKEY(graduacao, 1);
     }
 
     private void cadastrarGraduacao() {

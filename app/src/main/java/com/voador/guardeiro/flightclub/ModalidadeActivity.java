@@ -1,6 +1,7 @@
 package com.voador.guardeiro.flightclub;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -127,4 +128,7 @@ public class ModalidadeActivity extends AppCompatActivity {
         }
     }
 
+    public void graduacao(View view) {
+        startActivity(new Intent(ModalidadeActivity.this, GraduacaoActivity.class));
+    }
 }
