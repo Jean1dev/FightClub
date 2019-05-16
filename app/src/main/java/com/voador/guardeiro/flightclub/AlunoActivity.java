@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import database.model.AlunoModel;
 import database.model.Persistence.AlunoPersistence;
@@ -43,7 +44,7 @@ public class AlunoActivity extends AppCompatActivity {
         editTextCep = findViewById(R.id.input_cep);
         editTextComplemento = findViewById(R.id.input_complemento);
         editTextObservacao = findViewById(R.id.input_observacao);
-        btnCadastrar = findViewById(R.id.btn_cadastrar);
+        btnCadastrar = findViewById(R.id.btn_cadastrar_aluno);
 
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +55,7 @@ public class AlunoActivity extends AppCompatActivity {
     }
 
     private void initSpinner() {
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.activity_list_item, SEXO_OPTIONS);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, SEXO_OPTIONS);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinnerSexo = findViewById(R.id.input_sexo);
@@ -62,8 +63,13 @@ public class AlunoActivity extends AppCompatActivity {
     }
 
     private void cadastrarAluno() {
-        final AlunoPersistence alunoPersistence = new AlunoPersistence(getApplicationContext());
-        alunoPersistence.insert(criarAluno());
+        final AlunoPersistence alunoPersistence = new AlunoPersistence(getBaseContext());
+        try {
+            alunoPersistence.insert(criarAluno());
+            Toast.makeText(AlunoActivity.this, "Aluno cadastrado com sucesso", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(AlunoActivity.this, "Ocorreu um erro ao salvar o aluno", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private AlunoModel criarAluno() {
