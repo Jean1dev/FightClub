@@ -126,7 +126,4 @@ public class ModalidadeActivity extends AppCompatActivity {
         }
     }
 
-    public void graduacao(View view) {
-        startActivity(new Intent(ModalidadeActivity.this, GraduacaoActivity.class));
-    }
 }
