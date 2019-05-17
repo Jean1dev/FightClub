@@ -2,33 +2,44 @@ package database.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity(name = "Planos")
 public class PlanosModel extends BaseModel {
 
+    @Id
+    @GeneratedValue
+    protected int id;
+
     @Column(name = "modalidade")
-    private ModalidadeModel modalidadeModel;
+    private String modalidade;
 
     @Column(name = "plano")
     private String plano;
 
+    @Column(name = "valor")
+    private Double valor;
+
     //TABELA
     public static final String TABELA_NOME = "planos",
             COLUNA_ID = "_id",
-            COLUNA_I_MODALIDADE_MODEL = "i_modalidade_model",
-            COLUNA_PLANO = "plano";
+            COLUNA_MODALIDADE= "modalidade",
+            COLUNA_PLANO = "plano",
+            COLUNA_VALOR = "valor";
 
     public static final String CREATE_TABLE = " create table " + TABELA_NOME
             +"("
             +COLUNA_ID +" integer primary key autoincrement,"
-            +COLUNA_I_MODALIDADE_MODEL +" integer, "
+            +COLUNA_MODALIDADE +" text, "
             +COLUNA_PLANO +" text, "
-            + "FOREIGN KEY (i_modalidade_model) REFERENCES 'modalidade' ('_id') "
+            +COLUNA_VALOR +" text, "
             + ")";
 
-    public PlanosModel(ModalidadeModel modalidadeModel, String plano) {
-        this.modalidadeModel = modalidadeModel;
+    public PlanosModel(String modalidade, String plano, Double valor) {
+        this.modalidade = modalidade;
         this.plano = plano;
+        this.valor = valor;
     }
 
     public PlanosModel() {
@@ -37,17 +48,19 @@ public class PlanosModel extends BaseModel {
     @Override
     public String toString() {
         return "PlanosModel{" +
-                "modalidadeModel=" + modalidadeModel +
+                "id=" + id +
+                ", modalidade='" + modalidade + '\'' +
                 ", plano='" + plano + '\'' +
+                ", valor=" + valor +
                 '}';
     }
 
-    public ModalidadeModel getModalidadeModel() {
-        return modalidadeModel;
+    public String getModalidade() {
+        return modalidade;
     }
 
-    public void setModalidadeModel(ModalidadeModel modalidadeModel) {
-        this.modalidadeModel = modalidadeModel;
+    public void setModalidade(String modalidade) {
+        this.modalidade = modalidade;
     }
 
     public String getPlano() {
@@ -56,5 +69,13 @@ public class PlanosModel extends BaseModel {
 
     public void setPlano(String plano) {
         this.plano = plano;
+    }
+
+    public Double getValor() {
+        return valor;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
     }
 }

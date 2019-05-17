@@ -20,53 +20,52 @@ import database.model.GraduacaoModel;
 import database.model.ModalidadeModel;
 import database.model.Persistence.GraduacaoPersistence;
 import database.model.Persistence.ModalidadePersistence;
+import database.model.Persistence.PlanosPersistence;
+import database.model.PlanosModel;
 
+public class PlanosActivity extends AppCompatActivity {
 
-public class GraduacaoActivity extends AppCompatActivity {
-
-    private ListView listViewGraduacoes;
-    private EditText editTextGraduacoes;
+    private ListView listViewPlanos;
+    private PlanosPersistence planosPersistence;
     AlertDialog dialog;
-    private GraduacaoPersistence graduacaoPersistence;
-    private ModalidadePersistence modalidadePersistence;
-    private List<GraduacaoModel> listaGraduacao;
-    private List<ModalidadeModel> listaModalidades;
-    private String[] graduacoes;
-    private String[] modalidades;
+    private String[] planos;
+    private List<PlanosModel> listaPlanosModel;
+    private EditText editTextPlanos;
+    private EditText valor;
     private Spinner todasModalidades;
-    private TextView textViewModalidades;
 
+    private ModalidadePersistence modalidadePersistence;
+    private List<ModalidadeModel> listaModalidades;
+    private String[] modalidades;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_graduacao);
+        setContentView(R.layout.activity_planos);
+        planosPersistence = new PlanosPersistence(getBaseContext());
+        listViewPlanos = findViewById(R.id.listPlanos);
 
-        graduacaoPersistence = new GraduacaoPersistence(getBaseContext());
-        modalidadePersistence = new ModalidadePersistence(getBaseContext());
-        listViewGraduacoes = findViewById(R.id.listGraduacoes);
+        atualizarPlanos();
 
-        atualizarGraduacoes();
-
-        listViewGraduacoes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        listViewPlanos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
-                final AlertDialog.Builder builderRemover = new AlertDialog.Builder(GraduacaoActivity.this);
-                builderRemover.setTitle("Remover Graduacão");
-                builderRemover.setMessage("Deseja remover a graduacão?");
+                final AlertDialog.Builder builderRemover = new AlertDialog.Builder(PlanosActivity.this);
+                builderRemover.setTitle("Remover Modalidade");
+                builderRemover.setMessage("Deseja remover a modalidade?");
 
                 builderRemover.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
-                        graduacaoPersistence.delete(listaGraduacao.get(position));
-                        Toast.makeText(GraduacaoActivity.this, "Graduacão removida com sucesso", Toast.LENGTH_SHORT).show();
-                        atualizarGraduacoes();
+                        planosPersistence.delete(listaPlanosModel.get(position));
+                        Toast.makeText(PlanosActivity.this, "Modalidade removida com sucesso", Toast.LENGTH_SHORT).show();
+                        atualizarPlanos();
                     }
                 });
 
                 builderRemover.setNegativeButton("Não", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
-                        atualizarGraduacoes();
+                        atualizarPlanos();
                     }
                 });
 
@@ -78,30 +77,27 @@ public class GraduacaoActivity extends AppCompatActivity {
 
     }
 
-    public void novaGraduacao(View view) {
+    public void novoPlano(View v){
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(GraduacaoActivity.this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(PlanosActivity.this);
 
-        // Guarda a opção de inflate.
-        LayoutInflater inflater = GraduacaoActivity.this.getLayoutInflater();
+        LayoutInflater inflater = PlanosActivity.this.getLayoutInflater();
 
-        // Faz a inflação do layout de configuração.
-        final View viewInf = inflater.inflate(R.layout.custom_dialog_graduacoes, null);
+        final View viewInf = inflater.inflate(R.layout.custom_dialog_planos, null);
         builder.setView(viewInf);
 
 
+        editTextPlanos = (EditText)viewInf.findViewById(R.id.editTextCustom);
+        valor = (EditText)viewInf.findViewById(R.id.editTextValor);
         todasModalidades = (Spinner)viewInf.findViewById(R.id.todasModalidades);
-        editTextGraduacoes = (EditText)viewInf.findViewById(R.id.editTextCustom);
-        textViewModalidades = (TextView) viewInf.findViewById(R.id.textViewGraduacao);
-        getModalidades();
 
         builder
                 .setCancelable(false)
                 .setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogBox, int id) {
-                        cadastrarGraduacao();
+                        cadastrarPlano();
                         dialog.cancel();
-                        atualizarGraduacoes();
+                        atualizarPlanos();
                     }
                 })
 
@@ -115,35 +111,36 @@ public class GraduacaoActivity extends AppCompatActivity {
         (dialog = builder.create()).show();
     }
 
-    private void atualizarGraduacoes(){
-        listaGraduacao = graduacaoPersistence.getAll();
-        if(listaGraduacao != null) {
-            graduacoes = new String[listaGraduacao.size()];
 
-            for (int i = 0; i < listaGraduacao.size(); i++) {
-                graduacoes[i] = listaGraduacao.get(i).getGraduacao();
-            }
-
-
-            CustomAdapter adapter = new CustomAdapter(listaGraduacao, this);
-            listViewGraduacoes.setAdapter(adapter);
-        }
+    private void cadastrarPlano() {
+        planosPersistence.insert(getPlano());
     }
 
-    private GraduacaoModel getGraduacao() {
+    private PlanosModel getPlano() {
         try {
-            final String graduacao = editTextGraduacoes.getText().toString();
-            final String modalidade = todasModalidades.getSelectedItem().toString();
-            return new GraduacaoModel(graduacao, modalidade);
-        } catch (Exception e){
-            Toast.makeText(GraduacaoActivity.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
-        }
+        final String plano = editTextPlanos.getText().toString();
+        final String modalidade = todasModalidades.getSelectedItem().toString();
+        final Double preco = Double.parseDouble(valor.getText().toString());
+        return new PlanosModel(modalidade, plano, preco);
+    } catch (Exception e){
+        Toast.makeText(PlanosActivity.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+    }
 
     return null;
-    }
+}
 
-    private void cadastrarGraduacao() {
-        graduacaoPersistence.insert(getGraduacao());
+    private void atualizarPlanos(){
+        listaPlanosModel = planosPersistence.getAll();
+        if(listaPlanosModel != null) {
+            planos = new String[listaPlanosModel.size()];
+
+            for (int i = 0; i < listaPlanosModel.size(); i++) {
+                planos[i] = listaPlanosModel.get(i).getPlano();
+            }
+
+            ArrayAdapter<String> array = new ArrayAdapter<String>(PlanosActivity.this, android.R.layout.simple_list_item_1, planos);
+            listViewPlanos.setAdapter(array);
+        }
     }
 
     private void getModalidades(){
@@ -161,4 +158,3 @@ public class GraduacaoActivity extends AppCompatActivity {
         }
     }
 }
-

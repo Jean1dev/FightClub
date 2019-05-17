@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/custom_dialog_layout_design_user_input"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:padding="16dp">
+
+<TextView
+    android:id="@+id/dialogTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Adicionar Planos"
+    android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+<EditText
+    android:id="@+id/editTextCustom"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Cadeirada estilo John Cena"
+    android:inputType="textCapWords"
+    android:layout_marginBottom="10dp"
+    />
+
+    <EditText
+        android:id="@+id/editTextValor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Valor"
+        android:inputType="numberDecimal"
+        android:layout_marginBottom="10dp"
+        />
+
+
+    <TextView
+        android:id="@+id/textViewGraduacao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Modalidades:"
+        android:layout_marginBottom="5dp"/>
+    <Spinner
+        android:id="@+id/todasModalidades"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
