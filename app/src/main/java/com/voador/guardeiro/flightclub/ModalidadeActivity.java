@@ -65,6 +65,7 @@ public class ModalidadeActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
     public void novaModalidade(View v){
@@ -83,7 +84,7 @@ public class ModalidadeActivity extends AppCompatActivity {
         editTextModalidade = (EditText)viewInf.findViewById(R.id.editTextCustom);
 
         builder
-                .setCancelable(false)
+                .setCancelable(true)
                 .setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogBox, int id) {
                         cadastrarModalidade();

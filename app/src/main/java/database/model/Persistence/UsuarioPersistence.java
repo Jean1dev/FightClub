@@ -21,12 +21,7 @@ public class UsuarioPersistence extends GenericDAO<Usuario> {
     public List<Usuario> whereEmail(String usuario) {
         List<Usuario> results = null;
         try {
-            //dao.query((PreparedQuery<Usuario>) dao.queryBuilder().where().eq("email", usuario).query());
-            //dao.query((ArrayList<Usuario>) dao.queryBuilder().where().eq("email", usuario).query());
-            results = dao.queryBuilder().where().eq("email", usuario).query();
-            /*QueryBuilder<Usuario, String> query = dao.queryBuilder();
-            Where where = query.where();
-            where.eq("email", "iurypiva@gmail.com");*/
+            results = dao.queryBuilder().where().eq("plano", usuario).query();
         } catch (Exception e) {
             System.out.println("Exception ");
             return null;

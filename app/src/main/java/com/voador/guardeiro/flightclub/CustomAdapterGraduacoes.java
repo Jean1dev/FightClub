@@ -10,12 +10,12 @@ import java.util.List;
 
 import database.model.GraduacaoModel;
 
-public class CustomAdapter extends BaseAdapter {
+public class CustomAdapterGraduacoes extends BaseAdapter {
 
     private final List<GraduacaoModel> graduacoes;
     private final Activity act;
 
-    public CustomAdapter(List<GraduacaoModel> graduacoes, Activity act) {
+    public CustomAdapterGraduacoes(List<GraduacaoModel> graduacoes, Activity act) {
         this.graduacoes = graduacoes;
         this.act = act;
     }
@@ -37,7 +37,7 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = act.getLayoutInflater().inflate(R.layout.custom_listview, parent, false);
+        View view = act.getLayoutInflater().inflate(R.layout.custom_listview_graduacoes, parent, false);
         GraduacaoModel graduacao = graduacoes.get(position);
 
         TextView nomeGraduacao = (TextView) view.findViewById(R.id.tituloGraduacao);

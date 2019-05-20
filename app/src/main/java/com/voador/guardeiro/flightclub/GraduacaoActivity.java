@@ -96,7 +96,7 @@ public class GraduacaoActivity extends AppCompatActivity {
         getModalidades();
 
         builder
-                .setCancelable(false)
+                .setCancelable(true)
                 .setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogBox, int id) {
                         cadastrarGraduacao();
@@ -125,7 +125,7 @@ public class GraduacaoActivity extends AppCompatActivity {
             }
 
 
-            CustomAdapter adapter = new CustomAdapter(listaGraduacao, this);
+            CustomAdapterGraduacoes adapter = new CustomAdapterGraduacoes(listaGraduacao, this);
             listViewGraduacoes.setAdapter(adapter);
         }
     }
