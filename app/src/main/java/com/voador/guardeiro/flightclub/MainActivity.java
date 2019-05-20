@@ -1,5 +1,6 @@
 package com.voador.guardeiro.flightclub;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -83,10 +84,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_modalidade) {
-            //inciar as activiti de acordo com as telas aqui
+            startActivity(new Intent(MainActivity.this, ModalidadeActivity.class));
         } else if (id == R.id.nav_graduacao) {
-
+            startActivity(new Intent(MainActivity.this, GraduacaoActivity.class));
         } else if (id == R.id.nav_planos) {
+            startActivity(new Intent(MainActivity.this, PlanosActivity.class));
 
         }
 

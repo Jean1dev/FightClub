@@ -17,17 +17,19 @@
         <activity android:name=".AlunoActivity" />
         <activity android:name=".TabletMainActivity" />
         <activity
+            android:name=".ModalidadeActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
             android:name=".PlanosActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".GraduacaoActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ModalidadeActivity"
+            android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
