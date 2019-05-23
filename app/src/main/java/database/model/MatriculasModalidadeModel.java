@@ -14,6 +14,9 @@ public class MatriculasModalidadeModel extends BaseModel  {
     @GeneratedValue
     private int codigo;
 
+    @Column(name = "codigo_aluno")
+    private int codigo_aluno;
+
     @Column(name = "plano")
     private String plano;
 
@@ -23,81 +26,23 @@ public class MatriculasModalidadeModel extends BaseModel  {
     @Column(name = "data_fim")
     private Date data_fim;
 
-    @Column(name = "graduacaoModel")
-    private GraduacaoModel graduacaoModel;
+    @Column(name = "graduacao")
+    private String graduacaoModel;
 
-    @Column(name = "modalidadeModel")
-    private ModalidadeModel modalidadeModel;
+    @Column(name = "modalidade")
+    private String modalidade;
 
-    public MatriculasModalidadeModel() {
-    }
+    @Column(name = "data_matricula")
+    private Date data_matricula;
 
-    public MatriculasModalidadeModel(int codigo, String plano, Date data_inicio, Date data_fim, GraduacaoModel graduacaoModel, ModalidadeModel modalidadeModel) {
-        this.codigo = codigo;
-        this.plano = plano;
-        this.data_inicio = data_inicio;
-        this.data_fim = data_fim;
-        this.graduacaoModel = graduacaoModel;
-        this.modalidadeModel = modalidadeModel;
-    }
+    @Column(name = "data_vencimento")
+    private Date data_vencimento;
 
-    @Override
-    public String toString() {
-        return "MatriculasModalidadeModel{" +
-                "codigo=" + codigo +
-                ", plano='" + plano + '\'' +
-                ", data_inicio=" + data_inicio +
-                ", data_fim=" + data_fim +
-                ", graduacaoModel=" + graduacaoModel +
-                ", modalidadeModel=" + modalidadeModel +
-                '}';
-    }
+    @Column(name = "dia_encerramento")
+    private Date dia_encerramento;
 
-    public int getCodigo() {
-        return codigo;
-    }
+    @Column(name = "aluno")
+    private AlunoModel aluno;
 
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
-    }
 
-    public String getPlano() {
-        return plano;
-    }
-
-    public void setPlano(String plano) {
-        this.plano = plano;
-    }
-
-    public Date getData_inicio() {
-        return data_inicio;
-    }
-
-    public void setData_inicio(Date data_inicio) {
-        this.data_inicio = data_inicio;
-    }
-
-    public Date getData_fim() {
-        return data_fim;
-    }
-
-    public void setData_fim(Date data_fim) {
-        this.data_fim = data_fim;
-    }
-
-    public GraduacaoModel getGraduacaoModel() {
-        return graduacaoModel;
-    }
-
-    public void setGraduacaoModel(GraduacaoModel graduacaoModel) {
-        this.graduacaoModel = graduacaoModel;
-    }
-
-    public ModalidadeModel getModalidadeModel() {
-        return modalidadeModel;
-    }
-
-    public void setModalidadeModel(ModalidadeModel modalidadeModel) {
-        this.modalidadeModel = modalidadeModel;
-    }
 }
