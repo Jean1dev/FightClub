@@ -21,17 +21,6 @@ public class GraduacaoModel extends BaseModel {
     public GraduacaoModel() {
     }
 
-    public static final String TABELA_NOME = "graduacoes",
-            COLUNA_ID = "_id",
-            COLUNA_GRADUACAO = "graduacao",
-            COLUNA_MODALIDADE = "modalidade";
-
-    public static final String CREATE_TABLE = " create table " + "graduacoes"
-            +"("
-            +COLUNA_ID +" integer primary key autoincrement,"
-            +COLUNA_GRADUACAO +" text primary key,"
-            +COLUNA_MODALIDADE +" integer not null"
-            + " FOREIGN KEY ("+COLUNA_MODALIDADE+") REFERENCES "+ ModalidadeModel.TABELA_NOME +"("+ModalidadeModel.COLUNA_ID+"));";
 
     public GraduacaoModel(String graduacao, String modalidade) {
         this.graduacao = graduacao;

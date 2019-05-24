@@ -1,9 +1,11 @@
 package utils;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
@@ -11,10 +13,16 @@ import com.voador.guardeiro.flightclub.R;
 
 import java.util.Calendar;
 
+@SuppressLint("ValidFragment")
 public class CustomDatePicker extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
 
     private TextView txtView;
+
+    @SuppressLint("ValidFragment")
+    public CustomDatePicker(TextView ao_view) {
+        txtView = ao_view;
+    }
 
        @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
@@ -27,8 +35,6 @@ public class CustomDatePicker extends DialogFragment implements DatePickerDialog
         return new DatePickerDialog(getActivity(), this, year, month, day);
     }
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        //Do something with the date chosen by the user
-        txtView = (TextView) getActivity().findViewById(R.id.diaVencimento);
 
         txtView.setText(day + "/" + month + "/" + year);
     }

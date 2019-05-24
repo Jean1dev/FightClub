@@ -9,6 +9,7 @@ import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 
+import database.model.AlunoModel;
 import database.model.GraduacaoModel;
 import database.model.ModalidadeModel;
 import database.model.PlanosModel;
@@ -29,6 +30,7 @@ public class DatabaseHelper<E> extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, GraduacaoModel.class);
             TableUtils.createTable(connectionSource, ModalidadeModel.class);
             TableUtils.createTable(connectionSource, PlanosModel.class);
+            TableUtils.createTable(connectionSource, AlunoModel.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -41,6 +43,7 @@ public class DatabaseHelper<E> extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, GraduacaoModel.class, true);
             TableUtils.dropTable(connectionSource, ModalidadeModel.class, true);
             TableUtils.dropTable(connectionSource, PlanosModel.class, true);
+            TableUtils.dropTable(connectionSource, AlunoModel.class, true);
 
             onCreate(sqLiteDatabase, connectionSource);
         }catch(Exception e){

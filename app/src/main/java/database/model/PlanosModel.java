@@ -21,28 +21,21 @@ public class PlanosModel extends BaseModel {
     @Column(name = "valor")
     private Double valor;
 
-    //TABELA
-    public static final String TABELA_NOME = "planos",
-            COLUNA_ID = "_id",
-            COLUNA_MODALIDADE= "modalidade",
-            COLUNA_PLANO = "plano",
-            COLUNA_VALOR = "valor";
+    public PlanosModel() {
 
-    public static final String CREATE_TABLE = " create table " + TABELA_NOME
-            +"("
-            +COLUNA_ID +" integer primary key autoincrement,"
-            +COLUNA_MODALIDADE +" text, "
-            +COLUNA_PLANO +" text, "
-            +COLUNA_VALOR +" text, "
-            + ")";
+    }
 
-    public PlanosModel(String modalidade, String plano, Double valor) {
+    public PlanosModel(int id, String modalidade, String plano, Double valor) {
+        this.id = id;
         this.modalidade = modalidade;
         this.plano = plano;
         this.valor = valor;
     }
 
-    public PlanosModel() {
+    public PlanosModel(String modalidade, String plano, Double valor) {
+        this.modalidade = modalidade;
+        this.plano = plano;
+        this.valor = valor;
     }
 
     @Override

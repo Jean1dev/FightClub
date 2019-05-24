@@ -21,11 +21,13 @@ public class UsuarioPersistence extends GenericDAO<Usuario> {
     public List<Usuario> whereEmail(String usuario) {
         List<Usuario> results = null;
         try {
-            results = dao.queryBuilder().where().eq("plano", usuario).query();
+            results = dao.queryBuilder().where().eq("email", usuario).query();
         } catch (Exception e) {
             System.out.println("Exception ");
             return null;
         }
         return results;
     }
+
+
 }

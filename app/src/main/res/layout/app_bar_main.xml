@@ -20,7 +20,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/activit_matricula" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

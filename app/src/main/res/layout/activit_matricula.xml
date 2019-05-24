@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:fitsSystemWindows="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:padding="10dp">
 
 
@@ -20,6 +21,7 @@
 
 
             <EditText
+                android:inputType="number"
                 android:id="@+id/txtCodigoAluno"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -53,6 +55,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/txtNomeAluno"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:height="50dp"
@@ -64,7 +67,7 @@
             android:paddingBottom="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/adicionar_modalidade"/>
+            android:text="Adicionar Planos"/>
 
 
     </LinearLayout>
@@ -75,8 +78,8 @@
 
         android:orientation="vertical">
 
-        <ListView
-            android:id="@+id/listViewMatricula"
+        <Spinner
+            android:id="@+id/listViewPlanos"
             android:layout_width="match_parent"
             android:layout_height="100dp" />
 
@@ -96,34 +99,20 @@
             android:orientation="horizontal">
 
 
-            <TextView
+            <EditText
                 android:id="@+id/diaVencimento"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:height="50dp"
-                android:text="@string/dia_de_vencimento"
+                android:hint="@string/dia_de_vencimento"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btnVencimento"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:height="50dp"
-                android:text="Selecionar data"
-                android:textAlignment="center"
-                android:onClick="novaData"/>
-
-        </LinearLayout>
 
 
 
@@ -184,7 +173,8 @@
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/salvarMatricula"/>
+            android:text="@string/salvarMatricula"
+            android:onClick="cadastrarMatricula"/>
     </LinearLayout>
 
 

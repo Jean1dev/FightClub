@@ -9,6 +9,7 @@ import database.model.AlunoModel;
 import database.model.DAO.AbstractDao;
 import database.model.DAO.DBOpenHelper;
 import database.model.DAO.GenericDAO;
+import database.model.Usuario;
 
 public class AlunoPersistence extends GenericDAO<AlunoModel> {
 
@@ -16,45 +17,14 @@ public class AlunoPersistence extends GenericDAO<AlunoModel> {
         super(context, AlunoModel.class);
 
 }
-/*public class AlunoPersistence extends AbstractDao {
-
-    private Context _context;
-    private String[] colunas = new String[]{
-            AlunoModel.COLUNA_ID,
-            AlunoModel.TABELA_NOME,
-            AlunoModel.COLUNA_EMAIL,
-            AlunoModel.COLUNA_CELULAR,
-            AlunoModel.COLUNA_CEP,
-            AlunoModel.COLUNA_COMPLEMENTO,
-            AlunoModel.COLUNA_NUMERO,
-            AlunoModel.COLUNA_OBSERVACAO,
-            AlunoModel.COLUNA_SEXO,
-            AlunoModel.COLUNA_TELEFONE
-    };
-
-    public AlunoPersistence(Context _context) {
-        this._context = _context;
-        this.__db = new DBOpenHelper(this._context);
-    }*/
-
-    //@Override
-    public long insert() {
-        return 0;
-    }
-
-   // @Override
-    public long delete() {
-        return 0;
-    }
-
-    //@Override
-    public long update() {
-        return 0;
-    }
-
-    //@Override
-    public List<AlunoModel> select() {
-
-        return null;
+    public List<AlunoModel> whereID(int id) {
+        List<AlunoModel> results = null;
+        try {
+            results = dao.queryBuilder().where().eq("codigo", id).query();
+        } catch (Exception e) {
+            System.out.println("Exception ");
+            return null;
+        }
+        return results;
     }
 }
