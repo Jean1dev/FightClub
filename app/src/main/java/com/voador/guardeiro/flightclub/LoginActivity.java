@@ -2,17 +2,17 @@ package com.voador.guardeiro.flightclub;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import java.util.List;
+import android.widget.Toast;
 
 import database.model.Persistence.UsuarioPersistence;
-import database.model.Usuario;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -51,14 +51,22 @@ public class LoginActivity extends AppCompatActivity {
     private void handleLogin() {
         email = emailInput.getText().toString();
         senha = senhaInput.getText().toString();
-        boolean opa = login();
-        System.out.println(opa);
+        if(login()){
+            registarLogin();
+            irParaCadastro();
+        }
+
+        Toast.makeText(this, "teste", Toast.LENGTH_SHORT).show();
     }
 
-    public void irParaCadastro(View v) {
+    public void irParaCadastro() {
         TextView tv = (TextView) findViewById(R.id.link_signup);
         startActivity(new Intent(this, RegistrationActivity.class));
 
+    }
+
+    public void registarLogin() {
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("login", true);
     }
 
 }

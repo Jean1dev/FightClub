@@ -1,15 +1,14 @@
 package com.voador.guardeiro.flightclub;
 
 import android.content.Intent;
-import android.media.Image;
-import android.os.Handler;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import testes.UnitTests;
 
 public class SplashArt extends AppCompatActivity {
 
@@ -31,7 +30,12 @@ public class SplashArt extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                startActivity(new Intent(SplashArt.this, LoginActivity.class));
+                if(!primeiraVezQueUsaOapp()){
+                    startActivity(new Intent(SplashArt.this, LoginActivity.class));
+                }else{
+                    startActivity(new Intent(SplashArt.this, MainActivity.class));
+                }
+
             }
 
             @Override
@@ -42,5 +46,9 @@ public class SplashArt extends AppCompatActivity {
 
         splash.startAnimation(animation);
 
+    }
+
+    protected boolean primeiraVezQueUsaOapp() {
+        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("login", false);
     }
 }
