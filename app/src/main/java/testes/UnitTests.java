@@ -2,10 +2,10 @@ package testes;
 
 import android.content.Context;
 
-import java.util.List;
+import com.voador.guardeiro.flightclub.infrastructure.repositories.UsuarioRepository;
+import com.voador.guardeiro.flightclub.models.Usuario;
 
-import database.model.Persistence.UsuarioPersistence;
-import database.model.Usuario;
+import java.util.List;
 
 
 public class UnitTests {
@@ -17,7 +17,7 @@ public class UnitTests {
     }
 
     public boolean test_insert_usuario(){
-        UsuarioPersistence dao = new UsuarioPersistence(_context);
+        UsuarioRepository dao = new UsuarioRepository(_context);
         Usuario model =  new Usuario();
         model.setSobrenome("teste");
         model.setNome("oe");
@@ -28,7 +28,7 @@ public class UnitTests {
     }
 
     public boolean test_getall_usuario(){
-        UsuarioPersistence dao = new UsuarioPersistence(_context);
+        UsuarioRepository dao = new UsuarioRepository(_context);
         final List<Usuario> all = dao.getAll();
         if(all != null){
             return true;

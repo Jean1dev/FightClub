@@ -12,22 +12,22 @@
         android:roundIcon="@drawable/fight_club"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".RegistrationActivity" />
-        <activity android:name=".AlunoActivity" />
-        <activity android:name=".TabletMainActivity" />
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.RegistrationActivity" />
+        <activity android:name=".activities.AlunoActivity" />
+        <activity android:name=".activities.TabletMainActivity" />
         <!--<activity android:name=".MatriculaActivity" />-->
         <activity
-            android:name=".ModalidadeActivity"
+            android:name=".activities.ModalidadeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".PlanosActivity"
+            android:name=".activities.PlanosActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".GraduacaoActivity"
+            android:name=".activities.GraduacaoActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".MatriculaActivity"
+            android:name=".activities.MatriculaActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
