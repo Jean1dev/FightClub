@@ -7,16 +7,16 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.voador.guardeiro.flightclub.R;
-import com.voador.guardeiro.flightclub.models.GraduacaoModel;
+import com.voador.guardeiro.flightclub.models.Graduacao;
 
 import java.util.List;
 
-public class GraduacaoListAdapter extends BaseAdapter {
+public class GraduacaoListViewAdapter extends BaseAdapter {
 
-    private final List<GraduacaoModel> graduacoes;
+    private final List<Graduacao> graduacoes;
     private final Activity act;
 
-    public GraduacaoListAdapter(List<GraduacaoModel> graduacoes, Activity act) {
+    public GraduacaoListViewAdapter(List<Graduacao> graduacoes, Activity act) {
         this.graduacoes = graduacoes;
         this.act = act;
     }
@@ -38,15 +38,14 @@ public class GraduacaoListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = act.getLayoutInflater().inflate(R.layout.custom_listview_graduacoes, parent, false);
-        GraduacaoModel graduacao = graduacoes.get(position);
+        View view = act.getLayoutInflater().inflate(R.layout.item_graduacao, parent, false);
+        Graduacao graduacao = graduacoes.get(position);
 
-        TextView nomeGraduacao = (TextView) view.findViewById(R.id.tituloGraduacao);
-        TextView nomeModalidade = (TextView) view.findViewById(R.id.tituloModalidade);
+        TextView nomeGraduacao = view.findViewById(R.id.tituloGraduacao);
+        TextView nomeModalidade = view.findViewById(R.id.tituloModalidade);
 
-
-        nomeGraduacao.setText(graduacao.getGraduacao());
-        nomeModalidade.setText(graduacao.getModalidadeModel());
+        nomeGraduacao.setText(graduacao.getDescricao());
+        nomeModalidade.setText(graduacao.getModalidade().getDescricao());
 
         return view;
     }

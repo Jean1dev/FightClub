@@ -7,9 +7,9 @@ import com.j256.ormlite.dao.DaoManager;
 
 import java.util.List;
 
-public abstract class AbstractDAO<E> extends DatabaseHelper {
+public abstract class AbstractDAO<E, ID> extends DatabaseHelper {
 
-    protected Dao<E, Integer> dao;
+    protected Dao<E, ID> dao;
     private Class<E> type;
 
     public AbstractDAO(Context context, Class<E> type) {
@@ -35,7 +35,7 @@ public abstract class AbstractDAO<E> extends DatabaseHelper {
         }
     }
 
-    public E getById(int id) {
+    public E getById(ID id) {
         try{
             return dao.queryForId(id);
         }catch(Exception e){

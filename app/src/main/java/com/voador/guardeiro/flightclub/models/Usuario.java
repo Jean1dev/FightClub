@@ -5,23 +5,23 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Entity(name="nome")
+@Entity(name = "usuarios")
 public class Usuario {
 
     @Id
     @GeneratedValue
-    protected int id;
+    protected Long id;
 
-    @Column(name="nome", nullable=false)
+    @Column(name = "nome", nullable = false)
     private String nome;
 
-    @Column(name="sobrenome", nullable=false)
+    @Column(name = "sobrenome", nullable = false)
     private String sobrenome;
 
-    @Column(name="email", nullable=false)
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name="senha", nullable=false)
+    @Column(name = "senha", nullable = false)
     private String senha;
 
     public Usuario() {
@@ -32,6 +32,22 @@ public class Usuario {
         this.sobrenome = sobrenome;
         this.email = email;
         this.senha = senha;
+    }
+
+    public Usuario(Long id, String nome, String sobrenome, String email, String senha) {
+        this.id = id;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.email = email;
+        this.senha = senha;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -68,7 +84,7 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "UsuarioModel{" +
+        return "Usuario{" +
                 "nome='" + nome + '\'' +
                 ", sobrenome='" + sobrenome + '\'' +
                 '}';

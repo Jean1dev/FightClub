@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -15,30 +14,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.voador.guardeiro.flightclub.R;
-import com.voador.guardeiro.flightclub.adapters.PlanoListAdapter;
+import com.voador.guardeiro.flightclub.adapters.ModalidadeSpinnerAdapter;
+import com.voador.guardeiro.flightclub.adapters.PlanoListViewAdapter;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.ModalidadeRepository;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.PlanoRepository;
-import com.voador.guardeiro.flightclub.models.ModalidadeModel;
-import com.voador.guardeiro.flightclub.models.PlanoModel;
+import com.voador.guardeiro.flightclub.models.Modalidade;
+import com.voador.guardeiro.flightclub.models.Plano;
 import com.voador.guardeiro.flightclub.utils.MoneyTextWatcher;
 
 import java.util.List;
 
-public class PlanosActivity extends AppCompatActivity {
+public class PlanoActivity extends AppCompatActivity {
 
+    AlertDialog dialog;
     private ListView listViewPlanos;
     private PlanoRepository planoRepository;
-    AlertDialog dialog;
     private String[] planos;
-    private List<PlanoModel> listaPlanoModel;
+    private List<Plano> listaPlanoModel;
     private EditText editTextPlanos;
     private EditText valor;
     private Spinner todasModalidades;
     private TextView titulo;
 
     private ModalidadeRepository modalidadeRepository;
-    private List<ModalidadeModel> listaModalidades;
-    private String[] modalidades;
+    private List<Modalidade> modalidades;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +53,14 @@ public class PlanosActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
-                final AlertDialog.Builder builderRemover = new AlertDialog.Builder(PlanosActivity.this);
+                final AlertDialog.Builder builderRemover = new AlertDialog.Builder(PlanoActivity.this);
                 builderRemover.setTitle("Remover Plano");
                 builderRemover.setMessage("Deseja remover o plano?");
 
                 builderRemover.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                         planoRepository.delete(listaPlanoModel.get(position));
-                        Toast.makeText(PlanosActivity.this, "Modalidade removida com sucesso", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PlanoActivity.this, "Modalidade removida com sucesso", Toast.LENGTH_SHORT).show();
                         atualizarPlanos();
                     }
                 });
@@ -82,24 +81,24 @@ public class PlanosActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                final PlanoModel plano = listaPlanoModel.get(position);
+                final Plano plano = listaPlanoModel.get(position);
 
-                final AlertDialog.Builder builder = new AlertDialog.Builder(PlanosActivity.this);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(PlanoActivity.this);
 
-                LayoutInflater inflater = PlanosActivity.this.getLayoutInflater();
+                LayoutInflater inflater = PlanoActivity.this.getLayoutInflater();
 
-                final View viewInf = inflater.inflate(R.layout.custom_dialog_planos, null);
+                final View viewInf = inflater.inflate(R.layout.dialog_adicionar_plano, null);
                 builder.setView(viewInf);
 
-                titulo = (TextView) viewInf.findViewById(R.id.dialogTitle);
-                editTextPlanos = (EditText) viewInf.findViewById(R.id.editTextCustom);
-                valor = (EditText) viewInf.findViewById(R.id.editTextValor);
-                todasModalidades = (Spinner) viewInf.findViewById(R.id.todasModalidades);
+                titulo = viewInf.findViewById(R.id.dialogTitle);
+                editTextPlanos = viewInf.findViewById(R.id.editTextCustom);
+                valor = viewInf.findViewById(R.id.editTextValor);
+                todasModalidades = viewInf.findViewById(R.id.todasModalidades);
                 valor.addTextChangedListener(new MoneyTextWatcher(valor));
 
                 titulo.setText("Atualizar planos");
 
-                editTextPlanos.setText(plano.getPlano());
+                editTextPlanos.setText(plano.getDescricao());
                 valor.setText(plano.getValor().toString());
                 getModalidades();
 
@@ -125,15 +124,15 @@ public class PlanosActivity extends AppCompatActivity {
             }
         });
 
-}
+    }
 
     public void novoPlano(View v) {
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(PlanosActivity.this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(PlanoActivity.this);
 
-        LayoutInflater inflater = PlanosActivity.this.getLayoutInflater();
+        LayoutInflater inflater = PlanoActivity.this.getLayoutInflater();
 
-        final View viewInf = inflater.inflate(R.layout.custom_dialog_planos, null);
+        final View viewInf = inflater.inflate(R.layout.dialog_adicionar_plano, null);
         builder.setView(viewInf);
 
 
@@ -169,21 +168,21 @@ public class PlanosActivity extends AppCompatActivity {
         planoRepository.insert(getPlano());
     }
 
-    public PlanoModel updatePlano(PlanoModel plano) {
-        plano.setModalidade(todasModalidades.getSelectedItem().toString());
-        plano.setPlano(editTextPlanos.getText().toString());
+    public Plano updatePlano(Plano plano) {
+        plano.setModalidade((Modalidade) todasModalidades.getSelectedItem());
+        plano.setDescricao(editTextPlanos.getText().toString());
         plano.setValor(Double.parseDouble(valor.getText().toString().replaceAll("[^\\d\\,]", "").replaceFirst("[,]", ".")));
         return plano;
     }
 
-    private PlanoModel getPlano() {
+    private Plano getPlano() {
         try {
-            final String plano = editTextPlanos.getText().toString();
-            final String modalidade = todasModalidades.getSelectedItem().toString();
+            final String descricao = editTextPlanos.getText().toString();
+            final Modalidade modalidade = (Modalidade) todasModalidades.getSelectedItem();
             final Double preco = Double.parseDouble(valor.getText().toString().replaceAll("[^\\d\\,]", "").replaceFirst("[,]", "."));
-            return new PlanoModel(modalidade, plano, preco);
-        } catch (Exception e){
-            Toast.makeText(PlanosActivity.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+            return new Plano(preco, descricao, modalidade);
+        } catch (Exception e) {
+            Toast.makeText(PlanoActivity.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
 
             return null;
         }
@@ -196,25 +195,20 @@ public class PlanosActivity extends AppCompatActivity {
             planos = new String[listaPlanoModel.size()];
 
             for (int i = 0; i < listaPlanoModel.size(); i++) {
-                planos[i] = listaPlanoModel.get(i).getPlano();
+                planos[i] = listaPlanoModel.get(i).getDescricao();
             }
 
-            PlanoListAdapter adapter = new PlanoListAdapter(listaPlanoModel, this);
+            PlanoListViewAdapter adapter = new PlanoListViewAdapter(listaPlanoModel, this);
 
             listViewPlanos.setAdapter(adapter);
         }
     }
 
     private void getModalidades() {
-        listaModalidades = modalidadeRepository.getAll();
-        if (listaModalidades != null) {
-            modalidades = new String[listaModalidades.size()];
+        modalidades = modalidadeRepository.getAll();
+        if (modalidades != null) {
 
-            for (int i = 0; i < listaModalidades.size(); i++) {
-                modalidades[i] = listaModalidades.get(i).getModalidade();
-            }
-
-            ArrayAdapter<String> array = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, modalidades);
+            ModalidadeSpinnerAdapter array = new ModalidadeSpinnerAdapter(this, android.R.layout.simple_spinner_item, modalidades);
             array.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             todasModalidades.setAdapter(array);
         }

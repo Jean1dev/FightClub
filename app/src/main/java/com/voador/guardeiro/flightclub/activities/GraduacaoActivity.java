@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -15,24 +14,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.voador.guardeiro.flightclub.R;
-import com.voador.guardeiro.flightclub.adapters.GraduacaoListAdapter;
+import com.voador.guardeiro.flightclub.adapters.GraduacaoListViewAdapter;
+import com.voador.guardeiro.flightclub.adapters.ModalidadeSpinnerAdapter;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.GraduacaoRepository;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.ModalidadeRepository;
-import com.voador.guardeiro.flightclub.models.GraduacaoModel;
-import com.voador.guardeiro.flightclub.models.ModalidadeModel;
+import com.voador.guardeiro.flightclub.models.Graduacao;
+import com.voador.guardeiro.flightclub.models.Modalidade;
 
 import java.util.List;
 
 
 public class GraduacaoActivity extends AppCompatActivity {
 
+    AlertDialog dialog;
     private ListView listViewGraduacoes;
     private EditText editTextGraduacoes;
-    AlertDialog dialog;
     private GraduacaoRepository graduacaoRepository;
     private ModalidadeRepository modalidadeRepository;
-    private List<GraduacaoModel> listaGraduacao;
-    private List<ModalidadeModel> listaModalidades;
+    private List<Graduacao> listaGraduacao;
+    private List<Modalidade> listaModalidades;
     private String[] graduacoes;
     private String[] modalidades;
     private Spinner todasModalidades;
@@ -88,13 +88,12 @@ public class GraduacaoActivity extends AppCompatActivity {
         LayoutInflater inflater = GraduacaoActivity.this.getLayoutInflater();
 
         // Faz a inflação do layout de configuração.
-        final View viewInf = inflater.inflate(R.layout.custom_dialog_graduacoes, null);
+        final View viewInf = inflater.inflate(R.layout.dialog_adicionar_graduacao, null);
         builder.setView(viewInf);
 
-
-        todasModalidades = (Spinner)viewInf.findViewById(R.id.todasModalidades);
-        editTextGraduacoes = (EditText)viewInf.findViewById(R.id.editTextCustom);
-        textViewModalidades = (TextView) viewInf.findViewById(R.id.textViewGraduacao);
+        todasModalidades = viewInf.findViewById(R.id.todasModalidades);
+        editTextGraduacoes = viewInf.findViewById(R.id.editTextCustom);
+        textViewModalidades = viewInf.findViewById(R.id.textViewGraduacao);
         getModalidades();
 
         builder
@@ -117,47 +116,42 @@ public class GraduacaoActivity extends AppCompatActivity {
         (dialog = builder.create()).show();
     }
 
-    private void atualizarGraduacoes(){
+    private void atualizarGraduacoes() {
         listaGraduacao = graduacaoRepository.getAll();
-        if(listaGraduacao != null) {
+        if (listaGraduacao != null) {
             graduacoes = new String[listaGraduacao.size()];
 
             for (int i = 0; i < listaGraduacao.size(); i++) {
-                graduacoes[i] = listaGraduacao.get(i).getGraduacao();
+                graduacoes[i] = listaGraduacao.get(i).getDescricao();
             }
 
 
-            GraduacaoListAdapter adapter = new GraduacaoListAdapter(listaGraduacao, this);
+            GraduacaoListViewAdapter adapter = new GraduacaoListViewAdapter(listaGraduacao, this);
             listViewGraduacoes.setAdapter(adapter);
         }
     }
 
-    private GraduacaoModel getGraduacao() {
+    private Graduacao getGraduacao() {
         try {
-            final String graduacao = editTextGraduacoes.getText().toString();
-            final String modalidade = todasModalidades.getSelectedItem().toString();
-            return new GraduacaoModel(graduacao, modalidade);
-        } catch (Exception e){
+            final String descricao = editTextGraduacoes.getText().toString();
+            final Modalidade modalidade = (Modalidade) todasModalidades.getSelectedItem();
+            return new Graduacao(descricao, modalidade);
+        } catch (Exception e) {
             Toast.makeText(GraduacaoActivity.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+            return null;
         }
 
-    return null;
     }
 
     private void cadastrarGraduacao() {
         graduacaoRepository.insert(getGraduacao());
     }
 
-    private void getModalidades(){
+    private void getModalidades() {
         listaModalidades = modalidadeRepository.getAll();
-        if(listaModalidades != null) {
-            modalidades = new String[listaModalidades.size()];
+        if (listaModalidades != null) {
 
-            for (int i = 0; i < listaModalidades.size(); i++) {
-                modalidades[i] = listaModalidades.get(i).getModalidade();
-            }
-
-            ArrayAdapter<String> array = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, modalidades);
+            ModalidadeSpinnerAdapter array = new ModalidadeSpinnerAdapter(this, android.R.layout.simple_spinner_item, listaModalidades);
             array.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             todasModalidades.setAdapter(array);
         }

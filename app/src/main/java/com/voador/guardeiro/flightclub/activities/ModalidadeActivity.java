@@ -7,14 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.voador.guardeiro.flightclub.R;
+import com.voador.guardeiro.flightclub.adapters.ModalidadeSpinnerAdapter;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.ModalidadeRepository;
-import com.voador.guardeiro.flightclub.models.ModalidadeModel;
+import com.voador.guardeiro.flightclub.models.Modalidade;
 
 import java.util.List;
 
@@ -24,8 +24,7 @@ public class ModalidadeActivity extends AppCompatActivity {
     private EditText editTextModalidade;
     AlertDialog dialog;
     private ModalidadeRepository modalidadeRepository;
-    private String[] modalidades;
-    private List<ModalidadeModel> m;
+    private List<Modalidade> modalidades;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +46,7 @@ public class ModalidadeActivity extends AppCompatActivity {
 
                 builderRemover.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
-                        modalidadeRepository.delete(m.get(position));
+                        modalidadeRepository.delete(modalidades.get(position));
                         Toast.makeText(ModalidadeActivity.this, "Modalidade removida com sucesso", Toast.LENGTH_SHORT).show();
                         atualizarModalidade();
                     }
@@ -75,7 +74,7 @@ public class ModalidadeActivity extends AppCompatActivity {
         LayoutInflater inflater = ModalidadeActivity.this.getLayoutInflater();
 
         // Faz a inflação do layout de configuração.
-        final View viewInf = inflater.inflate(R.layout.custom_dialog_modalidades, null);
+        final View viewInf = inflater.inflate(R.layout.dialog_adicionar_modalidade, null);
         builder.setView(viewInf);
 
 
@@ -106,22 +105,15 @@ public class ModalidadeActivity extends AppCompatActivity {
         modalidadeRepository.insert(getModalidade());
     }
 
-    private ModalidadeModel getModalidade() {
+    private Modalidade getModalidade() {
         final String modalidade = editTextModalidade.getText().toString();
-        return new ModalidadeModel(modalidade);
+        return new Modalidade(modalidade);
     }
 
     private void atualizarModalidade() {
-        m = modalidadeRepository.getAll();
-        if (m != null) {
-            modalidades = new String[m.size()];
-
-            for (int i = 0; i < m.size(); i++) {
-                modalidades[i] = m.get(i).getModalidade();
-            }
-
-            ArrayAdapter<String> array = new ArrayAdapter<String>(ModalidadeActivity.this, android.R.layout.simple_list_item_1, modalidades);
-            listaModalidades.setAdapter(array);
+        modalidades = modalidadeRepository.getAll();
+        if (modalidades != null) {
+            listaModalidades.setAdapter(new ModalidadeSpinnerAdapter(ModalidadeActivity.this, android.R.layout.simple_list_item_1, modalidades));
         }
     }
 

@@ -7,16 +7,16 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.voador.guardeiro.flightclub.R;
-import com.voador.guardeiro.flightclub.models.PlanoModel;
+import com.voador.guardeiro.flightclub.models.Plano;
 
 import java.util.List;
 
-public class PlanoListAdapter extends BaseAdapter {
+public class PlanoListViewAdapter extends BaseAdapter {
 
-    private final List<PlanoModel> planos;
+    private final List<Plano> planos;
     private final Activity act;
 
-    public PlanoListAdapter(List<PlanoModel> planos, Activity act) {
+    public PlanoListViewAdapter(List<Plano> planos, Activity act) {
         this.planos = planos;
         this.act = act;
     }
@@ -38,8 +38,8 @@ public class PlanoListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = act.getLayoutInflater().inflate(R.layout.custom_listview_planos, parent, false);
-        PlanoModel planoModel = planos.get(position);
+        View view = act.getLayoutInflater().inflate(R.layout.item_plano, parent, false);
+        Plano planoModel = planos.get(position);
 
 
         TextView plano = view.findViewById(R.id.tituloPlano);
@@ -47,8 +47,8 @@ public class PlanoListAdapter extends BaseAdapter {
         TextView valor = view.findViewById(R.id.tituloValor);
 
 
-        plano.setText(planoModel.getPlano());
-        modalidade.setText(planoModel.getModalidade());
+        plano.setText(planoModel.getDescricao());
+        modalidade.setText(planoModel.getModalidade().getDescricao());
         valor.setText(planoModel.getValor().toString());
 
         return view;

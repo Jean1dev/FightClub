@@ -3,29 +3,22 @@ package com.voador.guardeiro.flightclub.infrastructure.repositories;
 import android.content.Context;
 
 import com.voador.guardeiro.flightclub.infrastructure.database.AbstractDAO;
-import com.voador.guardeiro.flightclub.models.PlanoModel;
+import com.voador.guardeiro.flightclub.models.Plano;
 
 import java.util.List;
 
-public class PlanoRepository extends AbstractDAO<PlanoModel> {
+public class PlanoRepository extends AbstractDAO<Plano, Long> {
 
     public PlanoRepository(Context context) {
-        super(context, PlanoModel.class);
+        super(context, Plano.class);
     }
 
-    public List<PlanoModel> whereName(String usuario) {
-        List<PlanoModel> results = null;
+    public List<Plano> whereName(String usuario) {
         try {
-            //dao.query((PreparedQuery<Usuario>) dao.queryBuilder().where().eq("email", usuario).query());
-            //dao.query((ArrayList<Usuario>) dao.queryBuilder().where().eq("email", usuario).query());
-            results = dao.queryBuilder().where().eq("email", usuario).query();
-            /*QueryBuilder<Usuario, String> query = dao.queryBuilder();
-            Where where = query.where();
-            where.eq("email", "iurypiva@gmail.com");*/
+            return dao.queryBuilder().where().eq("email", usuario).query();
         } catch (Exception e) {
-            System.out.println("Exception ");
+            e.printStackTrace();
             return null;
         }
-        return results;
     }
 }

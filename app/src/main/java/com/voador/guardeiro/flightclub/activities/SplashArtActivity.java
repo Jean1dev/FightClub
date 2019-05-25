@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import com.voador.guardeiro.flightclub.R;
 
-public class SplashArt extends AppCompatActivity {
+public class SplashArtActivity extends AppCompatActivity {
 
     private ImageView splash;
     private Animation animation;
@@ -29,7 +29,7 @@ public class SplashArt extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                startActivity(new Intent(SplashArt.this, LoginActivity.class));
+                startActivity(new Intent(SplashArtActivity.this, LoginActivity.class));
             }
 
             @Override

@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.voador.guardeiro.flightclub.R;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.AlunoRepository;
-import com.voador.guardeiro.flightclub.models.AlunoModel;
+import com.voador.guardeiro.flightclub.models.Aluno;
 
 public class AlunoActivity extends AppCompatActivity {
     private static final String[] SEXO_OPTIONS = {"M", "F"};
@@ -73,9 +73,9 @@ public class AlunoActivity extends AppCompatActivity {
         }
     }
 
-    private AlunoModel criarAluno() {
-        final AlunoModel aluno = new AlunoModel();
-        aluno.setAluno(editTextNome.getText().toString());
+    private Aluno criarAluno() {
+        final Aluno aluno = new Aluno();
+        aluno.setNome(editTextNome.getText().toString());
         aluno.setBairro(editTextBairro.getText().toString());
         aluno.setCelular(editTextCelular.getText().toString());
         aluno.setCep(editTextCep.getText().toString());

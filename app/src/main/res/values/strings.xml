@@ -6,7 +6,7 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string name="codigo">CODIGO</string>
+    <string name="id">CODIGO</string>
     <string name="nome">Nome</string>
     <string name="buscarAluno">BUSCAR</string>
     <string name="codigoDoAluno">Código do Aluno</string>

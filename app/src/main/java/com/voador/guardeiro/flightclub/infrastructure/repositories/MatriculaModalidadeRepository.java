@@ -3,11 +3,11 @@ package com.voador.guardeiro.flightclub.infrastructure.repositories;
 import android.content.Context;
 
 import com.voador.guardeiro.flightclub.infrastructure.database.AbstractDAO;
-import com.voador.guardeiro.flightclub.models.MatriculaModalidadeModel;
+import com.voador.guardeiro.flightclub.models.MatriculaModalidade;
 
-public class MatriculaModalidadeRepository extends AbstractDAO<MatriculaModalidadeModel> {
+public class MatriculaModalidadeRepository extends AbstractDAO<MatriculaModalidade, Long> {
 
     public MatriculaModalidadeRepository(Context context) {
-        super(context, MatriculaModalidadeModel.class);
+        super(context, MatriculaModalidade.class);
     }
 }

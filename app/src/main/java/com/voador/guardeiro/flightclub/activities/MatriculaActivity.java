@@ -4,7 +4,6 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -12,12 +11,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.voador.guardeiro.flightclub.R;
+import com.voador.guardeiro.flightclub.adapters.PlanoSpinnerAdapter;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.AlunoRepository;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.MatriculaModalidadeRepository;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.PlanoRepository;
-import com.voador.guardeiro.flightclub.models.AlunoModel;
-import com.voador.guardeiro.flightclub.models.MatriculaModalidadeModel;
-import com.voador.guardeiro.flightclub.models.PlanoModel;
+import com.voador.guardeiro.flightclub.models.Aluno;
+import com.voador.guardeiro.flightclub.models.MatriculaModalidade;
+import com.voador.guardeiro.flightclub.models.Modalidade;
+import com.voador.guardeiro.flightclub.models.Plano;
 import com.voador.guardeiro.flightclub.utils.CustomDatePicker;
 
 import java.text.DateFormat;
@@ -28,26 +29,24 @@ import java.util.List;
 
 public class MatriculaActivity extends AppCompatActivity {
 
-    private Spinner listViewPlanos;
+    private Spinner spinnerPlanos;
     private Button btnSalvar;
     private TextView txtDiaInicio;
     private EditText txtDiaVenc;
     private EditText editTextCodigoAluno;
     private TextView txtNomeAluno;
-    private AlunoModel aluno;
+    private Aluno aluno;
     private MatriculaModalidadeRepository matriculaModalidadeRepository;
     private PlanoRepository planoRepository;
-    private List<PlanoModel> listaPlanos;
-    private String[] planos;
-    private String diaVencimento;
+    private List<Plano> planos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activit_matricula);
+        setContentView(R.layout.activity_matricula);
 
-        listViewPlanos = findViewById(R.id.listViewPlanos);
+        spinnerPlanos = findViewById(R.id.listViewPlanos);
         btnSalvar = findViewById(R.id.btnSalvarMatricula);
         txtDiaInicio = findViewById(R.id.dataInicio);
         txtDiaVenc = findViewById(R.id.diaVencimento);
@@ -57,10 +56,10 @@ public class MatriculaActivity extends AppCompatActivity {
         matriculaModalidadeRepository = new MatriculaModalidadeRepository(getBaseContext());
         planoRepository = new PlanoRepository(getBaseContext());
         final AlunoRepository alunoRepository = new AlunoRepository(getBaseContext());
-        AlunoModel a = new AlunoModel(1, "Derick", "Souza", "derick-sM@hotmail.com", "12345", "Souza", "Souza", "Souza", "Souza", "Souza", "Souza");
+        Aluno a = new Aluno(1L, "Derick", "Souza", "derick-sM@hotmail.com", "12345", "Souza", "Souza", "Souza", "Souza", "Souza", "Souza");
         alunoRepository.insert(a);
 
-        PlanoModel p = new PlanoModel("treta", "cu", 1.0);
+        Plano p = new Plano(1.0, "cu", new Modalidade("treta"));
 
         planoRepository.insert(p);
 
@@ -75,51 +74,39 @@ public class MatriculaActivity extends AppCompatActivity {
     }
 
     public void buscarCodigoAluno(View view) {
-        int codigo = Integer.parseInt(editTextCodigoAluno.getText().toString());
+        Long codigo = Long.parseLong(editTextCodigoAluno.getText().toString());
         aluno = buscaUsuario(codigo);
-        txtNomeAluno.setText(aluno.getAluno());
+        txtNomeAluno.setText(aluno.getNome());
 
     }
 
-    public AlunoModel buscaUsuario(int codigo) {
-        List<AlunoModel> user = new AlunoRepository(getApplicationContext()).whereID(codigo);
-        if (user != null) {
-            return user.get(0);
-        }
-
-        return null;
+    public Aluno buscaUsuario(Long codigo) {
+        return new AlunoRepository(getApplicationContext()).getById(codigo);
     }
 
     private void getPlanos() {
-        listaPlanos = planoRepository.getAll();
-        if (listaPlanos != null) {
-            planos = new String[listaPlanos.size()];
+        planos = planoRepository.getAll();
+        if (planos != null) {
 
-            for (int i = 0; i < listaPlanos.size(); i++) {
-                planos[i] = listaPlanos.get(i).getPlano();
-            }
-
-            ArrayAdapter<String> array = new ArrayAdapter<String>(MatriculaActivity.this, android.R.layout.simple_spinner_item, planos);
+            PlanoSpinnerAdapter array = new PlanoSpinnerAdapter(MatriculaActivity.this, android.R.layout.simple_spinner_item, planos);
             array.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            listViewPlanos.setAdapter(array);
+            spinnerPlanos.setAdapter(array);
 
         }
     }
 
     public void cadastrarMatricula(View view) {
 
-        MatriculaModalidadeModel matricula = null;
-        Date data = new Date();
+        MatriculaModalidade matricula = null;
 
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date diaVenc = null;
-        Date diaInicio = null;
+        Date diaVenc;
+        Date diaInicio;
 
         try {
-            diaVenc = (Date)formatter.parse(txtDiaVenc.getText().toString());
-            diaInicio = (Date)formatter.parse(txtDiaInicio.getText().toString());
-        }
-        catch (Exception ex ) {
+            diaVenc = formatter.parse(txtDiaVenc.getText().toString());
+            diaInicio = formatter.parse(txtDiaInicio.getText().toString());
+        } catch (Exception ex) {
             diaVenc = new Date();
             diaInicio = new Date();
         }
@@ -128,23 +115,21 @@ public class MatriculaActivity extends AppCompatActivity {
         cal.setTime(diaVenc);
         cal.add(Calendar.MONTH, 1);
 
-        try{
-            matricula =
-                    new MatriculaModalidadeModel(
-                            aluno.getCodigo(),
-                            listViewPlanos.getSelectedItem().toString(),
-                            diaInicio,
-                            cal.getTime(),
-                            new Date(),
-                            Integer.parseInt(txtDiaVenc.getText().toString()),
-                            txtNomeAluno.getText().toString()
-                    );
+        final Plano plano = (Plano) spinnerPlanos.getSelectedItem();
 
+        try {
+            matricula =
+                    new MatriculaModalidade(
+                            aluno,
+                            plano,
+                            diaInicio,
+                            diaVenc
+                    );
 
             matriculaModalidadeRepository.insert(matricula);
             Toast.makeText(MatriculaActivity.this, "Matrícula cadastrada com sucesso", Toast.LENGTH_SHORT).show();
 
-        } catch(Exception e ){
+        } catch (Exception e) {
             Toast.makeText(MatriculaActivity.this, "Preencha tudo ai seu merda", Toast.LENGTH_SHORT).show();
 
         }

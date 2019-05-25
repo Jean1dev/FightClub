@@ -21,7 +21,7 @@
             android:name=".activities.ModalidadeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.PlanosActivity"
+            android:name=".activities.PlanoActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.GraduacaoActivity"

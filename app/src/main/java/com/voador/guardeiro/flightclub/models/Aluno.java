@@ -5,15 +5,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Entity(name = "aluno")
-public class AlunoModel {
+@Entity(name = "alunos")
+public class Aluno {
 
     @Id
     @GeneratedValue
-    private int codigo;
+    private Long id;
 
-    @Column(name = "aluno", nullable = false)
-    private String aluno;
+    @Column(name = "nome", nullable = false)
+    private String nome;
 
     @Column(name = "sexo", nullable = false)
     private String sexo;
@@ -42,22 +42,23 @@ public class AlunoModel {
     @Column(name = "cep", nullable = false)
     private String cep;
 
-    public AlunoModel() {
+    public Aluno() {
     }
 
-    public AlunoModel(int codigo,
-                      String aluno,
-                      String sexo,
-                      String telefone,
-                      String celular,
-                      String email,
-                      String observacao,
-                      String numero,
-                      String complemento,
-                      String bairro,
-                      String cep) {
-        this.codigo = codigo;
-        this.aluno = aluno;
+    public Aluno(Long id,
+                 String nome,
+                 String sexo,
+                 String telefone,
+                 String celular,
+                 String email,
+                 String observacao,
+                 String numero,
+                 String complemento,
+                 String bairro,
+                 String cep) {
+
+        this.id = id;
+        this.nome = nome;
         this.sexo = sexo;
         this.telefone = telefone;
         this.celular = celular;
@@ -69,20 +70,16 @@ public class AlunoModel {
         this.cep = cep;
     }
 
-    public int getCodigo() {
-        return codigo;
+    public Long getId() {
+        return id;
     }
 
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
+    public String getNome() {
+        return nome;
     }
 
-    public String getAluno() {
-        return aluno;
-    }
-
-    public void setAluno(String aluno) {
-        this.aluno = aluno;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getSexo() {
@@ -159,9 +156,9 @@ public class AlunoModel {
 
     @Override
     public String toString() {
-        return "AlunoModel{" +
-                "codigo=" + codigo +
-                ", aluno='" + aluno + '\'' +
+        return "Aluno{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
                 ", sexo='" + sexo + '\'' +
                 ", telefone='" + telefone + '\'' +
                 ", celular='" + celular + '\'' +
