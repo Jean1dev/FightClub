@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.voador.guardeiro.flightclub.R;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.UsuarioRepository;
@@ -38,8 +39,14 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void cadastrarUsuario() {
-        final UsuarioRepository usuarioRepository = new UsuarioRepository(getBaseContext());
-        usuarioRepository.insert(criarUsuario());
+        try {
+            final UsuarioRepository usuarioRepository = new UsuarioRepository(getBaseContext());
+            usuarioRepository.insert(criarUsuario());
+            Toast.makeText(RegistrationActivity.this, "Usuário registrado com sucesso", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(RegistrationActivity.this, "Ocorreu um erro ao registrar o usuário", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private Usuario criarUsuario() {
