@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Matrículas"
+        android:gravity="center"
+        android:textSize="20dp"/>
+
+    <ListView
+        android:id="@+id/listMatriculas"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="20dp"/>
+
+    <!--<Button-->
+        <!--android:id="@+id/btnMenu"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="20dp"-->
+        <!--android:background="@color/colorPrimary"-->
+        <!--android:text="Menu"-->
+        <!--android:textColor="@color/colorWhite"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--/>-->
+</RelativeLayout >

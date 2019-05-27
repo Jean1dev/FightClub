@@ -1,5 +1,6 @@
 package com.voador.guardeiro.flightclub.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -43,6 +44,8 @@ public class RegistrationActivity extends AppCompatActivity {
             final UsuarioRepository usuarioRepository = new UsuarioRepository(getBaseContext());
             usuarioRepository.insert(criarUsuario());
             Toast.makeText(RegistrationActivity.this, "Usuário registrado com sucesso", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
+            finish();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(RegistrationActivity.this, "Ocorreu um erro ao registrar o usuário", Toast.LENGTH_SHORT).show();

@@ -17,7 +17,7 @@ import java.sql.SQLException;
 
 public abstract class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
-    private static final int BANCO_VERSAO = 9;
+    private static final int BANCO_VERSAO = 21;
 
     public DatabaseHelper(Context context) {
         super(context, "fight_club", null, BANCO_VERSAO);

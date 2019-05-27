@@ -52,10 +52,12 @@ public class LoginActivity extends AppCompatActivity {
         senha = senhaInput.getText().toString();
         if (login()) {
             registrarLogin();
-            irParaCadastro();
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        } else {
+            Toast.makeText(this, "E-mail ou senha inválidos", Toast.LENGTH_LONG).show();
         }
 
-        Toast.makeText(this, "teste", Toast.LENGTH_SHORT).show();
     }
 
     public void onClickRegistrarUsuario(View view) {

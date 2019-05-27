@@ -55,13 +55,13 @@ public class MatriculaActivity extends AppCompatActivity {
 
         matriculaModalidadeRepository = new MatriculaModalidadeRepository(getBaseContext());
         planoRepository = new PlanoRepository(getBaseContext());
-        final AlunoRepository alunoRepository = new AlunoRepository(getBaseContext());
-        Aluno a = new Aluno(1L, "Derick", "Souza", "derick-sM@hotmail.com", "12345", "Souza", "Souza", "Souza", "Souza", "Souza", "Souza");
-        alunoRepository.insert(a);
-
-        Plano p = new Plano(1.0, "cu", new Modalidade("treta"));
-
-        planoRepository.insert(p);
+//        final AlunoRepository alunoRepository = new AlunoRepository(getBaseContext());
+//        Aluno a = new Aluno(1L, "Derick", "Souza", "derick-sM@hotmail.com", "12345", "Souza", "Souza", "Souza", "Souza", "Souza", "Souza");
+//        alunoRepository.insert(a);
+//
+//        Plano p = new Plano(1.0, "cu", new Modalidade("treta"));
+//
+//        planoRepository.insert(p);
 
         getPlanos();
 
@@ -75,8 +75,12 @@ public class MatriculaActivity extends AppCompatActivity {
 
     public void buscarCodigoAluno(View view) {
         Long codigo = Long.parseLong(editTextCodigoAluno.getText().toString());
-        aluno = buscaUsuario(codigo);
-        txtNomeAluno.setText(aluno.getNome());
+        try {
+            aluno = buscaUsuario(codigo);
+            txtNomeAluno.setText(aluno.getNome());
+        } catch (Exception e){
+            Toast.makeText(MatriculaActivity.this, "Não foi possível encontrar o código informado", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

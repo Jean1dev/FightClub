@@ -11,25 +11,22 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/fight_club"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".activities.LoginActivity" />
+        android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".activities.LoginActivity"
+            android:noHistory="true"/>
         <activity android:name=".activities.RegistrationActivity" />
         <activity android:name=".activities.AlunoActivity" />
         <activity android:name=".activities.TabletMainActivity" />
         <activity android:name=".activities.MatriculaActivity" />
         <activity android:name=".activities.MainActivity" />
         <activity
-            android:name=".activities.ModalidadeActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".activities.ModalidadeActivity" />
         <activity
-            android:name=".activities.PlanoActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".activities.PlanoActivity"/>
         <activity
-            android:name=".activities.GraduacaoActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".activities.GraduacaoActivity" />
         <activity
-            android:name=".activities.SplashArtActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".activities.SplashArtActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

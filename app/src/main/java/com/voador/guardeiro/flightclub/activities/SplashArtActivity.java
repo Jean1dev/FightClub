@@ -33,8 +33,10 @@ public class SplashArtActivity extends AppCompatActivity {
                 startActivity(new Intent(SplashArtActivity.this, LoginActivity.class));
                 if (!primeiraVezQueUsaOapp()) {
                     startActivity(new Intent(SplashArtActivity.this, LoginActivity.class));
+                    finish();
                 } else {
                     startActivity(new Intent(SplashArtActivity.this, MainActivity.class));
+                    finish();
                 }
 
             }

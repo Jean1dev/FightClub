@@ -10,7 +10,7 @@
     <string name="nome">Nome</string>
     <string name="buscarAluno">BUSCAR</string>
     <string name="codigoDoAluno">Código do Aluno</string>
-    <string name="dia_de_vencimento">Data de vencimento</string>
+    <string name="dia_de_vencimento">Dia de vencimento</string>
     <string name="dia">Dia</string>
     <string name="title_activity_alunos">AlunosActivity</string>
     <string name="salvarMatricula">SALVAR MATRICULA</string>
