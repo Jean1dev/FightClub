@@ -3,13 +3,11 @@ package com.voador.guardeiro.flightclub.activities;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.voador.guardeiro.flightclub.R;
 import com.voador.guardeiro.flightclub.adapters.ModalidadeSpinnerAdapter;
@@ -18,11 +16,11 @@ import com.voador.guardeiro.flightclub.models.Modalidade;
 
 import java.util.List;
 
-public class ModalidadeActivity extends AppCompatActivity {
+public class ModalidadeActivity extends BaseActivity {
 
+    AlertDialog dialog;
     private ListView listaModalidades;
     private EditText editTextModalidade;
-    AlertDialog dialog;
     private ModalidadeRepository modalidadeRepository;
     private List<Modalidade> modalidades;
 
@@ -47,7 +45,7 @@ public class ModalidadeActivity extends AppCompatActivity {
                 builderRemover.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                         modalidadeRepository.delete(modalidades.get(position));
-                        Toast.makeText(ModalidadeActivity.this, "Modalidade removida com sucesso", Toast.LENGTH_SHORT).show();
+                        showToast("Modalidade removida com sucesso");
                         atualizarModalidade();
                     }
                 });

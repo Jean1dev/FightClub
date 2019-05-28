@@ -3,7 +3,6 @@ package com.voador.guardeiro.flightclub.activities;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,7 +23,7 @@ import com.voador.guardeiro.flightclub.utils.MoneyTextWatcher;
 
 import java.util.List;
 
-public class PlanoActivity extends AppCompatActivity {
+public class PlanoActivity extends BaseActivity {
 
     AlertDialog dialog;
     private ListView listViewPlanos;
@@ -60,7 +59,7 @@ public class PlanoActivity extends AppCompatActivity {
                 builderRemover.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                         planoRepository.delete(listaPlanoModel.get(position));
-                        Toast.makeText(PlanoActivity.this, "Modalidade removida com sucesso", Toast.LENGTH_SHORT).show();
+                        showToast("Modalidade removida com sucesso");
                         atualizarPlanos();
                     }
                 });

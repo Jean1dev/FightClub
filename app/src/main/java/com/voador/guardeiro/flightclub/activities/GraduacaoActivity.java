@@ -3,7 +3,6 @@ package com.voador.guardeiro.flightclub.activities;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,7 +10,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.voador.guardeiro.flightclub.R;
 import com.voador.guardeiro.flightclub.adapters.GraduacaoListViewAdapter;
@@ -24,7 +22,7 @@ import com.voador.guardeiro.flightclub.models.Modalidade;
 import java.util.List;
 
 
-public class GraduacaoActivity extends AppCompatActivity {
+public class GraduacaoActivity extends BaseActivity {
 
     AlertDialog dialog;
     private ListView listViewGraduacoes;
@@ -61,7 +59,8 @@ public class GraduacaoActivity extends AppCompatActivity {
                 builderRemover.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                         graduacaoRepository.delete(listaGraduacao.get(position));
-                        Toast.makeText(GraduacaoActivity.this, "Graduacão removida com sucesso", Toast.LENGTH_SHORT).show();
+                        showToast("Graduacão removida com sucesso");
+                        ;
                         atualizarGraduacoes();
                     }
                 });
@@ -137,7 +136,7 @@ public class GraduacaoActivity extends AppCompatActivity {
             final Modalidade modalidade = (Modalidade) todasModalidades.getSelectedItem();
             return new Graduacao(descricao, modalidade);
         } catch (Exception e) {
-            Toast.makeText(GraduacaoActivity.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+            showToast("Preencha todos os campos");
             return null;
         }
 

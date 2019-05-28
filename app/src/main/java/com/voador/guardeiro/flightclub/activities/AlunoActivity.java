@@ -1,19 +1,17 @@
 package com.voador.guardeiro.flightclub.activities;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.voador.guardeiro.flightclub.R;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.AlunoRepository;
 import com.voador.guardeiro.flightclub.models.Aluno;
 
-public class AlunoActivity extends AppCompatActivity {
+public class AlunoActivity extends BaseActivity {
     private static final String[] SEXO_OPTIONS = {"M", "F"};
 
     private EditText editTextNome;
@@ -67,9 +65,9 @@ public class AlunoActivity extends AppCompatActivity {
         final AlunoRepository alunoRepository = new AlunoRepository(getBaseContext());
         try {
             alunoRepository.insert(criarAluno());
-            Toast.makeText(AlunoActivity.this, "Aluno cadastrado com sucesso", Toast.LENGTH_SHORT).show();
+            showToast("Aluno cadastrado com sucesso");
         } catch (Exception e) {
-            Toast.makeText(AlunoActivity.this, "Ocorreu um erro ao salvar o aluno", Toast.LENGTH_SHORT).show();
+            showToast("Ocorreu um erro ao salvar o aluno");
         }
     }
 

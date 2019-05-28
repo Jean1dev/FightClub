@@ -1,18 +1,15 @@
 package com.voador.guardeiro.flightclub.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.voador.guardeiro.flightclub.R;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.UsuarioRepository;
 import com.voador.guardeiro.flightclub.models.Usuario;
 
-public class RegistrationActivity extends AppCompatActivity {
+public class RegistrationActivity extends BaseActivity {
 
     private EditText editTextNome;
     private EditText editTextSobrenome;
@@ -43,12 +40,12 @@ public class RegistrationActivity extends AppCompatActivity {
         try {
             final UsuarioRepository usuarioRepository = new UsuarioRepository(getBaseContext());
             usuarioRepository.insert(criarUsuario());
-            Toast.makeText(RegistrationActivity.this, "Usuário registrado com sucesso", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
+            showToast("Usuário registrado com sucesso");
+            goTo(LoginActivity.class);
             finish();
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(RegistrationActivity.this, "Ocorreu um erro ao registrar o usuário", Toast.LENGTH_SHORT).show();
+            showToast("Ocorreu um erro ao registrar o usuário");
         }
     }
 

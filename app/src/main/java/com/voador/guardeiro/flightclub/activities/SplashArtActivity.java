@@ -3,14 +3,13 @@ package com.voador.guardeiro.flightclub.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.voador.guardeiro.flightclub.R;
 
-public class SplashArtActivity extends AppCompatActivity {
+public class SplashArtActivity extends BaseActivity {
 
     private ImageView splash;
     private Animation animation;
@@ -32,10 +31,10 @@ public class SplashArtActivity extends AppCompatActivity {
             public void onAnimationEnd(Animation animation) {
                 startActivity(new Intent(SplashArtActivity.this, LoginActivity.class));
                 if (!primeiraVezQueUsaOapp()) {
-                    startActivity(new Intent(SplashArtActivity.this, LoginActivity.class));
+                    goTo(LoginActivity.class);
                     finish();
                 } else {
-                    startActivity(new Intent(SplashArtActivity.this, MainActivity.class));
+                    goTo(MainActivity.class);
                     finish();
                 }
 

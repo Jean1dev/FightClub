@@ -2,7 +2,6 @@ package com.voador.guardeiro.flightclub.activities;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +16,6 @@ import com.voador.guardeiro.flightclub.infrastructure.repositories.MatriculaModa
 import com.voador.guardeiro.flightclub.infrastructure.repositories.PlanoRepository;
 import com.voador.guardeiro.flightclub.models.Aluno;
 import com.voador.guardeiro.flightclub.models.MatriculaModalidade;
-import com.voador.guardeiro.flightclub.models.Modalidade;
 import com.voador.guardeiro.flightclub.models.Plano;
 import com.voador.guardeiro.flightclub.utils.CustomDatePicker;
 
@@ -27,7 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class MatriculaActivity extends AppCompatActivity {
+public class MatriculaActivity extends BaseActivity {
 
     private Spinner spinnerPlanos;
     private Button btnSalvar;
@@ -78,7 +76,7 @@ public class MatriculaActivity extends AppCompatActivity {
         try {
             aluno = buscaUsuario(codigo);
             txtNomeAluno.setText(aluno.getNome());
-        } catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(MatriculaActivity.this, "Não foi possível encontrar o código informado", Toast.LENGTH_SHORT).show();
         }
 
@@ -131,11 +129,9 @@ public class MatriculaActivity extends AppCompatActivity {
                     );
 
             matriculaModalidadeRepository.insert(matricula);
-            Toast.makeText(MatriculaActivity.this, "Matrícula cadastrada com sucesso", Toast.LENGTH_SHORT).show();
-
+            showToast("Matrícula cadastrada com sucesso");
         } catch (Exception e) {
-            Toast.makeText(MatriculaActivity.this, "Preencha tudo ai seu merda", Toast.LENGTH_SHORT).show();
-
+            showToast("Preencha tudo ai seu merda");
         }
 
 

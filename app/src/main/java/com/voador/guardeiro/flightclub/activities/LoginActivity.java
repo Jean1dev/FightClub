@@ -1,19 +1,16 @@
 package com.voador.guardeiro.flightclub.activities;
 
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.voador.guardeiro.flightclub.R;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.UsuarioRepository;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private EditText emailInput;
     private EditText senhaInput;
@@ -52,24 +49,20 @@ public class LoginActivity extends AppCompatActivity {
         senha = senhaInput.getText().toString();
         if (login()) {
             registrarLogin();
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            goTo(MainActivity.class);
             finish();
         } else {
-            Toast.makeText(this, "E-mail ou senha inválidos", Toast.LENGTH_LONG).show();
+            showToast("E-mail ou senha inválidos");
         }
 
     }
 
     public void onClickRegistrarUsuario(View view) {
-        irParaCadastro();
+        goTo(RegistrationActivity.class);
     }
 
     private void registrarLogin() {
         PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("login", true);
-    }
-
-    private void irParaCadastro() {
-        startActivity(new Intent(this, RegistrationActivity.class));
     }
 
 }
