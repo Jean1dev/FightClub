@@ -19,42 +19,42 @@ public abstract class AbstractDAO<E, ID> extends DatabaseHelper {
     }
 
     protected void setDao() {
-        try{
+        try {
             dao = DaoManager.createDao(getConnectionSource(), type);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public List<E> getAll(){
-        try{
+    public List<E> getAll() {
+        try {
             return dao.queryForAll();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
     public E getById(ID id) {
-        try{
+        try {
             return dao.queryForId(id);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
     public long insert(E obj) {
-        try{
+        try {
             return (long) dao.create(obj);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;
     }
 
     public void delete(E obj) {
-        try{
+        try {
             dao.delete(obj);
         }catch(Exception e){
             e.printStackTrace();
@@ -62,9 +62,9 @@ public abstract class AbstractDAO<E, ID> extends DatabaseHelper {
     }
 
     public void update(E obj) {
-        try{
+        try {
             dao.update(obj);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

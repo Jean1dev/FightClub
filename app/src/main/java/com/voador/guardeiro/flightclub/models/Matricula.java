@@ -22,7 +22,7 @@ public class Matricula {
 
     @JoinColumn(name = "aluno_id", nullable = false)
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @DatabaseField(foreign = true, foreignAutoCreate = true, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, foreignAutoCreate = true, foreignAutoRefresh = true, columnDefinition = "aluno_id references alunos(id) on delete restrict")
     private Aluno aluno;
 
     @Column(name = "data_matricula")

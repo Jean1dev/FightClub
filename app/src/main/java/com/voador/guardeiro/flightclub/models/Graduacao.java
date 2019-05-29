@@ -23,7 +23,7 @@ public class Graduacao {
 
     @JoinColumn(name = "modalidade_id", nullable = false)
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @DatabaseField(foreign = true, foreignAutoCreate = true, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, foreignAutoCreate = true, foreignAutoRefresh = true, columnDefinition = "modalidade_id references modalidades(id) on delete restrict")
     private Modalidade modalidade;
 
     public Graduacao() {
