@@ -19,6 +19,7 @@ import com.voador.guardeiro.flightclub.infrastructure.repositories.ModalidadeRep
 import com.voador.guardeiro.flightclub.models.Graduacao;
 import com.voador.guardeiro.flightclub.models.Modalidade;
 
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -58,9 +59,13 @@ public class GraduacaoActivity extends BaseActivity {
 
                 builderRemover.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
-                        graduacaoRepository.delete(listaGraduacao.get(position));
-                        showToast("Graduacão removida com sucesso");
-                        ;
+                        try {
+                            graduacaoRepository.delete(listaGraduacao.get(position));
+                            showToast("Graduacão removida com sucesso");
+                        } catch (SQLException e) {
+                            showToast("Não foi possível remover a graduação.");
+                        }
+
                         atualizarGraduacoes();
                     }
                 });

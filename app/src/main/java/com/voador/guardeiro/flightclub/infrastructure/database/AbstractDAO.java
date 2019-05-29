@@ -5,6 +5,7 @@ import android.content.Context;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public abstract class AbstractDAO<E, ID> extends DatabaseHelper {
@@ -53,11 +54,12 @@ public abstract class AbstractDAO<E, ID> extends DatabaseHelper {
         return 0;
     }
 
-    public void delete(E obj) {
+    public void delete(E obj) throws SQLException {
         try {
             dao.delete(obj);
-        }catch(Exception e){
+        } catch (SQLException e) {
             e.printStackTrace();
+            throw e;
         }
     }
 

@@ -21,6 +21,7 @@ import com.voador.guardeiro.flightclub.models.Modalidade;
 import com.voador.guardeiro.flightclub.models.Plano;
 import com.voador.guardeiro.flightclub.utils.MoneyTextWatcher;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class PlanoActivity extends BaseActivity {
@@ -58,8 +59,12 @@ public class PlanoActivity extends BaseActivity {
 
                 builderRemover.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
-                        planoRepository.delete(listaPlanoModel.get(position));
-                        showToast("Modalidade removida com sucesso");
+                        try {
+                            planoRepository.delete(listaPlanoModel.get(position));
+                            showToast("Modalidade removida com sucesso");
+                        } catch (SQLException e) {
+                            showToast("Não foi possível remover o plano.");
+                        }
                         atualizarPlanos();
                     }
                 });

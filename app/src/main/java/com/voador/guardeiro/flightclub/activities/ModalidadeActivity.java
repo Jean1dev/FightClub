@@ -14,6 +14,7 @@ import com.voador.guardeiro.flightclub.adapters.ModalidadeSpinnerAdapter;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.ModalidadeRepository;
 import com.voador.guardeiro.flightclub.models.Modalidade;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class ModalidadeActivity extends BaseActivity {
@@ -44,8 +45,13 @@ public class ModalidadeActivity extends BaseActivity {
 
                 builderRemover.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
-                        modalidadeRepository.delete(modalidades.get(position));
-                        showToast("Modalidade removida com sucesso");
+                        try {
+                            modalidadeRepository.delete(modalidades.get(position));
+                            showToast("Modalidade removida com sucesso");
+                        } catch (SQLException e) {
+                            showToast("Não foi possível remover a modalidade.");
+                        }
+
                         atualizarModalidade();
                     }
                 });
