@@ -44,8 +44,13 @@ public class MatriculaListViewAdapter extends BaseAdapter {
         TextView nomeAluno = view.findViewById(R.id.text_aluno);
         TextView nomePlano = view.findViewById(R.id.text_plano);
 
-        nomeAluno.setText(matricula.getAluno().getNome());
-        nomePlano.setText(matricula.getPlano().getDescricao());
+        if (matricula.getAluno() != null) {
+            nomeAluno.setText(matricula.getAluno().getNome());
+        }
+
+        if (matricula.getPlano() != null) {
+            nomePlano.setText(matricula.getPlano().getDescricao());
+        }
 
         return view;
     }

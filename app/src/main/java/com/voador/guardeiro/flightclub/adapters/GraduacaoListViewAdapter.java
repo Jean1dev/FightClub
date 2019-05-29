@@ -45,7 +45,9 @@ public class GraduacaoListViewAdapter extends BaseAdapter {
         TextView nomeModalidade = view.findViewById(R.id.tituloModalidade);
 
         nomeGraduacao.setText(graduacao.getDescricao());
-        nomeModalidade.setText(graduacao.getModalidade().getDescricao());
+        if (graduacao.getModalidade() != null) {
+            nomeModalidade.setText(graduacao.getModalidade().getDescricao());
+        }
 
         return view;
     }

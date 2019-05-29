@@ -48,7 +48,9 @@ public class PlanoListViewAdapter extends BaseAdapter {
 
 
         plano.setText(planoModel.getDescricao());
-        modalidade.setText(planoModel.getModalidade().getDescricao());
+        if (planoModel.getModalidade() != null) {
+            modalidade.setText(planoModel.getModalidade().getDescricao());
+        }
         valor.setText(planoModel.getValor().toString());
 
         return view;
