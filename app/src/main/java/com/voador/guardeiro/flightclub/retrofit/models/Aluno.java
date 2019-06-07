@@ -1,87 +1,48 @@
-package com.voador.guardeiro.flightclub.models;
+package com.voador.guardeiro.flightclub.retrofit.models;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-@Entity(name = "alunos")
 public class Aluno implements Serializable {
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    @Column(name = "nome", nullable = false)
-    private String nome;
-
-    @Column(name = "sexo", nullable = false)
+    private long Id;
+    private String nm_aluno;
+    private String data_nascimento;
     private String sexo;
-
-    @Column(name = "telefone", nullable = false)
     private String telefone;
-
-    @Column(name = "celular", nullable = false)
     private String celular;
-
-    @Column(name = "email", nullable = false)
     private String email;
-
-    @Column(name = "observacao")
     private String observacao;
-
-    @Column(name = "numero", nullable = false)
+    private String endereco;
     private String numero;
-
-    @Column(name = "complemento")
     private String complemento;
-
-    @Column(name = "bairro", nullable = false)
     private String bairro;
-
-    @Column(name = "cep", nullable = false)
+    private String cidade;
+    private String estado;
+    private String pais;
     private String cep;
+    private long IdConta;
 
-    public Aluno() {
+    public long getId() {
+        return Id;
     }
 
-    public Aluno(Long id,
-                 String nome,
-                 String sexo,
-                 String telefone,
-                 String celular,
-                 String email,
-                 String observacao,
-                 String numero,
-                 String complemento,
-                 String bairro,
-                 String cep) {
-
-        this.id = id;
-        this.nome = nome;
-        this.sexo = sexo;
-        this.telefone = telefone;
-        this.celular = celular;
-        this.email = email;
-        this.observacao = observacao;
-        this.numero = numero;
-        this.complemento = complemento;
-        this.bairro = bairro;
-        this.cep = cep;
+    public void setId(long id) {
+        Id = id;
     }
 
-    public Long getId() {
-        return id;
+    public String getNm_aluno() {
+        return nm_aluno;
     }
 
-    public String getNome() {
-        return nome;
+    public void setNm_aluno(String nm_aluno) {
+        this.nm_aluno = nm_aluno;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public String getData_nascimento() {
+        return data_nascimento;
+    }
+
+    public void setData_nascimento(String data_nascimento) {
+        this.data_nascimento = data_nascimento;
     }
 
     public String getSexo() {
@@ -124,6 +85,14 @@ public class Aluno implements Serializable {
         this.observacao = observacao;
     }
 
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
     public String getNumero() {
         return numero;
     }
@@ -148,6 +117,30 @@ public class Aluno implements Serializable {
         this.bairro = bairro;
     }
 
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+
     public String getCep() {
         return cep;
     }
@@ -156,21 +149,34 @@ public class Aluno implements Serializable {
         this.cep = cep;
     }
 
+    public long getIdConta() {
+        return IdConta;
+    }
+
+    public void setIdConta(long idConta) {
+        IdConta = idConta;
+    }
+
     @Override
     public String toString() {
         return "Aluno{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
+                "Id=" + Id +
+                ", nm_aluno='" + nm_aluno + '\'' +
+                ", data_nascimento='" + data_nascimento + '\'' +
                 ", sexo='" + sexo + '\'' +
                 ", telefone='" + telefone + '\'' +
                 ", celular='" + celular + '\'' +
                 ", email='" + email + '\'' +
                 ", observacao='" + observacao + '\'' +
+                ", endereco='" + endereco + '\'' +
                 ", numero='" + numero + '\'' +
                 ", complemento='" + complemento + '\'' +
                 ", bairro='" + bairro + '\'' +
+                ", cidade='" + cidade + '\'' +
+                ", estado='" + estado + '\'' +
+                ", pais='" + pais + '\'' +
                 ", cep='" + cep + '\'' +
+                ", IdConta=" + IdConta +
                 '}';
     }
-
 }

@@ -8,10 +8,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.voador.guardeiro.flightclub.R;
-import com.voador.guardeiro.flightclub.infrastructure.ApiService;
+import com.voador.guardeiro.flightclub.retrofit.ApiService;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.UsuarioRepository;
-import com.voador.guardeiro.flightclub.models.Aluno;
-import com.voador.guardeiro.flightclub.services.AlunoService;
+import com.voador.guardeiro.flightclub.retrofit.services.AlunoService;
+import com.voador.guardeiro.flightclub.retrofit.models.Aluno;
 
 import java.util.List;
 
@@ -84,12 +84,15 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onResponse(Call<List<Aluno>> call, Response<List<Aluno>> response) {
                 for (final Aluno aluno : response.body()) {
-                    showToast(aluno.getNome());
+                    System.out.print(aluno);
+
+                    showToast("Aluno:" + aluno.getId());
                 }
             }
 
             @Override
             public void onFailure(Call<List<Aluno>> call, Throwable t) {
+                t.printStackTrace();
                 showToast("Ocorreu um erro");
             }
         });

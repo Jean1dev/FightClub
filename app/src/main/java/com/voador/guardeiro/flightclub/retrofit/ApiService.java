@@ -1,6 +1,6 @@
-package com.voador.guardeiro.flightclub.infrastructure;
+package com.voador.guardeiro.flightclub.retrofit;
 
-import com.voador.guardeiro.flightclub.services.AlunoService;
+import com.voador.guardeiro.flightclub.retrofit.services.AlunoService;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

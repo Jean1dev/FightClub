@@ -1,6 +1,7 @@
 package com.voador.guardeiro.flightclub.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -8,11 +9,18 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.voador.guardeiro.flightclub.R;
+import com.voador.guardeiro.flightclub.retrofit.ApiService;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.AlunoRepository;
 import com.voador.guardeiro.flightclub.models.Aluno;
+import com.voador.guardeiro.flightclub.retrofit.services.AlunoService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AlunoActivity extends BaseActivity {
     private static final String[] SEXO_OPTIONS = {"M", "F"};
+    private static final long DEFAULT_CONTA_ID = 22;
 
     private EditText editTextNome;
     private EditText editTextEmail;
@@ -48,7 +56,8 @@ public class AlunoActivity extends BaseActivity {
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cadastrarAluno();
+                //cadastrarAluno();
+                inserirAluno();
             }
         });
     }
@@ -61,10 +70,45 @@ public class AlunoActivity extends BaseActivity {
         spinnerSexo.setAdapter(adapter);
     }
 
+    private void inserirAluno() {
+        final com.voador.guardeiro.flightclub.retrofit.models.Aluno aluno = new com.voador.guardeiro.flightclub.retrofit.models.Aluno();
+        aluno.setNm_aluno(editTextNome.getText().toString());
+        aluno.setCelular(editTextCelular.getText().toString());
+        aluno.setBairro(editTextBairro.getText().toString());
+        aluno.setCep(editTextCep.getText().toString());
+        aluno.setCidade("Criciuma");
+        aluno.setData_nascimento("22222");
+        aluno.setEmail(editTextEmail.getText().toString());
+        aluno.setEstado("Santa catarina");
+        aluno.setEndereco("Endereco");
+        aluno.setPais("Brasil");
+        aluno.setTelefone(editTextTelefone.getText().toString());
+        aluno.setNumero(editTextNumero.getText().toString());
+        aluno.setSexo(spinnerSexo.getSelectedItem().toString());
+        aluno.setIdConta(DEFAULT_CONTA_ID);
+
+        new ApiService()
+                .getAlunoService()
+                .inserirAluno(aluno)
+                .enqueue(new Callback<Boolean>() {
+                    @Override
+                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                        Log.d("debug", "Http status: " + response.code());
+                        showToast("Salvo com sucesso");
+                    }
+
+                    @Override
+                    public void onFailure(Call<Boolean> call, Throwable t) {
+                        showToast("Ocorreu um erro ao salvar o aluno");
+                    }
+                });
+    }
+
     private void cadastrarAluno() {
         final AlunoRepository alunoRepository = new AlunoRepository(getBaseContext());
         try {
-            alunoRepository.insert(criarAluno());
+            final Aluno aluno = criarAluno();
+            alunoRepository.insert(aluno);
             showToast("Aluno cadastrado com sucesso");
         } catch (Exception e) {
             showToast("Ocorreu um erro ao salvar o aluno");
