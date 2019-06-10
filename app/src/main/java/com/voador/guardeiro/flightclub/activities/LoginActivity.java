@@ -1,13 +1,17 @@
 package com.voador.guardeiro.flightclub.activities;
 
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.voador.guardeiro.flightclub.R;
+import com.voador.guardeiro.flightclub.models.Usuario;
 import com.voador.guardeiro.flightclub.retrofit.ApiService;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.UsuarioRepository;
 import com.voador.guardeiro.flightclub.retrofit.services.AlunoService;
@@ -38,7 +42,7 @@ public class LoginActivity extends BaseActivity {
 
         alunoService = new ApiService().getAlunoService();
 
-        buscarAlunos();
+        //buscarAlunos();
 
         emailInput = findViewById(R.id.input_email);
         senhaInput = findViewById(R.id.input_password);
@@ -52,23 +56,46 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    private boolean login() {
-        UsuarioRepository test = new UsuarioRepository(getApplicationContext());
-        test.whereEmail(email);
-        return !new UsuarioRepository(getApplicationContext()).whereEmail(email).isEmpty();
+    private Usuario login(String email) {
+        List<Usuario> users = new UsuarioRepository(getApplicationContext()).whereEmail(email);
+        Usuario usuario = new Usuario();
+        for (Usuario user : users) {
+            if (user.getEmail().equals(email)) {
+                usuario = user;
+            }
+
+        }
+        return usuario;
     }
 
     private void handleLogin() {
         email = emailInput.getText().toString();
         senha = senhaInput.getText().toString();
-        if (login()) {
-            registrarLogin();
-            goTo(MainActivity.class);
-            finish();
-        } else {
-            showToast("E-mail ou senha inválidos");
-        }
+        Usuario user;
+        if (!email.equals("") && !senha.equals("")) {
+            user = login(email);
+            if (user != null && user.getSenha().equals(senha)) {
 
+                registrarLogin();
+                SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                pDialog.setTitleText("Redirecionando");
+                pDialog.setCancelable(false);
+                pDialog.show();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        goToClearStack(MainActivity.class);
+                    }
+                }, 1000);
+
+            } else {
+                showErrorMessage("Erro ao realizar login", "E-mail ou senha inválidos");
+            }
+        } else {
+            showErrorMessage("Erro ao realizar login", "E-mail ou senha inválidos");
+        }
     }
 
     public void onClickRegistrarUsuario(View view) {

@@ -61,9 +61,9 @@ public class PlanoActivity extends BaseActivity {
                     public void onClick(DialogInterface arg0, int arg1) {
                         try {
                             planoRepository.delete(listaPlanoModel.get(position));
-                            showToast("Modalidade removida com sucesso");
+                            showSuccessMessage("Plano removida com sucesso");
                         } catch (SQLException e) {
-                            showToast("Não foi possível remover o plano.");
+                            showErrorMessage("Não foi possível remover o plano.");
                         }
                         atualizarPlanos();
                     }
@@ -110,9 +110,15 @@ public class PlanoActivity extends BaseActivity {
                         .setCancelable(true)
                         .setPositiveButton("Atualizar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialogBox, int id) {
-                                planoRepository.update(updatePlano(plano));
-                                dialog.cancel();
-                                atualizarPlanos();
+                                try {
+                                    planoRepository.update(updatePlano(plano));
+                                    dialog.cancel();
+                                    showSuccessMessage("Plano atualizaco com sucesso");
+                                    atualizarPlanos();
+                                } catch (Exception e) {
+                                    showErrorMessage("Erro ao atualizar plano");
+                                }
+
                             }
                         })
 
@@ -151,9 +157,14 @@ public class PlanoActivity extends BaseActivity {
                 .setCancelable(true)
                 .setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogBox, int id) {
-                        cadastrarPlano();
-                        dialog.cancel();
-                        atualizarPlanos();
+                        try {
+                            cadastrarPlano();
+                            dialog.cancel();
+                            showSuccessMessage("Plano cadastrado com sucesso");
+                            atualizarPlanos();
+                        } catch (Exception e) {
+                            showErrorMessage("Erro ao cadastrar plano");
+                        }
                     }
                 })
 
@@ -186,8 +197,7 @@ public class PlanoActivity extends BaseActivity {
             final Double preco = Double.parseDouble(valor.getText().toString().replaceAll("[^\\d\\,]", "").replaceFirst("[,]", "."));
             return new Plano(preco, descricao, modalidade);
         } catch (Exception e) {
-            Toast.makeText(PlanoActivity.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
-
+            showErrorMessage("Preencha todos os campos");
             return null;
         }
 

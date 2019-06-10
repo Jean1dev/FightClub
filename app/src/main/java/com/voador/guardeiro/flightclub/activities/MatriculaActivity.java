@@ -77,7 +77,7 @@ public class MatriculaActivity extends BaseActivity {
             aluno = buscaUsuario(codigo);
             txtNomeAluno.setText(aluno.getNome());
         } catch (Exception e) {
-            Toast.makeText(MatriculaActivity.this, "Não foi possível encontrar o código informado", Toast.LENGTH_SHORT).show();
+            showErrorMessage("Não foi possível encontrar o código informado");
         }
 
     }
@@ -129,9 +129,9 @@ public class MatriculaActivity extends BaseActivity {
                     );
 
             matriculaModalidadeRepository.insert(matricula);
-            showToast("Matrícula cadastrada com sucesso");
+            showSuccessMessage("Matrícula cadastrada com sucesso");
         } catch (Exception e) {
-            showToast("Preencha tudo ai seu merda");
+            showErrorMessage("Preencha tudo ai seu merda");
         }
 
 

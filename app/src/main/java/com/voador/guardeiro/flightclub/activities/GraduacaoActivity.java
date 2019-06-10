@@ -61,9 +61,9 @@ public class GraduacaoActivity extends BaseActivity {
                     public void onClick(DialogInterface arg0, int arg1) {
                         try {
                             graduacaoRepository.delete(listaGraduacao.get(position));
-                            showToast("Graduacão removida com sucesso");
+                            showSuccessMessage("Graduacão removida com sucesso");
                         } catch (SQLException e) {
-                            showToast("Não foi possível remover a graduação.");
+                            showErrorMessage("Não foi possível remover a graduação.");
                         }
 
                         atualizarGraduacoes();
@@ -104,9 +104,14 @@ public class GraduacaoActivity extends BaseActivity {
                 .setCancelable(true)
                 .setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogBox, int id) {
-                        cadastrarGraduacao();
-                        dialog.cancel();
-                        atualizarGraduacoes();
+                        try {
+                            cadastrarGraduacao();
+                            dialog.cancel();
+                            showSuccessMessage("Graduação cadastrada com sucesso");
+                            atualizarGraduacoes();
+                        } catch (Exception e) {
+                            showErrorMessage("Erro ao cadastrar graduação");
+                        }
                     }
                 })
 
@@ -141,7 +146,7 @@ public class GraduacaoActivity extends BaseActivity {
             final Modalidade modalidade = (Modalidade) todasModalidades.getSelectedItem();
             return new Graduacao(descricao, modalidade);
         } catch (Exception e) {
-            showToast("Preencha todos os campos");
+            showErrorMessage("Erro ao inserir graduação", "Preencha todos os campos");
             return null;
         }
 

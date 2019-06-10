@@ -1,6 +1,7 @@
 package com.voador.guardeiro.flightclub.activities;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,12 +41,18 @@ public class RegistrationActivity extends BaseActivity {
         try {
             final UsuarioRepository usuarioRepository = new UsuarioRepository(getBaseContext());
             usuarioRepository.insert(criarUsuario());
-            showToast("Usuário registrado com sucesso");
-            goTo(LoginActivity.class);
+            showSuccessMessage("Usuário registrado com sucesso");
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    goTo(LoginActivity.class);
+                }
+            }, 2000);
             finish();
         } catch (Exception e) {
             e.printStackTrace();
-            showToast("Ocorreu um erro ao registrar o usuário");
+            showErrorMessage("Ocorreu um erro ao registrar o usuário");
         }
     }
 

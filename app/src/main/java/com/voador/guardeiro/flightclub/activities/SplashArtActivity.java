@@ -23,13 +23,10 @@ public class SplashArtActivity extends BaseActivity {
         animation = AnimationUtils.loadAnimation(this, R.anim.anim_splash);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
+            public void onAnimationStart(Animation animation) {}
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                startActivity(new Intent(SplashArtActivity.this, LoginActivity.class));
                 if (!primeiraVezQueUsaOapp()) {
                     goTo(LoginActivity.class);
                     finish();
@@ -37,17 +34,12 @@ public class SplashArtActivity extends BaseActivity {
                     goTo(MainActivity.class);
                     finish();
                 }
-
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
+            public void onAnimationRepeat(Animation animation) {}
         });
-
         splash.startAnimation(animation);
-
     }
 
     protected boolean primeiraVezQueUsaOapp() {

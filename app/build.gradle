@@ -32,6 +32,7 @@ dependencies {
     implementation files('libs/hibernate-jpa-2.0-api-1.0.1.final.jar')
     implementation files('libs/ormlite-android-4.41.jar')
     implementation files('libs/ormlite-core-4.41.jar')
+    implementation 'com.github.thomper:sweet-alert-dialog:v1.4.0'
 
 
 }

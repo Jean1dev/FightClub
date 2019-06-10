@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.voador.guardeiro.flightclub.R;
 import com.voador.guardeiro.flightclub.adapters.ModalidadeSpinnerAdapter;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.ModalidadeRepository;
@@ -47,9 +48,9 @@ public class ModalidadeActivity extends BaseActivity {
                     public void onClick(DialogInterface arg0, int arg1) {
                         try {
                             modalidadeRepository.delete(modalidades.get(position));
-                            showToast("Modalidade removida com sucesso");
+                            showSuccessMessage("Modalidade removida com sucesso");
                         } catch (SQLException e) {
-                            showToast("Não foi possível remover a modalidade.");
+                            showErrorMessage("Não foi possível remover a modalidade.");
                         }
 
                         atualizarModalidade();
@@ -88,9 +89,14 @@ public class ModalidadeActivity extends BaseActivity {
                 .setCancelable(true)
                 .setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogBox, int id) {
-                        cadastrarModalidade();
-                        dialog.cancel();
-                        atualizarModalidade();
+                        try {
+                            cadastrarModalidade();
+                            showSuccessMessage("Modalidade cadastrada com sucesso");
+                            dialog.cancel();
+                            atualizarModalidade();
+                        } catch (Exception e) {
+                            showErrorMessage("Não foi possível cadastrar a modalidade.");
+                        }
                     }
                 })
 

@@ -1,6 +1,7 @@
 package com.voador.guardeiro.flightclub.activities;
 
 import android.os.Bundle;
+import android.telecom.Call;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,9 +13,7 @@ import com.voador.guardeiro.flightclub.R;
 import com.voador.guardeiro.flightclub.retrofit.ApiService;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.AlunoRepository;
 import com.voador.guardeiro.flightclub.models.Aluno;
-import com.voador.guardeiro.flightclub.retrofit.services.AlunoService;
 
-import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -92,14 +91,14 @@ public class AlunoActivity extends BaseActivity {
                 .inserirAluno(aluno)
                 .enqueue(new Callback<Boolean>() {
                     @Override
-                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                    public void onResponse(retrofit2.Call<Boolean> call, Response<Boolean> response) {
                         Log.d("debug", "Http status: " + response.code());
-                        showToast("Salvo com sucesso");
+                        showSuccessMessage("Salvo com sucesso");
                     }
 
                     @Override
-                    public void onFailure(Call<Boolean> call, Throwable t) {
-                        showToast("Ocorreu um erro ao salvar o aluno");
+                    public void onFailure(retrofit2.Call<Boolean> call, Throwable t) {
+                        showErrorMessage("Ocorreu um erro ao salvar o aluno");
                     }
                 });
     }
@@ -109,9 +108,9 @@ public class AlunoActivity extends BaseActivity {
         try {
             final Aluno aluno = criarAluno();
             alunoRepository.insert(aluno);
-            showToast("Aluno cadastrado com sucesso");
+            showSuccessMessage("Aluno cadastrado com sucesso");
         } catch (Exception e) {
-            showToast("Ocorreu um erro ao salvar o aluno");
+            showErrorMessage("Ocorreu um erro ao salvar o aluno");
         }
     }
 

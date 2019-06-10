@@ -5,6 +5,10 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_aluno"
+            android:icon="@drawable/profile"
+            android:title="Alunos" />
+        <item
             android:id="@+id/nav_modalidade"
             android:icon="@drawable/boxing_gloves"
             android:title="Modalidades" />
@@ -17,11 +21,14 @@
             android:icon="@drawable/money"
             android:title="Planos" />
         <item
-            android:id="@+id/nav_matricula"
-            android:icon="@drawable/approved"
-            android:title="Matrícula" />
-
+        android:id="@+id/nav_matricula"
+        android:icon="@drawable/approved"
+        android:title="Matrícula" />
     </group>
+
+
+    
+
 
     <!--<item android:title="Communicate">-->
         <!--<menu>-->

@@ -13,21 +13,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.LoginActivity"
-            android:noHistory="true"/>
+        <activity android:name=".activities.LoginActivity"/>
         <activity android:name=".activities.RegistrationActivity" />
-        <!--<activity android:name=".activities.AlunoActivity" />-->
+        <activity android:name=".activities.AlunoActivity" />
         <activity android:name=".activities.TabletMainActivity" />
         <activity android:name=".activities.MatriculaActivity" />
+        <activity android:name=".activities.ModalidadeActivity" />
+        <activity android:name=".activities.PlanoActivity"/>
+        <activity android:name=".activities.GraduacaoActivity" />
         <activity android:name=".activities.MainActivity" />
         <activity
-            android:name=".activities.ModalidadeActivity" />
-        <activity
-            android:name=".activities.PlanoActivity"/>
-        <activity
-            android:name=".activities.GraduacaoActivity" />
-        <activity
-            android:name=".activities.AlunoActivity">
+            android:name=".activities.SplashArtActivity"
+            android:theme="@style/TelaCheia">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

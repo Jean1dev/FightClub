@@ -1,11 +1,13 @@
 package com.voador.guardeiro.flightclub.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +18,7 @@ import com.voador.guardeiro.flightclub.adapters.MatriculaListViewAdapter;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.MatriculaModalidadeRepository;
 import com.voador.guardeiro.flightclub.models.MatriculaModalidade;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class MainActivity extends BaseActivity
@@ -24,12 +27,18 @@ public class MainActivity extends BaseActivity
     private List<MatriculaModalidade> listaMatriculas;
     private ListView listViewMatriculas;
     private MatriculaModalidadeRepository matriculaModalidadeRepository;
+    AlertDialog dialog;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0 & getIntent().getExtras() == null) {
+            finish();
+            return;
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -56,7 +65,6 @@ public class MainActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
         }
     }
 
@@ -65,6 +73,36 @@ public class MainActivity extends BaseActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            final AlertDialog.Builder builderRemover = new AlertDialog.Builder(MainActivity.this);
+            builderRemover.setTitle("Deseja sair da sua conta?");
+
+            builderRemover.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface arg0, int arg1) {
+                   goToClearStack(LoginActivity.class);
+            };
+            });
+
+            builderRemover.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface arg0, int arg1) {
+                }
+            });
+
+            (dialog = builderRemover.create()).show();
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -81,6 +119,8 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_planos) {
             startActivity(new Intent(MainActivity.this, PlanoActivity.class));
         } else if (id == R.id.nav_matricula) {
+            startActivity(new Intent(MainActivity.this, MatriculaActivity.class));
+        } else if (id == R.id.nav_aluno) {
             startActivity(new Intent(MainActivity.this, MatriculaActivity.class));
         }
 
