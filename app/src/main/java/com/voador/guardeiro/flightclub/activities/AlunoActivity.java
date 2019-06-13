@@ -1,7 +1,6 @@
 package com.voador.guardeiro.flightclub.activities;
 
 import android.os.Bundle;
-import android.telecom.Call;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,13 +12,13 @@ import com.voador.guardeiro.flightclub.R;
 import com.voador.guardeiro.flightclub.retrofit.ApiService;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.AlunoRepository;
 import com.voador.guardeiro.flightclub.models.Aluno;
+import com.voador.guardeiro.flightclub.retrofit.models.AlunoRetrofit;
 
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AlunoActivity extends BaseActivity {
     private static final String[] SEXO_OPTIONS = {"M", "F"};
-    private static final long DEFAULT_CONTA_ID = 22;
 
     private EditText editTextNome;
     private EditText editTextEmail;
@@ -70,7 +69,7 @@ public class AlunoActivity extends BaseActivity {
     }
 
     private void inserirAluno() {
-        final com.voador.guardeiro.flightclub.retrofit.models.Aluno aluno = new com.voador.guardeiro.flightclub.retrofit.models.Aluno();
+        final AlunoRetrofit aluno = new AlunoRetrofit();
         aluno.setNm_aluno(editTextNome.getText().toString());
         aluno.setCelular(editTextCelular.getText().toString());
         aluno.setBairro(editTextBairro.getText().toString());
@@ -108,7 +107,7 @@ public class AlunoActivity extends BaseActivity {
         try {
             final Aluno aluno = criarAluno();
             alunoRepository.insert(aluno);
-            showSuccessMessage("Aluno cadastrado com sucesso");
+            showSuccessMessage("AlunoRetrofit cadastrado com sucesso");
         } catch (Exception e) {
             showErrorMessage("Ocorreu um erro ao salvar o aluno");
         }

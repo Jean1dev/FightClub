@@ -2,7 +2,7 @@ package com.voador.guardeiro.flightclub.retrofit.models;
 
 import java.io.Serializable;
 
-public class Aluno implements Serializable {
+public class AlunoRetrofit implements Serializable {
     private long Id;
     private String nm_aluno;
     private String data_nascimento;
@@ -159,7 +159,7 @@ public class Aluno implements Serializable {
 
     @Override
     public String toString() {
-        return "Aluno{" +
+        return "AlunoRetrofit{" +
                 "Id=" + Id +
                 ", nm_aluno='" + nm_aluno + '\'' +
                 ", data_nascimento='" + data_nascimento + '\'' +

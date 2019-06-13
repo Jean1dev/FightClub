@@ -1,6 +1,6 @@
 package com.voador.guardeiro.flightclub.retrofit.services;
 
-import com.voador.guardeiro.flightclub.retrofit.models.Aluno;
+import com.voador.guardeiro.flightclub.retrofit.models.AlunoRetrofit;
 
 import java.util.List;
 
@@ -13,9 +13,9 @@ import retrofit2.http.Query;
 public interface AlunoService {
 
     @GET("aluno/buscar")
-    Call<List<Aluno>> buscarAlunos(@Query("id_conta") long contaId);
+    Call<List<AlunoRetrofit>> buscarAlunos(@Query("id_conta") long contaId);
 
     @POST("aluno/incluir")
-    Call<Boolean> inserirAluno(@Body final Aluno aluno);
+    Call<Boolean> inserirAluno(@Body final AlunoRetrofit aluno);
 
 }

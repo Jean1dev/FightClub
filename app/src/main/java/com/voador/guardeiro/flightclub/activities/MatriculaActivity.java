@@ -54,10 +54,10 @@ public class MatriculaActivity extends BaseActivity {
         matriculaModalidadeRepository = new MatriculaModalidadeRepository(getBaseContext());
         planoRepository = new PlanoRepository(getBaseContext());
 //        final AlunoRepository alunoRepository = new AlunoRepository(getBaseContext());
-//        Aluno a = new Aluno(1L, "Derick", "Souza", "derick-sM@hotmail.com", "12345", "Souza", "Souza", "Souza", "Souza", "Souza", "Souza");
+//        AlunoRetrofit a = new AlunoRetrofit(1L, "Derick", "Souza", "derick-sM@hotmail.com", "12345", "Souza", "Souza", "Souza", "Souza", "Souza", "Souza");
 //        alunoRepository.insert(a);
 //
-//        Plano p = new Plano(1.0, "cu", new Modalidade("treta"));
+//        Plano p = new Plano(1.0, "cu", new ModalidadeRetrofit("treta"));
 //
 //        planoRepository.insert(p);
 

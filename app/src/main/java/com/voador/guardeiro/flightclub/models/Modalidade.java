@@ -40,7 +40,7 @@ public class Modalidade {
 
     @Override
     public String toString() {
-        return "Modalidade{" +
+        return "ModalidadeRetrofit{" +
                 "descricao='" + descricao + '\'' +
                 '}';
     }

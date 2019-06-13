@@ -14,8 +14,8 @@ import com.voador.guardeiro.flightclub.R;
 import com.voador.guardeiro.flightclub.models.Usuario;
 import com.voador.guardeiro.flightclub.retrofit.ApiService;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.UsuarioRepository;
+import com.voador.guardeiro.flightclub.retrofit.models.AlunoRetrofit;
 import com.voador.guardeiro.flightclub.retrofit.services.AlunoService;
-import com.voador.guardeiro.flightclub.retrofit.models.Aluno;
 
 import java.util.List;
 
@@ -91,10 +91,10 @@ public class LoginActivity extends BaseActivity {
                 }, 1000);
 
             } else {
-                showErrorMessage("Erro ao realizar login", "E-mail ou senha inválidos");
+                showErrorMessage("E-mail ou senha inválidos");
             }
         } else {
-            showErrorMessage("Erro ao realizar login", "E-mail ou senha inválidos");
+            showErrorMessage("E-mail ou senha inválidos");
         }
     }
 
@@ -107,18 +107,18 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void buscarAlunos() {
-        alunoService.buscarAlunos(20).enqueue(new Callback<List<Aluno>>() {
+        alunoService.buscarAlunos(20).enqueue(new Callback<List<AlunoRetrofit>>() {
             @Override
-            public void onResponse(Call<List<Aluno>> call, Response<List<Aluno>> response) {
-                for (final Aluno aluno : response.body()) {
+            public void onResponse(Call<List<AlunoRetrofit>> call, Response<List<AlunoRetrofit>> response) {
+                for (final AlunoRetrofit aluno : response.body()) {
                     System.out.print(aluno);
 
-                    showToast("Aluno:" + aluno.getId());
+                    showToast("AlunoRetrofit:" + aluno.getId());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Aluno>> call, Throwable t) {
+            public void onFailure(Call<List<AlunoRetrofit>> call, Throwable t) {
                 t.printStackTrace();
                 showToast("Ocorreu um erro");
             }

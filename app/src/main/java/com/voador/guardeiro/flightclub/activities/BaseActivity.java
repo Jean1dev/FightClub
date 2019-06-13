@@ -8,6 +8,8 @@ import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 abstract public class BaseActivity extends AppCompatActivity {
 
+    protected static final long DEFAULT_CONTA_ID = 22;
+
     protected void
     goTo(Class<?> toActivity) {
         startActivity(new Intent(this, toActivity));

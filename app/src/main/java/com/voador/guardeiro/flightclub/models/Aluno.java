@@ -158,7 +158,7 @@ public class Aluno implements Serializable {
 
     @Override
     public String toString() {
-        return "Aluno{" +
+        return "AlunoRetrofit{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", sexo='" + sexo + '\'' +
