@@ -2,6 +2,7 @@ package com.voador.guardeiro.flightclub.retrofit;
 
 import com.voador.guardeiro.flightclub.retrofit.services.AlunoService;
 import com.voador.guardeiro.flightclub.retrofit.services.ModalidadeService;
+import com.voador.guardeiro.flightclub.retrofit.services.PlanoService;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -25,5 +26,9 @@ public class ApiService {
 
     public ModalidadeService getModalidadeService() {
         return this.retrofit.create(ModalidadeService.class);
+    }
+
+    public PlanoService getPlanoService() {
+        return this.retrofit.create(PlanoService.class);
     }
 }

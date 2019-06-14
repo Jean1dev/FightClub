@@ -9,9 +9,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.voador.guardeiro.flightclub.R;
-import com.voador.guardeiro.flightclub.retrofit.ApiService;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.AlunoRepository;
 import com.voador.guardeiro.flightclub.models.Aluno;
+import com.voador.guardeiro.flightclub.retrofit.ApiService;
 import com.voador.guardeiro.flightclub.retrofit.models.AlunoRetrofit;
 
 import retrofit2.Callback;

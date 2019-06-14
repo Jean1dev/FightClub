@@ -11,9 +11,9 @@ import android.widget.EditText;
 
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.voador.guardeiro.flightclub.R;
+import com.voador.guardeiro.flightclub.infrastructure.repositories.UsuarioRepository;
 import com.voador.guardeiro.flightclub.models.Usuario;
 import com.voador.guardeiro.flightclub.retrofit.ApiService;
-import com.voador.guardeiro.flightclub.infrastructure.repositories.UsuarioRepository;
 import com.voador.guardeiro.flightclub.retrofit.models.AlunoRetrofit;
 import com.voador.guardeiro.flightclub.retrofit.services.AlunoService;
 
@@ -42,7 +42,7 @@ public class LoginActivity extends BaseActivity {
 
         alunoService = new ApiService().getAlunoService();
 
-        //buscarAlunos();
+        //buscarTodos();
 
         emailInput = findViewById(R.id.input_email);
         senhaInput = findViewById(R.id.input_password);

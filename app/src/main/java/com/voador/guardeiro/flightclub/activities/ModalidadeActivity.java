@@ -5,19 +5,16 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.voador.guardeiro.flightclub.R;
-import com.voador.guardeiro.flightclub.adapters.ModalidadeSpinnerAdapter;
 import com.voador.guardeiro.flightclub.adapters.ModalidadeSpinnerAdapter2;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.ModalidadeRepository;
 import com.voador.guardeiro.flightclub.retrofit.ApiService;
 import com.voador.guardeiro.flightclub.retrofit.models.ModalidadeRetrofit;
 import com.voador.guardeiro.flightclub.retrofit.services.ModalidadeService;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 

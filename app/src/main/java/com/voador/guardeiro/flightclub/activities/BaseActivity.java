@@ -10,8 +10,7 @@ abstract public class BaseActivity extends AppCompatActivity {
 
     protected static final long DEFAULT_CONTA_ID = 22;
 
-    protected void
-    goTo(Class<?> toActivity) {
+    protected void goTo(Class<?> toActivity) {
         startActivity(new Intent(this, toActivity));
     }
 
@@ -46,6 +45,5 @@ abstract public class BaseActivity extends AppCompatActivity {
                 .setContentText(text)
                 .show();
     }
-
 
 }

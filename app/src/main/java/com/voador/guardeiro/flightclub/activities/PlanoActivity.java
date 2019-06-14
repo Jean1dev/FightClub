@@ -3,6 +3,7 @@ package com.voador.guardeiro.flightclub.activities;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,7 +11,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.voador.guardeiro.flightclub.R;
 import com.voador.guardeiro.flightclub.adapters.ModalidadeSpinnerAdapter;
@@ -19,10 +19,16 @@ import com.voador.guardeiro.flightclub.infrastructure.repositories.ModalidadeRep
 import com.voador.guardeiro.flightclub.infrastructure.repositories.PlanoRepository;
 import com.voador.guardeiro.flightclub.models.Modalidade;
 import com.voador.guardeiro.flightclub.models.Plano;
+import com.voador.guardeiro.flightclub.retrofit.ApiService;
+import com.voador.guardeiro.flightclub.retrofit.models.PlanoRetrofit;
 import com.voador.guardeiro.flightclub.utils.MoneyTextWatcher;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
+
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PlanoActivity extends BaseActivity {
 
@@ -65,6 +71,7 @@ public class PlanoActivity extends BaseActivity {
                         } catch (SQLException e) {
                             showErrorMessage("Não foi possível remover o plano.");
                         }
+
                         atualizarPlanos();
                     }
                 });
@@ -178,9 +185,32 @@ public class PlanoActivity extends BaseActivity {
         (dialog = builder.create()).show();
     }
 
-
     private void cadastrarPlano() {
-        planoRepository.insert(getPlano());
+        final String value = valor.getText().toString().replaceAll("[^\\d\\,]", "").replaceFirst("[,]", ".");
+
+        final PlanoRetrofit plano = new PlanoRetrofit();
+        plano.setId_modalidade(4L);
+        plano.setValor(Double.parseDouble(value));
+        plano.setDs_plano(editTextPlanos.getText().toString());
+        plano.setDhinc(new Date());
+        plano.setIdConta(22L);
+
+        new ApiService()
+                .getPlanoService()
+                .inserir(plano)
+                .enqueue(new Callback<Boolean>() {
+
+                    @Override
+                    public void onResponse(retrofit2.Call<Boolean> call, Response<Boolean> response) {
+                        Log.d("debug", "Http status: " + response.code());
+                        showSuccessMessage("Salvo com sucesso");
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<Boolean> call, Throwable t) {
+                        showErrorMessage("Ocorreu um erro ao salvar o plano");
+                    }
+                });
     }
 
     public Plano updatePlano(Plano plano) {
@@ -188,19 +218,6 @@ public class PlanoActivity extends BaseActivity {
         plano.setDescricao(editTextPlanos.getText().toString());
         plano.setValor(Double.parseDouble(valor.getText().toString().replaceAll("[^\\d\\,]", "").replaceFirst("[,]", ".")));
         return plano;
-    }
-
-    private Plano getPlano() {
-        try {
-            final String descricao = editTextPlanos.getText().toString();
-            final Modalidade modalidade = (Modalidade) todasModalidades.getSelectedItem();
-            final Double preco = Double.parseDouble(valor.getText().toString().replaceAll("[^\\d\\,]", "").replaceFirst("[,]", "."));
-            return new Plano(preco, descricao, modalidade);
-        } catch (Exception e) {
-            showErrorMessage("Preencha todos os campos");
-            return null;
-        }
-
     }
 
     private void atualizarPlanos() {
