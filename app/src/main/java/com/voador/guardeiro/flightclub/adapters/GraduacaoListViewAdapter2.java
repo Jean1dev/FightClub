@@ -8,21 +8,12 @@ import android.widget.TextView;
 
 import com.voador.guardeiro.flightclub.R;
 import com.voador.guardeiro.flightclub.models.Graduacao;
-import com.voador.guardeiro.flightclub.retrofit.ApiService;
 import com.voador.guardeiro.flightclub.retrofit.models.GraduacaoRetrofit;
-import com.voador.guardeiro.flightclub.retrofit.models.ModalidadeRetrofit;
-import com.voador.guardeiro.flightclub.retrofit.services.ModalidadeService;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class GraduacaoListViewAdapter2 extends BaseAdapter {
 
-
-    private ModalidadeService modalidadeService = new ApiService().getModalidadeService();
     private final List<GraduacaoRetrofit> graduacoes;
     private final Activity act;
 
@@ -52,24 +43,12 @@ public class GraduacaoListViewAdapter2 extends BaseAdapter {
         GraduacaoRetrofit graduacao = graduacoes.get(position);
 
         TextView nomeGraduacao = view.findViewById(R.id.tituloGraduacao);
-        TextView nomeModalidade = view.findViewById(R.id.tituloModalidade);
+//        TextView nomeModalidade = view.findViewById(R.id.tituloModalidade);
 
         nomeGraduacao.setText(graduacao.getDs_graduacao());
-        modalidadeService.buscarModalidade(22).enqueue(new Callback<List<ModalidadeRetrofit>>() {
-            @Override
-            public void onResponse(Call<List<ModalidadeRetrofit>> call, Response<List<ModalidadeRetrofit>> response) {
-                for (final ModalidadeRetrofit m : response.body()) {
-                    if(m.getId() == graduacao.getId_modalidade()){
-                        nomeModalidade.setText(m.getNm_modalidade());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<ModalidadeRetrofit>> call, Throwable t) {
-
-            }
-        });
+//        if (graduacao.getModalidade() != null) {
+//            nomeModalidade.setText(graduacao.getModalidade().getDescricao());
+//        }
 
         return view;
     }

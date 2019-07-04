@@ -20,6 +20,6 @@ public interface GraduacaoService {
     Call<Long> inserirGraduacao(@Body final GraduacaoRetrofit graduacao);
 
     @POST("graduacao/excluir")
-    Call<Boolean> excluirPlano(@Query("id_graduacao") long graduacaoID);
+    Call<Boolean> excluir(@Query("id_graduacao") long graduacaoID);
 
 }

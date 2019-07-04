@@ -6,11 +6,11 @@ import java.util.Date;
 
 public class GraduacaoRetrofit {
 
-    private Long id;
+    private Long Id;
     private Long id_modalidade;
     private String ds_graduacao;
-    private Date Dhinc;
-    private Long idConta;
+    private Date DhInc;
+    private Long IdConta;
 
     public GraduacaoRetrofit() {
     }
@@ -18,14 +18,15 @@ public class GraduacaoRetrofit {
     public GraduacaoRetrofit(String descricao, ModalidadeRetrofit modalidade) {
         this.ds_graduacao = descricao;
         this.id_modalidade = modalidade.getId();
+        this.IdConta = 22L;
     }
 
     public Long getId() {
-        return id;
+        return Id;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        Id = id;
     }
 
     public Long getId_modalidade() {
@@ -44,19 +45,19 @@ public class GraduacaoRetrofit {
         this.ds_graduacao = ds_graduacao;
     }
 
-    public Date getDhinc() {
-        return Dhinc;
+    public Date getDhInc() {
+        return DhInc;
     }
 
-    public void setDhinc(Date dhinc) {
-        Dhinc = dhinc;
+    public void setDhInc(Date dhInc) {
+        DhInc = dhInc;
     }
 
     public Long getIdConta() {
-        return idConta;
+        return IdConta;
     }
 
     public void setIdConta(Long idConta) {
-        this.idConta = idConta;
+        IdConta = idConta;
     }
 }

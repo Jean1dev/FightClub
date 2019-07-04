@@ -4,22 +4,22 @@ import java.util.Date;
 
 public class PlanoRetrofit {
 
-    private Long id;
+    private Long Id;
     private Long id_modalidade;
     private String ds_plano;
     private Double valor;
-    private Date Dhinc;
-    private Long idConta;
+    private Date DhInc;
+    private Long IdConta;
 
     public PlanoRetrofit() {
     }
 
     public Long getId() {
-        return id;
+        return Id;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        Id = id;
     }
 
     public Long getId_modalidade() {
@@ -46,19 +46,19 @@ public class PlanoRetrofit {
         this.valor = valor;
     }
 
-    public Date getDhinc() {
-        return Dhinc;
+    public Date getDhInc() {
+        return DhInc;
     }
 
-    public void setDhinc(Date dhinc) {
-        Dhinc = dhinc;
+    public void setDhInc(Date dhInc) {
+        DhInc = dhInc;
     }
 
     public Long getIdConta() {
-        return idConta;
+        return IdConta;
     }
 
     public void setIdConta(Long idConta) {
-        this.idConta = idConta;
+        IdConta = idConta;
     }
 }

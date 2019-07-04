@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.voador.guardeiro.flightclub.R;
 import com.voador.guardeiro.flightclub.adapters.GraduacaoListViewAdapter2;
 import com.voador.guardeiro.flightclub.adapters.ModalidadeSpinnerAdapter2;
+import com.voador.guardeiro.flightclub.models.Graduacao;
 import com.voador.guardeiro.flightclub.retrofit.ApiService;
 import com.voador.guardeiro.flightclub.retrofit.models.GraduacaoRetrofit;
 import com.voador.guardeiro.flightclub.retrofit.models.ModalidadeRetrofit;
@@ -35,8 +36,10 @@ public class GraduacaoActivity extends BaseActivity {
     private EditText editTextGraduacoes;
     private List<GraduacaoRetrofit> listaGraduacao = new ArrayList<GraduacaoRetrofit>();
     private List<ModalidadeRetrofit> listaModalidades;
+    private List<ModalidadeRetrofit> modalidades;
     private String[] graduacoes;
     private Spinner todasModalidades;
+    private Spinner spinnerBusca;
     private TextView textViewModalidades;
 
 
@@ -50,9 +53,10 @@ public class GraduacaoActivity extends BaseActivity {
         setContentView(R.layout.activity_graduacao);
 
         listViewGraduacoes = findViewById(R.id.listGraduacoes);
+        spinnerBusca = findViewById(R.id.spinnerModalidades);
 
         getModalidades();
-        atualizarGraduacoes();
+
 
         listViewGraduacoes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -64,20 +68,27 @@ public class GraduacaoActivity extends BaseActivity {
 
                 builderRemover.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
-                        try {
-                            graduacaoService.excluirPlano(listaGraduacao.get(position).getId());
-                            showSuccessMessage("Graduacão removida com sucesso");
-                        } catch (Exception e) {
-                            showErrorMessage("Não foi possível remover a graduação.");
-                        }
 
-                        atualizarGraduacoes();
+                            graduacaoService.excluir(listaGraduacao.get(position).getId()).enqueue(new Callback<Boolean>() {
+                                @Override
+                                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                                    showSuccessMessage("Graduacão removida com sucesso");
+                                    atualizarGraduacoes();
+                                }
+
+                                @Override
+                                public void onFailure(Call<Boolean> call, Throwable t) {
+
+                                    showErrorMessage("Não foi possível remover a graduação.");
+                                }
+                            });
+
                     }
                 });
 
                 builderRemover.setNegativeButton("Não", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
-                        atualizarGraduacoes();
+
                     }
                 });
 
@@ -112,7 +123,6 @@ public class GraduacaoActivity extends BaseActivity {
                             cadastrarGraduacao();
                             showSuccessMessage("Graduação cadastrada com sucesso");
                             dialog.cancel();
-                            atualizarGraduacoes();
                         } catch (Exception e) {
                             showErrorMessage("Erro ao cadastrar graduação");
                         }
@@ -130,43 +140,57 @@ public class GraduacaoActivity extends BaseActivity {
     }
 
     private void cadastrarGraduacao() {
-        graduacaoService.inserirGraduacao(getGraduacao());
+        graduacaoService.inserirGraduacao(getGraduacao()).enqueue(new Callback<Long>() {
+            @Override
+            public void onResponse(Call<Long> call, Response<Long> response) {
+                showSuccessMessage("Salvo com sucesso");
+                atualizarGraduacoes();
+            }
+
+            @Override
+            public void onFailure(Call<Long> call, Throwable t) {
+                showErrorMessage("Ocorreu um erro ao salvar o aluno");
+            }
+        });
     }
 
     private void atualizarGraduacoes() {
         listaGraduacao.clear();
+        ModalidadeRetrofit m = (ModalidadeRetrofit) spinnerBusca.getSelectedItem();
 
-        graduacaoService.buscarTodos(22L,22L).enqueue(new Callback<List<GraduacaoRetrofit>>() {
-            @Override
-            public void onResponse(Call<List<GraduacaoRetrofit>> call, Response<List<GraduacaoRetrofit>> response) {
-                for (final GraduacaoRetrofit graduacao : response.body()) {
-                    if(graduacao != null)
-                    listaGraduacao.add(graduacao);
+        if(m != null){
+
+            graduacaoService.buscarTodos(22L, m.getId()).enqueue(new Callback<List<GraduacaoRetrofit>>() {
+                @Override
+                public void onResponse(Call<List<GraduacaoRetrofit>> call, Response<List<GraduacaoRetrofit>> response) {
+                    listaGraduacao = response.body();
                 }
+                @Override
+                public void onFailure(Call<List<GraduacaoRetrofit>> call, Throwable t) {
+
+                }
+            });
+
+            if (listaGraduacao != null) {
+                graduacoes = new String[listaGraduacao.size()];
+
+                for (int i = 0; i < listaGraduacao.size(); i++) {
+                    graduacoes[i] = listaGraduacao.get(i).getDs_graduacao();
+                }
+
+
+                GraduacaoListViewAdapter2 adapter = new GraduacaoListViewAdapter2(listaGraduacao, this);
+                listViewGraduacoes.setAdapter(adapter);
             }
-
-            @Override
-            public void onFailure(Call<List<GraduacaoRetrofit>> call, Throwable t) {
-
-            }
-        });
-        if (listaGraduacao != null) {
-            graduacoes = new String[listaGraduacao.size()];
-
-            for (int i = 0; i < listaGraduacao.size(); i++) {
-                graduacoes[i] = listaGraduacao.get(i).getDs_graduacao();
-            }
-
-
-            GraduacaoListViewAdapter2 adapter = new GraduacaoListViewAdapter2(listaGraduacao, this);
-            listViewGraduacoes.setAdapter(adapter);
         }
+
+
     }
 
     private GraduacaoRetrofit getGraduacao() {
         try {
             final String descricao = editTextGraduacoes.getText().toString();
-            final ModalidadeRetrofit modalidade = (ModalidadeRetrofit)todasModalidades.getSelectedItem();
+            final ModalidadeRetrofit modalidade = (ModalidadeRetrofit) todasModalidades.getSelectedItem();
             return new GraduacaoRetrofit(descricao, modalidade);
         } catch (Exception e) {
             showErrorMessage("Erro ao inserir graduação", "Preencha todos os campos");
@@ -174,7 +198,6 @@ public class GraduacaoActivity extends BaseActivity {
         }
 
     }
-
 
         private void getModalidades() {
             modalidadeService.buscarModalidade(22).enqueue(new Callback<List<ModalidadeRetrofit>>() {
@@ -189,14 +212,49 @@ public class GraduacaoActivity extends BaseActivity {
                 }
             });
 
-
             if (listaModalidades != null) {
 
-                ModalidadeSpinnerAdapter2 array = new ModalidadeSpinnerAdapter2(this, android.R.layout.simple_spinner_item, listaModalidades);
+                ModalidadeSpinnerAdapter2 array = new ModalidadeSpinnerAdapter2(GraduacaoActivity.this, android.R.layout.simple_spinner_item, listaModalidades);
                 array.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerBusca.setAdapter(array);
                 todasModalidades.setAdapter(array);
 
             }
+
         }
+
+    public void buscar(View view) {
+        listaGraduacao.clear();
+        ModalidadeRetrofit m = (ModalidadeRetrofit) spinnerBusca.getSelectedItem();
+
+        if(m != null){
+
+
+            graduacaoService.buscarTodos(22L, m.getId()).enqueue(new Callback<List<GraduacaoRetrofit>>() {
+                @Override
+                public void onResponse(Call<List<GraduacaoRetrofit>> call, Response<List<GraduacaoRetrofit>> response) {
+                    listaGraduacao = response.body();
+                    if (listaGraduacao != null) {
+                        graduacoes = new String[listaGraduacao.size()];
+
+                        for (int i = 0; i < listaGraduacao.size(); i++) {
+                            graduacoes[i] = listaGraduacao.get(i).getDs_graduacao();
+                        }
+
+
+                        GraduacaoListViewAdapter2 adapter = new GraduacaoListViewAdapter2(listaGraduacao, GraduacaoActivity.this);
+                        listViewGraduacoes.setAdapter(adapter);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<GraduacaoRetrofit>> call, Throwable t) {
+
+                }
+            });
+
+        }
+
+    }
 }
 

@@ -196,7 +196,7 @@ public class PlanoActivity extends BaseActivity {
         plano.setId_modalidade(4L);
         plano.setValor(Double.parseDouble(value));
         plano.setDs_plano(editTextPlanos.getText().toString());
-        plano.setDhinc(new Date());
+        plano.setDhInc(new Date());
         plano.setIdConta(22L);
 
         inserirPlano(plano);
