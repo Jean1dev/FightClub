@@ -17,6 +17,9 @@ public interface ModalidadeService {
     Call<List<ModalidadeRetrofit>> buscarModalidade(@Query("id_conta") long contaId);
 
     @POST("modalidade/incluir")
-    Call<Boolean> inserirModalidade(@Body final ModalidadeRetrofit modalidade);
+    Call<Long> inserirModalidade(@Body final ModalidadeRetrofit modalidade);
+
+    @POST("modalidade/excluir")
+    Call<Boolean> excluirModalidade(@Query("id_modalidade") long id_modalidade);
 
 }

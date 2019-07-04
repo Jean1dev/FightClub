@@ -14,6 +14,9 @@ public class ModalidadeRetrofit implements Serializable {
         this.nm_modalidade = nm_modalidade;
     }
 
+    public ModalidadeRetrofit() {
+    }
+
     public long getId() {
         return Id;
     }
@@ -44,5 +47,15 @@ public class ModalidadeRetrofit implements Serializable {
 
     public void setIdConta(long idConta) {
         IdConta = idConta;
+    }
+
+    @Override
+    public String toString() {
+        return "ModalidadeRetrofit{" +
+                "Id=" + Id +
+                ", nm_modalidade='" + nm_modalidade + '\'' +
+                ", DhInc=" + DhInc +
+                ", IdConta=" + IdConta +
+                '}';
     }
 }

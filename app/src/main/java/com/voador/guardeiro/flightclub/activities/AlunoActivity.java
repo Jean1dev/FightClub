@@ -13,7 +13,10 @@ import com.voador.guardeiro.flightclub.infrastructure.repositories.AlunoReposito
 import com.voador.guardeiro.flightclub.models.Aluno;
 import com.voador.guardeiro.flightclub.retrofit.ApiService;
 import com.voador.guardeiro.flightclub.retrofit.models.AlunoRetrofit;
+import com.voador.guardeiro.flightclub.retrofit.services.AlunoService;
+import com.voador.guardeiro.flightclub.retrofit.services.ModalidadeService;
 
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -31,6 +34,9 @@ public class AlunoActivity extends BaseActivity {
     private EditText editTextObservacao;
     private Spinner spinnerSexo;
 
+
+    private AlunoService alunoService;
+
     private Button btnCadastrar;
 
     @Override
@@ -39,6 +45,8 @@ public class AlunoActivity extends BaseActivity {
         setContentView(R.layout.activity_aluno);
 
         initSpinner();
+
+        alunoService = new ApiService().getAlunoService();
 
         editTextNome = findViewById(R.id.input_nome);
         editTextEmail = findViewById(R.id.input_email);
@@ -69,6 +77,21 @@ public class AlunoActivity extends BaseActivity {
     }
 
     private void inserirAluno() {
+        alunoService
+                .inserirAluno(criarAluno())
+                .enqueue(new Callback<Long>() {
+                    @Override
+                    public void onResponse(Call<Long> call, Response<Long> response) {
+                        showSuccessMessage("Aluno cadastrado com sucesso");
+                    }
+                    @Override
+                    public void onFailure(Call<Long> call, Throwable t) {
+                        showSuccessMessage("Erro ao cadastrar aluno");
+                    }
+                });
+    }
+
+    private AlunoRetrofit criarAluno() {
         final AlunoRetrofit aluno = new AlunoRetrofit();
         aluno.setNm_aluno(editTextNome.getText().toString());
         aluno.setCelular(editTextCelular.getText().toString());
@@ -84,47 +107,6 @@ public class AlunoActivity extends BaseActivity {
         aluno.setNumero(editTextNumero.getText().toString());
         aluno.setSexo(spinnerSexo.getSelectedItem().toString());
         aluno.setIdConta(DEFAULT_CONTA_ID);
-
-        new ApiService()
-                .getAlunoService()
-                .inserirAluno(aluno)
-                .enqueue(new Callback<Boolean>() {
-                    @Override
-                    public void onResponse(retrofit2.Call<Boolean> call, Response<Boolean> response) {
-                        Log.d("debug", "Http status: " + response.code());
-                        showSuccessMessage("Salvo com sucesso");
-                    }
-
-                    @Override
-                    public void onFailure(retrofit2.Call<Boolean> call, Throwable t) {
-                        showErrorMessage("Ocorreu um erro ao salvar o aluno");
-                    }
-                });
-    }
-
-    private void cadastrarAluno() {
-        final AlunoRepository alunoRepository = new AlunoRepository(getBaseContext());
-        try {
-            final Aluno aluno = criarAluno();
-            alunoRepository.insert(aluno);
-            showSuccessMessage("AlunoRetrofit cadastrado com sucesso");
-        } catch (Exception e) {
-            showErrorMessage("Ocorreu um erro ao salvar o aluno");
-        }
-    }
-
-    private Aluno criarAluno() {
-        final Aluno aluno = new Aluno();
-        aluno.setNome(editTextNome.getText().toString());
-        aluno.setBairro(editTextBairro.getText().toString());
-        aluno.setCelular(editTextCelular.getText().toString());
-        aluno.setCep(editTextCep.getText().toString());
-        aluno.setComplemento(editTextComplemento.getText().toString());
-        aluno.setEmail(editTextEmail.getText().toString());
-        aluno.setNumero(editTextNumero.getText().toString());
-        aluno.setSexo(spinnerSexo.getSelectedItem().toString());
-        aluno.setTelefone(editTextTelefone.getText().toString());
-        aluno.setObservacao(editTextObservacao.getText().toString());
         return aluno;
     }
 

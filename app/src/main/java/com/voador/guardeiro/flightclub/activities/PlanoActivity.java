@@ -14,19 +14,26 @@ import android.widget.TextView;
 
 import com.voador.guardeiro.flightclub.R;
 import com.voador.guardeiro.flightclub.adapters.ModalidadeSpinnerAdapter;
+import com.voador.guardeiro.flightclub.adapters.ModalidadeSpinnerAdapter2;
 import com.voador.guardeiro.flightclub.adapters.PlanoListViewAdapter;
+import com.voador.guardeiro.flightclub.adapters.PlanoListViewAdapter2;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.ModalidadeRepository;
 import com.voador.guardeiro.flightclub.infrastructure.repositories.PlanoRepository;
 import com.voador.guardeiro.flightclub.models.Modalidade;
 import com.voador.guardeiro.flightclub.models.Plano;
 import com.voador.guardeiro.flightclub.retrofit.ApiService;
+import com.voador.guardeiro.flightclub.retrofit.models.ModalidadeRetrofit;
 import com.voador.guardeiro.flightclub.retrofit.models.PlanoRetrofit;
+import com.voador.guardeiro.flightclub.retrofit.services.ModalidadeService;
+import com.voador.guardeiro.flightclub.retrofit.services.PlanoService;
 import com.voador.guardeiro.flightclub.utils.MoneyTextWatcher;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -34,24 +41,25 @@ public class PlanoActivity extends BaseActivity {
 
     AlertDialog dialog;
     private ListView listViewPlanos;
-    private PlanoRepository planoRepository;
     private String[] planos;
-    private List<Plano> listaPlanoModel;
+    private List<PlanoRetrofit> listaPlanoModel = new ArrayList<PlanoRetrofit>();
     private EditText editTextPlanos;
     private EditText valor;
     private Spinner todasModalidades;
     private TextView titulo;
 
-    private ModalidadeRepository modalidadeRepository;
-    private List<Modalidade> modalidades;
+    private ModalidadeService modalidadeService;
+    private PlanoService planoService;
+    private List<ModalidadeRetrofit> modalidades =  new ArrayList<ModalidadeRetrofit>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planos);
-        planoRepository = new PlanoRepository(getBaseContext());
-        modalidadeRepository = new ModalidadeRepository(getBaseContext());
         listViewPlanos = findViewById(R.id.listPlanos);
+
+        modalidadeService = new ApiService().getModalidadeService();
+        planoService = new ApiService().getPlanoService();
 
         atualizarPlanos();
 
@@ -66,10 +74,20 @@ public class PlanoActivity extends BaseActivity {
                 builderRemover.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                         try {
-                            planoRepository.delete(listaPlanoModel.get(position));
-                            showSuccessMessage("Plano removida com sucesso");
-                        } catch (SQLException e) {
-                            showErrorMessage("Não foi possível remover o plano.");
+                            planoService.excluirPlano(listaPlanoModel.get(position).getId()).enqueue(new Callback<Boolean>() {
+                                @Override
+                                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                                    showSuccessMessage("Plano removida com sucesso");
+                                }
+
+                                @Override
+                                public void onFailure(Call<Boolean> call, Throwable t) {
+                                    showErrorMessage("Não foi possível remover o plano.");
+
+                                }
+                            });
+                        } catch (Exception e) {
+                            System.out.println(e);
                         }
 
                         atualizarPlanos();
@@ -92,12 +110,9 @@ public class PlanoActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                final Plano plano = listaPlanoModel.get(position);
-
+                final PlanoRetrofit plano = listaPlanoModel.get(position);
                 final AlertDialog.Builder builder = new AlertDialog.Builder(PlanoActivity.this);
-
                 LayoutInflater inflater = PlanoActivity.this.getLayoutInflater();
-
                 final View viewInf = inflater.inflate(R.layout.dialog_adicionar_plano, null);
                 builder.setView(viewInf);
 
@@ -109,7 +124,7 @@ public class PlanoActivity extends BaseActivity {
 
                 titulo.setText("Atualizar planos");
 
-                editTextPlanos.setText(plano.getDescricao());
+                editTextPlanos.setText(plano.getDs_plano());
                 valor.setText(plano.getValor().toString());
                 getModalidades();
 
@@ -118,17 +133,15 @@ public class PlanoActivity extends BaseActivity {
                         .setPositiveButton("Atualizar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialogBox, int id) {
                                 try {
-                                    planoRepository.update(updatePlano(plano));
-                                    dialog.cancel();
+                                    inserirPlano(plano);
                                     showSuccessMessage("Plano atualizaco com sucesso");
-                                    atualizarPlanos();
+                                    dialog.cancel();
                                 } catch (Exception e) {
                                     showErrorMessage("Erro ao atualizar plano");
                                 }
 
                             }
                         })
-
                         .setNegativeButton("Cancelar",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialogBox, int id) {
@@ -137,7 +150,6 @@ public class PlanoActivity extends BaseActivity {
                                 });
 
                 (dialog = builder.create()).show();
-
             }
         });
 
@@ -146,12 +158,9 @@ public class PlanoActivity extends BaseActivity {
     public void novoPlano(View v) {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(PlanoActivity.this);
-
         LayoutInflater inflater = PlanoActivity.this.getLayoutInflater();
-
         final View viewInf = inflater.inflate(R.layout.dialog_adicionar_plano, null);
         builder.setView(viewInf);
-
 
         editTextPlanos = (EditText) viewInf.findViewById(R.id.editTextCustom);
         valor = (EditText) viewInf.findViewById(R.id.editTextValor);
@@ -166,22 +175,17 @@ public class PlanoActivity extends BaseActivity {
                     public void onClick(DialogInterface dialogBox, int id) {
                         try {
                             cadastrarPlano();
-                            dialog.cancel();
-                            showSuccessMessage("Plano cadastrado com sucesso");
                             atualizarPlanos();
-                        } catch (Exception e) {
-                            showErrorMessage("Erro ao cadastrar plano");
-                        }
+                            dialog.cancel();
+                        } catch (Exception e) {}
                     }
                 })
-
                 .setNegativeButton("Cancelar",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialogBox, int id) {
                                 dialog.cancel();
                             }
                         });
-
         (dialog = builder.create()).show();
     }
 
@@ -195,22 +199,21 @@ public class PlanoActivity extends BaseActivity {
         plano.setDhinc(new Date());
         plano.setIdConta(22L);
 
-        new ApiService()
-                .getPlanoService()
-                .inserir(plano)
-                .enqueue(new Callback<Boolean>() {
+        inserirPlano(plano);
+    }
 
-                    @Override
-                    public void onResponse(retrofit2.Call<Boolean> call, Response<Boolean> response) {
-                        Log.d("debug", "Http status: " + response.code());
-                        showSuccessMessage("Salvo com sucesso");
-                    }
+    private void inserirPlano(PlanoRetrofit plano) {
+        planoService.inserirPlano(plano).enqueue(new Callback<Long>() {
+            @Override
+            public void onResponse(Call<Long> call, Response<Long> response) {
+                showSuccessMessage("Salvo com sucesso");
+            }
 
-                    @Override
-                    public void onFailure(retrofit2.Call<Boolean> call, Throwable t) {
-                        showErrorMessage("Ocorreu um erro ao salvar o plano");
-                    }
-                });
+            @Override
+            public void onFailure(Call<Long> call, Throwable t) {
+                showErrorMessage("Ocorreu um erro ao salvar o plano");
+            }
+        });
     }
 
     public Plano updatePlano(Plano plano) {
@@ -221,25 +224,49 @@ public class PlanoActivity extends BaseActivity {
     }
 
     private void atualizarPlanos() {
-        listaPlanoModel = planoRepository.getAll();
-        if (listaPlanoModel != null) {
-            planos = new String[listaPlanoModel.size()];
-
-            for (int i = 0; i < listaPlanoModel.size(); i++) {
-                planos[i] = listaPlanoModel.get(i).getDescricao();
+         planoService.buscarTodos(22L, 4L).enqueue(new Callback<List<PlanoRetrofit>>() {
+            @Override
+            public void onResponse(Call<List<PlanoRetrofit>> call, Response<List<PlanoRetrofit>> response) {
+                for (final PlanoRetrofit plano : response.body()) {
+                    if(plano != null) {
+                        listaPlanoModel.add(plano);
+                    }
+                }
             }
 
-            PlanoListViewAdapter adapter = new PlanoListViewAdapter(listaPlanoModel, this);
+            @Override
+            public void onFailure(Call<List<PlanoRetrofit>> call, Throwable t) {
+                t.printStackTrace();
+                showToast("Ocorreu um erro");
+            }
+        });
 
+        if (listaPlanoModel != null) {
+            PlanoListViewAdapter2 adapter = new PlanoListViewAdapter2(listaPlanoModel, this);
             listViewPlanos.setAdapter(adapter);
         }
     }
 
     private void getModalidades() {
-        modalidades = modalidadeRepository.getAll();
+
+            modalidades.clear();
+            modalidadeService.buscarModalidade(22).enqueue(new Callback<List<ModalidadeRetrofit>>() {
+                @Override
+                public void onResponse(Call<List<ModalidadeRetrofit>> call, Response<List<ModalidadeRetrofit>> response) {
+                    for (final ModalidadeRetrofit modalidade : response.body()) {
+                        modalidades.add(modalidade);
+                    }
+                }
+                @Override
+                public void onFailure(Call<List<ModalidadeRetrofit>> call, Throwable t) {
+                    t.printStackTrace();
+                    showToast("Ocorreu um erro");
+                }
+            });
+
         if (modalidades != null) {
 
-            ModalidadeSpinnerAdapter array = new ModalidadeSpinnerAdapter(this, android.R.layout.simple_spinner_item, modalidades);
+            ModalidadeSpinnerAdapter2 array = new ModalidadeSpinnerAdapter2(this, android.R.layout.simple_spinner_item, modalidades);
             array.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             todasModalidades.setAdapter(array);
         }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -15,6 +16,8 @@ import com.voador.guardeiro.flightclub.retrofit.ApiService;
 import com.voador.guardeiro.flightclub.retrofit.models.ModalidadeRetrofit;
 import com.voador.guardeiro.flightclub.retrofit.services.ModalidadeService;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +30,6 @@ public class ModalidadeActivity extends BaseActivity {
     AlertDialog dialog;
     private ListView listaModalidades;
     private EditText editTextModalidade;
-    private ModalidadeRepository modalidadeRepository;
     private List<ModalidadeRetrofit> modalidades = new ArrayList<ModalidadeRetrofit>();
     private ModalidadeService modalidadeService;
 
@@ -38,43 +40,44 @@ public class ModalidadeActivity extends BaseActivity {
 
         modalidadeService = new ApiService().getModalidadeService();
 
-        modalidadeRepository = new ModalidadeRepository(getBaseContext());
         listaModalidades = findViewById(R.id.listModalidade);
 
-        buscarModalidade();
+       buscarModalidade();
 
-//        listaModalidades.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-//
-//                final AlertDialog.Builder builderRemover = new AlertDialog.Builder(ModalidadeActivity.this);
-//                builderRemover.setTitle("Remover ModalidadeRetrofit");
-//                builderRemover.setMessage("Deseja remover a modalidade?");
-//
-//                builderRemover.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface arg0, int arg1) {
-//                        try {
-//                            modalidadeRepository.delete(modalidades.get(position));
-//                            showSuccessMessage("ModalidadeRetrofit removida com sucesso");
-//                        } catch (SQLException e) {
-//                            showErrorMessage("Não foi possível remover a modalidade.");
-//                        }
-//
-//                        atualizarModalidade();
-//                    }
-//                });
-//
-//                builderRemover.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface arg0, int arg1) {
-//                        atualizarModalidade();
-//                    }
-//                });
-//
-//                (dialog = builderRemover.create()).show();
-//
-//                return true;
-//            }
-//        });
+        listaModalidades.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                final AlertDialog.Builder builderRemover = new AlertDialog.Builder(ModalidadeActivity.this);
+                builderRemover.setTitle("Remover ModalidadeRetrofit");
+                builderRemover.setMessage("Deseja remover a modalidade?");
+
+
+                builderRemover.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        try {
+                            modalidadeService.excluirModalidade(modalidades.get(position).getId()).enqueue(new Callback<Boolean>() {
+                                @Override
+                                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                                    showToast("true");
+                                    showSuccessMessage("Modalidade removida com sucesso");
+                                    buscarModalidade();
+                                }
+                                @Override
+                                public void onFailure(Call<Boolean> call, Throwable t) {
+                                    showErrorMessage("Não foi possível remover a modalidade.");
+                                }
+                            });
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        }}
+                });
+                builderRemover.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {}});
+                (dialog = builderRemover.create()).show();
+                return true;
+            }
+     });
     }
 
     public void novaModalidade(View v) {
@@ -92,11 +95,8 @@ public class ModalidadeActivity extends BaseActivity {
                     public void onClick(DialogInterface dialogBox, int id) {
                         try {
                             cadastrarModalidade();
-                            showSuccessMessage("ModalidadeRetrofit cadastrada com sucesso");
                             dialog.cancel();
-                            atualizarModalidade();
                         } catch (Exception e) {
-                            showErrorMessage("Não foi possível cadastrar a modalidade.");
                         }
                     }
                 })
@@ -113,13 +113,15 @@ public class ModalidadeActivity extends BaseActivity {
 
     private void cadastrarModalidade() {
 
-        new ApiService().getModalidadeService().inserirModalidade(getModalidade()).enqueue(new Callback<Boolean>() {
+        modalidadeService.inserirModalidade((getModalidade())).enqueue(new Callback<Long>() {
             @Override
-            public void onResponse(retrofit2.Call<Boolean> call, Response<Boolean> response) {
+            public void onResponse(Call<Long> call, Response<Long> response) {
                 showSuccessMessage("Salvo com sucesso");
+                buscarModalidade();
             }
+
             @Override
-            public void onFailure(retrofit2.Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<Long> call, Throwable t) {
                 showErrorMessage("Ocorreu um erro ao salvar o aluno");
             }
         });
@@ -131,6 +133,7 @@ public class ModalidadeActivity extends BaseActivity {
     }
 
     private void buscarModalidade() {
+        modalidades.clear();
         modalidadeService.buscarModalidade(22).enqueue(new Callback<List<ModalidadeRetrofit>>() {
             @Override
             public void onResponse(Call<List<ModalidadeRetrofit>> call, Response<List<ModalidadeRetrofit>> response) {

@@ -1,6 +1,7 @@
 package com.voador.guardeiro.flightclub.retrofit;
 
 import com.voador.guardeiro.flightclub.retrofit.services.AlunoService;
+import com.voador.guardeiro.flightclub.retrofit.services.GraduacaoService;
 import com.voador.guardeiro.flightclub.retrofit.services.ModalidadeService;
 import com.voador.guardeiro.flightclub.retrofit.services.PlanoService;
 
@@ -30,5 +31,9 @@ public class ApiService {
 
     public PlanoService getPlanoService() {
         return this.retrofit.create(PlanoService.class);
+    }
+
+    public GraduacaoService getGraduacaoService() {
+        return this.retrofit.create(GraduacaoService.class);
     }
 }

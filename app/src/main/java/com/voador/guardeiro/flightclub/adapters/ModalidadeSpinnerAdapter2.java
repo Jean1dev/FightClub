@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.voador.guardeiro.flightclub.models.Modalidade;
 import com.voador.guardeiro.flightclub.retrofit.models.ModalidadeRetrofit;
 
 import java.util.List;
@@ -17,9 +16,7 @@ public class ModalidadeSpinnerAdapter2 extends ArrayAdapter<ModalidadeRetrofit> 
 
     private List<ModalidadeRetrofit> modalidades;
 
-    public ModalidadeSpinnerAdapter2(Context context,
-                                     int textViewResourceId,
-                                     List<ModalidadeRetrofit> modalidades) {
+    public ModalidadeSpinnerAdapter2(Context context, int textViewResourceId, List<ModalidadeRetrofit> modalidades) {
         super(context, textViewResourceId, modalidades);
         this.modalidades = modalidades;
     }

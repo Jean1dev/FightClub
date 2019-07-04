@@ -12,15 +12,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.voador.guardeiro.flightclub.R;
-import com.voador.guardeiro.flightclub.adapters.GraduacaoListViewAdapter;
-import com.voador.guardeiro.flightclub.adapters.ModalidadeSpinnerAdapter;
-import com.voador.guardeiro.flightclub.infrastructure.repositories.GraduacaoRepository;
-import com.voador.guardeiro.flightclub.infrastructure.repositories.ModalidadeRepository;
-import com.voador.guardeiro.flightclub.models.Graduacao;
-import com.voador.guardeiro.flightclub.models.Modalidade;
+import com.voador.guardeiro.flightclub.adapters.GraduacaoListViewAdapter2;
+import com.voador.guardeiro.flightclub.adapters.ModalidadeSpinnerAdapter2;
+import com.voador.guardeiro.flightclub.retrofit.ApiService;
+import com.voador.guardeiro.flightclub.retrofit.models.GraduacaoRetrofit;
+import com.voador.guardeiro.flightclub.retrofit.models.ModalidadeRetrofit;
+import com.voador.guardeiro.flightclub.retrofit.services.GraduacaoService;
+import com.voador.guardeiro.flightclub.retrofit.services.ModalidadeService;
 
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class GraduacaoActivity extends BaseActivity {
@@ -28,14 +33,15 @@ public class GraduacaoActivity extends BaseActivity {
     AlertDialog dialog;
     private ListView listViewGraduacoes;
     private EditText editTextGraduacoes;
-    private GraduacaoRepository graduacaoRepository;
-    private ModalidadeRepository modalidadeRepository;
-    private List<Graduacao> listaGraduacao;
-    private List<Modalidade> listaModalidades;
+    private List<GraduacaoRetrofit> listaGraduacao = new ArrayList<GraduacaoRetrofit>();
+    private List<ModalidadeRetrofit> listaModalidades;
     private String[] graduacoes;
-    private String[] modalidades;
     private Spinner todasModalidades;
     private TextView textViewModalidades;
+
+
+    private ModalidadeService modalidadeService = new ApiService().getModalidadeService();
+    private GraduacaoService graduacaoService = new ApiService().getGraduacaoService();
 
 
     @Override
@@ -43,10 +49,9 @@ public class GraduacaoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graduacao);
 
-        graduacaoRepository = new GraduacaoRepository(getBaseContext());
-        modalidadeRepository = new ModalidadeRepository(getBaseContext());
         listViewGraduacoes = findViewById(R.id.listGraduacoes);
 
+        getModalidades();
         atualizarGraduacoes();
 
         listViewGraduacoes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -60,9 +65,9 @@ public class GraduacaoActivity extends BaseActivity {
                 builderRemover.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                         try {
-                            graduacaoRepository.delete(listaGraduacao.get(position));
+                            graduacaoService.excluirPlano(listaGraduacao.get(position).getId());
                             showSuccessMessage("Graduacão removida com sucesso");
-                        } catch (SQLException e) {
+                        } catch (Exception e) {
                             showErrorMessage("Não foi possível remover a graduação.");
                         }
 
@@ -87,7 +92,6 @@ public class GraduacaoActivity extends BaseActivity {
     public void novaGraduacao(View view) {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(GraduacaoActivity.this);
-
         // Guarda a opção de inflate.
         LayoutInflater inflater = GraduacaoActivity.this.getLayoutInflater();
 
@@ -106,8 +110,8 @@ public class GraduacaoActivity extends BaseActivity {
                     public void onClick(DialogInterface dialogBox, int id) {
                         try {
                             cadastrarGraduacao();
-                            dialog.cancel();
                             showSuccessMessage("Graduação cadastrada com sucesso");
+                            dialog.cancel();
                             atualizarGraduacoes();
                         } catch (Exception e) {
                             showErrorMessage("Erro ao cadastrar graduação");
@@ -125,26 +129,45 @@ public class GraduacaoActivity extends BaseActivity {
         (dialog = builder.create()).show();
     }
 
+    private void cadastrarGraduacao() {
+        graduacaoService.inserirGraduacao(getGraduacao());
+    }
+
     private void atualizarGraduacoes() {
-        listaGraduacao = graduacaoRepository.getAll();
+        listaGraduacao.clear();
+
+        graduacaoService.buscarTodos(22L,22L).enqueue(new Callback<List<GraduacaoRetrofit>>() {
+            @Override
+            public void onResponse(Call<List<GraduacaoRetrofit>> call, Response<List<GraduacaoRetrofit>> response) {
+                for (final GraduacaoRetrofit graduacao : response.body()) {
+                    if(graduacao != null)
+                    listaGraduacao.add(graduacao);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<GraduacaoRetrofit>> call, Throwable t) {
+
+            }
+        });
         if (listaGraduacao != null) {
             graduacoes = new String[listaGraduacao.size()];
 
             for (int i = 0; i < listaGraduacao.size(); i++) {
-                graduacoes[i] = listaGraduacao.get(i).getDescricao();
+                graduacoes[i] = listaGraduacao.get(i).getDs_graduacao();
             }
 
 
-            GraduacaoListViewAdapter adapter = new GraduacaoListViewAdapter(listaGraduacao, this);
+            GraduacaoListViewAdapter2 adapter = new GraduacaoListViewAdapter2(listaGraduacao, this);
             listViewGraduacoes.setAdapter(adapter);
         }
     }
 
-    private Graduacao getGraduacao() {
+    private GraduacaoRetrofit getGraduacao() {
         try {
             final String descricao = editTextGraduacoes.getText().toString();
-            final Modalidade modalidade = (Modalidade) todasModalidades.getSelectedItem();
-            return new Graduacao(descricao, modalidade);
+            final ModalidadeRetrofit modalidade = (ModalidadeRetrofit)todasModalidades.getSelectedItem();
+            return new GraduacaoRetrofit(descricao, modalidade);
         } catch (Exception e) {
             showErrorMessage("Erro ao inserir graduação", "Preencha todos os campos");
             return null;
@@ -152,18 +175,28 @@ public class GraduacaoActivity extends BaseActivity {
 
     }
 
-    private void cadastrarGraduacao() {
-        graduacaoRepository.insert(getGraduacao());
-    }
 
-    private void getModalidades() {
-        listaModalidades = modalidadeRepository.getAll();
-        if (listaModalidades != null) {
+        private void getModalidades() {
+            modalidadeService.buscarModalidade(22).enqueue(new Callback<List<ModalidadeRetrofit>>() {
+                @Override
+                public void onResponse(Call<List<ModalidadeRetrofit>> call, Response<List<ModalidadeRetrofit>> response) {
+                    listaModalidades = response.body();
+                }
+                @Override
+                public void onFailure(Call<List<ModalidadeRetrofit>> call, Throwable t) {
+                    t.printStackTrace();
+                    showToast("Ocorreu um erro");
+                }
+            });
 
-            ModalidadeSpinnerAdapter array = new ModalidadeSpinnerAdapter(this, android.R.layout.simple_spinner_item, listaModalidades);
-            array.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            todasModalidades.setAdapter(array);
+
+            if (listaModalidades != null) {
+
+                ModalidadeSpinnerAdapter2 array = new ModalidadeSpinnerAdapter2(this, android.R.layout.simple_spinner_item, listaModalidades);
+                array.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                todasModalidades.setAdapter(array);
+
+            }
         }
-    }
 }
 

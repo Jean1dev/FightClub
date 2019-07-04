@@ -9,16 +9,17 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.voador.guardeiro.flightclub.models.Plano;
+import com.voador.guardeiro.flightclub.retrofit.models.PlanoRetrofit;
 
 import java.util.List;
 
-public class PlanoSpinnerAdapter extends ArrayAdapter<Plano> {
+public class PlanoSpinnerAdapter extends ArrayAdapter<PlanoRetrofit> {
 
-    private List<Plano> planos;
+    private List<PlanoRetrofit> planos;
 
     public PlanoSpinnerAdapter(Context context,
                                int textViewResourceId,
-                               List<Plano> planos) {
+                               List<PlanoRetrofit> planos) {
         super(context, textViewResourceId, planos);
         this.planos = planos;
     }
@@ -29,7 +30,7 @@ public class PlanoSpinnerAdapter extends ArrayAdapter<Plano> {
     }
 
     @Override
-    public Plano getItem(int position) {
+    public PlanoRetrofit getItem(int position) {
         return planos.get(position);
     }
 
@@ -43,7 +44,7 @@ public class PlanoSpinnerAdapter extends ArrayAdapter<Plano> {
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         TextView label = (TextView) super.getView(position, convertView, parent);
         label.setTextColor(Color.BLACK);
-        label.setText(planos.get(position).getDescricao());
+        label.setText(planos.get(position).getDs_plano());
 
         return label;
     }
@@ -54,7 +55,7 @@ public class PlanoSpinnerAdapter extends ArrayAdapter<Plano> {
                                 @NonNull ViewGroup parent) {
         TextView label = (TextView) super.getDropDownView(position, convertView, parent);
         label.setTextColor(Color.BLACK);
-        label.setText(planos.get(position).getDescricao());
+        label.setText(planos.get(position).getDs_plano());
 
         return label;
     }

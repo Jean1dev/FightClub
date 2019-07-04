@@ -13,9 +13,12 @@ import retrofit2.http.Query;
 public interface PlanoService {
 
     @GET("planos/buscar")
-    Call<List<PlanoRetrofit>> buscarTodos(@Query("id_conta") long contaId, @Query("id_modalidade") long modalidadeId);
+    Call<List<PlanoRetrofit>> buscarTodos(@Query("id_conta") long contaId, @Query("id_modalidade") long planoId);
 
     @POST("planos/incluir")
-    Call<Boolean> inserir(@Body final PlanoRetrofit plano);
+    Call<Long> inserirPlano(@Body final PlanoRetrofit plano);
+
+    @POST("planos/excluir")
+    Call<Boolean> excluirPlano(@Query("id_plano") long planoID);
 
 }

@@ -21,10 +21,11 @@
         <activity android:name=".activities.ModalidadeActivity" />
         <activity android:name=".activities.PlanoActivity"/>
         <activity android:name=".activities.GraduacaoActivity" />
-        <activity android:name=".activities.MainActivity" />
+        <!--<activity android:name=".activities.MainActivity" />-->
         <activity
-            android:name=".activities.SplashArtActivity"
-            android:theme="@style/TelaCheia">
+            android:name=".activities.MainActivity">
+            <!--android:theme="@style/TelaCheia"-->
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
