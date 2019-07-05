@@ -44,19 +44,6 @@
             android:layout_weight="5"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Modalidade:"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:id="@+id/tituloModalidade"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_weight="9"/>
 
         </LinearLayout>
 

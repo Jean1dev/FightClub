@@ -229,7 +229,6 @@ public class GraduacaoActivity extends BaseActivity {
 
         if(m != null){
 
-
             graduacaoService.buscarTodos(22L, m.getId()).enqueue(new Callback<List<GraduacaoRetrofit>>() {
                 @Override
                 public void onResponse(Call<List<GraduacaoRetrofit>> call, Response<List<GraduacaoRetrofit>> response) {

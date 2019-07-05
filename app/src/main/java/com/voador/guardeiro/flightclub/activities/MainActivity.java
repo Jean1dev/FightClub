@@ -122,7 +122,7 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_matricula) {
             startActivity(new Intent(MainActivity.this, MatriculaActivity.class));
         } else if (id == R.id.nav_aluno) {
-            startActivity(new Intent(MainActivity.this, MatriculaActivity.class));
+            startActivity(new Intent(MainActivity.this, AlunoActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

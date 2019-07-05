@@ -43,12 +43,10 @@ public class PlanoListViewAdapter extends BaseAdapter {
 
 
         TextView plano = view.findViewById(R.id.tituloPlano);
-        TextView modalidade = view.findViewById(R.id.tituloModalidade);
         TextView valor = view.findViewById(R.id.tituloValor);
 
 
         plano.setText(planoModel.getDescricao());
-        modalidade.setText(planoModel.getModalidade().getDescricao());
         valor.setText(planoModel.getValor().toString());
 
         return view;

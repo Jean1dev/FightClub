@@ -91,7 +91,7 @@ public class MatriculaActivity extends BaseActivity {
 
     }
 
-    public AlunoRetrofit buscaUsuario(Long codigo) {
+    public AlunoRetrofit buscaUsuario(final Long codigo) {
         final AlunoRetrofit[] aluno = {new AlunoRetrofit()};
         alunoService.buscarAlunos(22).enqueue(new Callback<List<AlunoRetrofit>>() {
             @Override

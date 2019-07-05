@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.voador.guardeiro.flightclub.R;
+import com.voador.guardeiro.flightclub.adapters.GraduacaoListViewAdapter2;
 import com.voador.guardeiro.flightclub.adapters.ModalidadeSpinnerAdapter;
 import com.voador.guardeiro.flightclub.adapters.ModalidadeSpinnerAdapter2;
 import com.voador.guardeiro.flightclub.adapters.PlanoListViewAdapter;
@@ -22,6 +23,7 @@ import com.voador.guardeiro.flightclub.infrastructure.repositories.PlanoReposito
 import com.voador.guardeiro.flightclub.models.Modalidade;
 import com.voador.guardeiro.flightclub.models.Plano;
 import com.voador.guardeiro.flightclub.retrofit.ApiService;
+import com.voador.guardeiro.flightclub.retrofit.models.GraduacaoRetrofit;
 import com.voador.guardeiro.flightclub.retrofit.models.ModalidadeRetrofit;
 import com.voador.guardeiro.flightclub.retrofit.models.PlanoRetrofit;
 import com.voador.guardeiro.flightclub.retrofit.services.ModalidadeService;
@@ -46,6 +48,7 @@ public class PlanoActivity extends BaseActivity {
     private EditText editTextPlanos;
     private EditText valor;
     private Spinner todasModalidades;
+    private Spinner spinnerModalidades;
     private TextView titulo;
 
     private ModalidadeService modalidadeService;
@@ -57,11 +60,9 @@ public class PlanoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planos);
         listViewPlanos = findViewById(R.id.listPlanos);
-
+        spinnerModalidades = findViewById(R.id.spinnerModalidades);
         modalidadeService = new ApiService().getModalidadeService();
         planoService = new ApiService().getPlanoService();
-
-        atualizarPlanos();
 
         listViewPlanos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -192,8 +193,10 @@ public class PlanoActivity extends BaseActivity {
     private void cadastrarPlano() {
         final String value = valor.getText().toString().replaceAll("[^\\d\\,]", "").replaceFirst("[,]", ".");
 
+        ModalidadeRetrofit m = (ModalidadeRetrofit) spinnerModalidades.getSelectedItem();
+
         final PlanoRetrofit plano = new PlanoRetrofit();
-        plano.setId_modalidade(4L);
+        plano.setId_modalidade(m.getId());
         plano.setValor(Double.parseDouble(value));
         plano.setDs_plano(editTextPlanos.getText().toString());
         plano.setDhInc(new Date());
@@ -203,6 +206,7 @@ public class PlanoActivity extends BaseActivity {
     }
 
     private void inserirPlano(PlanoRetrofit plano) {
+
         planoService.inserirPlano(plano).enqueue(new Callback<Long>() {
             @Override
             public void onResponse(Call<Long> call, Response<Long> response) {
@@ -211,7 +215,7 @@ public class PlanoActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<Long> call, Throwable t) {
-                showErrorMessage("Ocorreu um erro ao salvar o plano");
+
             }
         });
     }
@@ -248,27 +252,63 @@ public class PlanoActivity extends BaseActivity {
     }
 
     private void getModalidades() {
-
-            modalidades.clear();
-            modalidadeService.buscarModalidade(22).enqueue(new Callback<List<ModalidadeRetrofit>>() {
-                @Override
-                public void onResponse(Call<List<ModalidadeRetrofit>> call, Response<List<ModalidadeRetrofit>> response) {
-                    for (final ModalidadeRetrofit modalidade : response.body()) {
-                        modalidades.add(modalidade);
-                    }
-                }
-                @Override
-                public void onFailure(Call<List<ModalidadeRetrofit>> call, Throwable t) {
-                    t.printStackTrace();
-                    showToast("Ocorreu um erro");
-                }
-            });
+        modalidadeService.buscarModalidade(22).enqueue(new Callback<List<ModalidadeRetrofit>>() {
+            @Override
+            public void onResponse(Call<List<ModalidadeRetrofit>> call, Response<List<ModalidadeRetrofit>> response) {
+                modalidades = response.body();
+            }
+            @Override
+            public void onFailure(Call<List<ModalidadeRetrofit>> call, Throwable t) {
+                t.printStackTrace();
+                showToast("Ocorreu um erro");
+            }
+        });
 
         if (modalidades != null) {
 
-            ModalidadeSpinnerAdapter2 array = new ModalidadeSpinnerAdapter2(this, android.R.layout.simple_spinner_item, modalidades);
+            ModalidadeSpinnerAdapter2 array = new ModalidadeSpinnerAdapter2(PlanoActivity.this, android.R.layout.simple_spinner_item, modalidades);
             array.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerModalidades.setAdapter(array);
             todasModalidades.setAdapter(array);
+
+        }
+
+    }
+
+
+
+    public void buscar(View view) {
+        listaPlanoModel.clear();
+        ModalidadeRetrofit m = (ModalidadeRetrofit) spinnerModalidades.getSelectedItem();
+
+        if(m != null){
+
+            planoService.buscarTodos(22L, m.getId()).enqueue(new Callback<List<PlanoRetrofit>>() {
+                @Override
+                public void onResponse(Call<List<PlanoRetrofit>> call, Response<List<PlanoRetrofit>> response) {
+
+                    listaPlanoModel = response.body();
+
+                    if (listaPlanoModel != null) {
+                        planos = new String[listaPlanoModel.size()];
+
+                        for (int i = 0; i < listaPlanoModel.size(); i++) {
+                            planos[i] = listaPlanoModel.get(i).getDs_plano();
+                        }
+
+                        PlanoListViewAdapter2 adapter = new PlanoListViewAdapter2(listaPlanoModel, PlanoActivity.this);
+                        listViewPlanos.setAdapter(adapter);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<PlanoRetrofit>> call, Throwable t) {
+
+                }
+            });
+
+
+
         }
     }
 }

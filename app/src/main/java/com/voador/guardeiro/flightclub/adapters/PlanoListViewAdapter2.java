@@ -21,7 +21,6 @@ import retrofit2.Response;
 
 public class PlanoListViewAdapter2 extends BaseAdapter {
 
-    private ModalidadeService modalidadeService = new ApiService().getModalidadeService();
     private final List<PlanoRetrofit> planos;
     private final Activity act;
 
@@ -52,26 +51,10 @@ public class PlanoListViewAdapter2 extends BaseAdapter {
 
 
         TextView plano = view.findViewById(R.id.tituloPlano);
-        TextView modalidade = view.findViewById(R.id.tituloModalidade);
         TextView valor = view.findViewById(R.id.tituloValor);
 
 
         plano.setText(planoModel.getDs_plano());
-        modalidadeService.buscarModalidade(22).enqueue(new Callback<List<ModalidadeRetrofit>>() {
-            @Override
-            public void onResponse(Call<List<ModalidadeRetrofit>> call, Response<List<ModalidadeRetrofit>> response) {
-                for (final ModalidadeRetrofit m : response.body()) {
-                    if(m.getId() == planoModel.getId_modalidade()){
-                        modalidade.setText(m.getNm_modalidade());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<ModalidadeRetrofit>> call, Throwable t) {
-
-            }
-        });
         valor.setText(planoModel.getValor().toString());
 
         return view;

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.GraduacaoActivity"
+    tools:context=".activities.PlanoActivity"
     android:orientation="vertical">
 
     <Button
@@ -33,12 +33,12 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btnBuscarGraduacoes"
+        android:id="@+id/btnBuscarPlanos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:background="@color/colorText"
-        android:text="BUSCAR GRADUAÇÕES"
+        android:text="BUSCAR PLANOS"
         android:textColor="@color/colorWhite"
         android:onClick="buscar"/>
 
